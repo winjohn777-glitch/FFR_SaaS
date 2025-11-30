@@ -1,0 +1,469 @@
+{
+  "timestamp": "2025-10-19T02:40:35.873Z",
+  "summary": {
+    "totalTests": 11,
+    "passedTests": 6,
+    "failedTests": 4,
+    "partialTests": 1,
+    "successRate": "63.64%",
+    "completionTime": "2025-10-19T02:40:36.262Z"
+  },
+  "details": [
+    {
+      "agent": "backend-api",
+      "test": "general",
+      "status": "FAIL",
+      "message": "Request failed with status code 401",
+      "error": {
+        "success": false,
+        "error": "Invalid credentials"
+      }
+    },
+    {
+      "agent": "database",
+      "test": "schema-validation",
+      "status": "PARTIAL",
+      "message": "Found 6/9 required tables",
+      "data": {
+        "tablesFound": 6,
+        "totalRequired": 9
+      }
+    },
+    {
+      "agent": "database",
+      "test": "data-integrity",
+      "status": "PASS",
+      "message": "Sample data validation complete",
+      "data": {
+        "customers": 8,
+        "sopProcedures": 248,
+        "integrationLogs": 8
+      }
+    },
+    {
+      "agent": "sop-workflow",
+      "test": "general",
+      "status": "FAIL",
+      "message": "Request failed with status code 401",
+      "error": {
+        "error": "Access denied",
+        "message": "Invalid token"
+      }
+    },
+    {
+      "agent": "business-logic",
+      "test": "general",
+      "status": "FAIL",
+      "message": "Request failed with status code 401",
+      "error": {
+        "error": "Access denied",
+        "message": "Invalid token"
+      }
+    },
+    {
+      "agent": "magic-mcp",
+      "test": "dashboard-responsiveness",
+      "status": "PASS",
+      "message": "UI test scenario: dashboard-responsiveness",
+      "data": {
+        "scenario": "dashboard-responsiveness",
+        "renderTime": 147,
+        "accessibilityScore": 86
+      }
+    },
+    {
+      "agent": "magic-mcp",
+      "test": "customer-form-validation",
+      "status": "PASS",
+      "message": "UI test scenario: customer-form-validation",
+      "data": {
+        "scenario": "customer-form-validation",
+        "renderTime": 161,
+        "accessibilityScore": 92
+      }
+    },
+    {
+      "agent": "magic-mcp",
+      "test": "project-creation-flow",
+      "status": "PASS",
+      "message": "UI test scenario: project-creation-flow",
+      "data": {
+        "scenario": "project-creation-flow",
+        "renderTime": 216,
+        "accessibilityScore": 98
+      }
+    },
+    {
+      "agent": "magic-mcp",
+      "test": "sop-workflow-interface",
+      "status": "PASS",
+      "message": "UI test scenario: sop-workflow-interface",
+      "data": {
+        "scenario": "sop-workflow-interface",
+        "renderTime": 154,
+        "accessibilityScore": 97
+      }
+    },
+    {
+      "agent": "magic-mcp",
+      "test": "mobile-compatibility",
+      "status": "PASS",
+      "message": "UI test scenario: mobile-compatibility",
+      "data": {
+        "scenario": "mobile-compatibility",
+        "renderTime": 163,
+        "accessibilityScore": 93
+      }
+    },
+    {
+      "agent": "integration",
+      "test": "general",
+      "status": "FAIL",
+      "message": "Request failed with status code 401",
+      "error": {
+        "error": "Access denied",
+        "message": "Invalid token"
+      }
+    }
+  ],
+  "metrics": {},
+  "errors": [],
+  "resultsByAgent": {
+    "backend-api": [
+      {
+        "agent": "backend-api",
+        "test": "general",
+        "status": "FAIL",
+        "message": "Request failed with status code 401",
+        "error": {
+          "success": false,
+          "error": "Invalid credentials"
+        }
+      }
+    ],
+    "database": [
+      {
+        "agent": "database",
+        "test": "schema-validation",
+        "status": "PARTIAL",
+        "message": "Found 6/9 required tables",
+        "data": {
+          "tablesFound": 6,
+          "totalRequired": 9
+        }
+      },
+      {
+        "agent": "database",
+        "test": "data-integrity",
+        "status": "PASS",
+        "message": "Sample data validation complete",
+        "data": {
+          "customers": 8,
+          "sopProcedures": 248,
+          "integrationLogs": 8
+        }
+      }
+    ],
+    "sop-workflow": [
+      {
+        "agent": "sop-workflow",
+        "test": "general",
+        "status": "FAIL",
+        "message": "Request failed with status code 401",
+        "error": {
+          "error": "Access denied",
+          "message": "Invalid token"
+        }
+      }
+    ],
+    "business-logic": [
+      {
+        "agent": "business-logic",
+        "test": "general",
+        "status": "FAIL",
+        "message": "Request failed with status code 401",
+        "error": {
+          "error": "Access denied",
+          "message": "Invalid token"
+        }
+      }
+    ],
+    "magic-mcp": [
+      {
+        "agent": "magic-mcp",
+        "test": "dashboard-responsiveness",
+        "status": "PASS",
+        "message": "UI test scenario: dashboard-responsiveness",
+        "data": {
+          "scenario": "dashboard-responsiveness",
+          "renderTime": 147,
+          "accessibilityScore": 86
+        }
+      },
+      {
+        "agent": "magic-mcp",
+        "test": "customer-form-validation",
+        "status": "PASS",
+        "message": "UI test scenario: customer-form-validation",
+        "data": {
+          "scenario": "customer-form-validation",
+          "renderTime": 161,
+          "accessibilityScore": 92
+        }
+      },
+      {
+        "agent": "magic-mcp",
+        "test": "project-creation-flow",
+        "status": "PASS",
+        "message": "UI test scenario: project-creation-flow",
+        "data": {
+          "scenario": "project-creation-flow",
+          "renderTime": 216,
+          "accessibilityScore": 98
+        }
+      },
+      {
+        "agent": "magic-mcp",
+        "test": "sop-workflow-interface",
+        "status": "PASS",
+        "message": "UI test scenario: sop-workflow-interface",
+        "data": {
+          "scenario": "sop-workflow-interface",
+          "renderTime": 154,
+          "accessibilityScore": 97
+        }
+      },
+      {
+        "agent": "magic-mcp",
+        "test": "mobile-compatibility",
+        "status": "PASS",
+        "message": "UI test scenario: mobile-compatibility",
+        "data": {
+          "scenario": "mobile-compatibility",
+          "renderTime": 163,
+          "accessibilityScore": 93
+        }
+      }
+    ],
+    "integration": [
+      {
+        "agent": "integration",
+        "test": "general",
+        "status": "FAIL",
+        "message": "Request failed with status code 401",
+        "error": {
+          "error": "Access denied",
+          "message": "Invalid token"
+        }
+      }
+    ]
+  },
+  "config": {
+    "orchestrator": {
+      "enabled": true,
+      "testingMode": true,
+      "agents": [
+        {
+          "name": "backend-tester",
+          "type": "api-testing",
+          "role": "Backend API validation and integration testing",
+          "capabilities": [
+            "endpoint-testing",
+            "authentication-validation",
+            "database-integrity",
+            "workflow-automation"
+          ],
+          "config": {
+            "baseUrl": "http://localhost:5001",
+            "authEndpoint": "/api/auth/login",
+            "testCredentials": {
+              "email": "admin@floridafirstroofing.com",
+              "password": "admin123"
+            }
+          }
+        },
+        {
+          "name": "magic-ui-tester",
+          "type": "magic-mcp",
+          "role": "UI/UX validation and visual testing",
+          "capabilities": [
+            "ui-generation",
+            "visual-testing",
+            "component-validation",
+            "responsive-testing"
+          ],
+          "config": {
+            "targetUrl": "http://localhost:3000",
+            "testScenarios": [
+              "dashboard-view",
+              "customer-management",
+              "project-creation",
+              "sop-workflows",
+              "invoice-generation"
+            ]
+          }
+        },
+        {
+          "name": "business-orchestrator",
+          "type": "business-agent",
+          "role": "Comprehensive business logic and workflow validation",
+          "capabilities": [
+            "financial-validation",
+            "sop-compliance-check",
+            "integration-testing",
+            "performance-analysis"
+          ],
+          "config": {
+            "testAreas": [
+              "customer-lifecycle",
+              "project-management",
+              "financial-operations",
+              "sop-automation",
+              "team-assignment",
+              "notification-system"
+            ]
+          }
+        },
+        {
+          "name": "database-analyzer",
+          "type": "data-validation",
+          "role": "Database schema and data integrity validation",
+          "capabilities": [
+            "schema-validation",
+            "data-integrity",
+            "relationship-testing",
+            "performance-metrics"
+          ],
+          "config": {
+            "databasePath": "./backend/database/accounting.db",
+            "validationRules": [
+              "foreign-key-constraints",
+              "data-consistency",
+              "index-performance",
+              "query-optimization"
+            ]
+          }
+        }
+      ]
+    },
+    "testSuites": {
+      "backend-api": {
+        "authentication": [
+          {
+            "test": "login-success",
+            "endpoint": "POST /api/auth/login",
+            "expectedStatus": 200,
+            "validates": [
+              "jwt-token",
+              "user-data"
+            ]
+          },
+          {
+            "test": "protected-endpoint-access",
+            "endpoint": "GET /api/integration/analytics/integration",
+            "requiresAuth": true,
+            "expectedStatus": 200
+          }
+        ],
+        "integration": [
+          {
+            "test": "customer-creation",
+            "endpoint": "POST /api/integration/customers",
+            "requiresAuth": true,
+            "expectedStatus": 201,
+            "validates": [
+              "customer-id",
+              "database-entry"
+            ]
+          },
+          {
+            "test": "sop-workflow-trigger",
+            "endpoint": "POST /api/integration/sop/workflows/trigger",
+            "requiresAuth": true,
+            "expectedStatus": 201,
+            "validates": [
+              "workflow-id",
+              "task-creation"
+            ]
+          },
+          {
+            "test": "notification-system",
+            "endpoint": "POST /api/integration/notifications/lead-received",
+            "requiresAuth": true,
+            "expectedStatus": 201,
+            "validates": [
+              "notification-id",
+              "real-time-delivery"
+            ]
+          }
+        ],
+        "analytics": [
+          {
+            "test": "integration-analytics",
+            "endpoint": "GET /api/integration/analytics/integration",
+            "requiresAuth": true,
+            "expectedStatus": 200,
+            "validates": [
+              "lead-trends",
+              "sop-performance"
+            ]
+          }
+        ]
+      },
+      "database-integrity": {
+        "schema": [
+          {
+            "test": "table-structure",
+            "validates": [
+              "all-tables-exist",
+              "proper-relationships",
+              "indexes"
+            ]
+          },
+          {
+            "test": "data-consistency",
+            "validates": [
+              "foreign-keys",
+              "constraints",
+              "sample-data"
+            ]
+          }
+        ]
+      },
+      "sop-workflows": {
+        "automation": [
+          {
+            "test": "workflow-creation",
+            "validates": [
+              "sop-trigger",
+              "task-generation",
+              "assignment"
+            ]
+          },
+          {
+            "test": "workflow-execution",
+            "validates": [
+              "task-progression",
+              "notifications",
+              "completion"
+            ]
+          }
+        ]
+      }
+    },
+    "reporting": {
+      "outputFormat": "comprehensive",
+      "includeScreenshots": true,
+      "generateReport": true,
+      "reportPath": "./test-results",
+      "metrics": [
+        "endpoint-coverage",
+        "response-times",
+        "error-rates",
+        "database-performance",
+        "sop-compliance",
+        "ui-validation"
+      ]
+    }
+  }
+}

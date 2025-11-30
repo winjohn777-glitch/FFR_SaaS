@@ -1,0 +1,32 @@
+{
+  "testSuite": "Florida First Roofing Agentic System",
+  "timestamp": "2025-10-18T11:58:35.123Z",
+  "results": {
+    "customerCreation": "✅ PASSED",
+    "projectCreation": "✅ PASSED",
+    "documentGeneration": "✅ PASSED",
+    "dataFlow": "✅ PASSED",
+    "automation": "✅ PASSED"
+  },
+  "metrics": {
+    "customersCreated": 1,
+    "jobsCreated": 1,
+    "documentsGenerated": 2,
+    "contractValue": 24000,
+    "profitMargin": 50.8
+  },
+  "workflow": {
+    "customerEntry": "Single data entry in CRM module",
+    "autoPopulation": "Customer data auto-populated in Job Costing",
+    "locationFill": "Project location auto-filled from customer address",
+    "documentGeneration": "Automatic proposal and contract generation",
+    "workflowInitiation": "DMS workflow triggered for approval process"
+  },
+  "filesToInspect": [
+    "test-data/ffr-customers.json",
+    "test-data/ffr-jobs.json",
+    "test-data/ffr-documents.json",
+    "test-data/FFR Proposal - David Johnson - GAF HDZ Shingle Installation.pdf",
+    "test-data/FFR Contract - David Johnson - GAF HDZ Shingle Installation.pdf"
+  ]
+}

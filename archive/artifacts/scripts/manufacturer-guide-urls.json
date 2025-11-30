@@ -1,0 +1,202 @@
+{
+  "manufacturerGuides": [
+    {
+      "sopNumber": "ATL-PIN-HVHZ",
+      "product": "Atlas Roofing Pinnacle Pristine",
+      "manufacturer": "Atlas Roofing Corporation",
+      "manualTitle": "Pinnacle Pristine Installation Guide",
+      "searchUrl": "https://www.atlasroofing.com/residential/shingles/pinnacle-pristine/",
+      "resourcesUrl": "https://www.atlasroofing.com/resources/installation-guides/",
+      "category": "Asphalt Shingles",
+      "hvhzApproved": true,
+      "estimatedSize": "3.5 MB"
+    },
+    {
+      "sopNumber": "BER-HUR-HVHZ",
+      "product": "Bermuda Roof Tile Hurricane Clay Roof Tiles",
+      "manufacturer": "Bermuda Roof Tile",
+      "manualTitle": "Hurricane Clay Tile Installation Manual",
+      "searchUrl": "https://www.bermudarooftile.com/installation-guides/",
+      "resourcesUrl": "https://www.bermudarooftile.com/technical-resources/",
+      "category": "Clay Tiles",
+      "hvhzApproved": true,
+      "estimatedSize": "4.2 MB"
+    },
+    {
+      "sopNumber": "CAR-SUR-HVHZ",
+      "product": "Carlisle Sure Weld TPO Membrane System",
+      "manufacturer": "Carlisle Construction Materials",
+      "manualTitle": "Sure-Weld TPO Installation Manual",
+      "searchUrl": "https://www.carlisle-ccm.com/us/en-us/products/tpo/sure-weld/",
+      "resourcesUrl": "https://www.carlisle-ccm.com/us/en-us/resources/installation-guides/",
+      "category": "TPO Membrane",
+      "hvhzApproved": true,
+      "estimatedSize": "6.8 MB"
+    },
+    {
+      "sopNumber": "CER-LAN-HVHZ",
+      "product": "CertainTeed Landmark",
+      "manufacturer": "CertainTeed Corporation",
+      "manualTitle": "Landmark Shingle Installation Guide",
+      "searchUrl": "https://www.certainteed.com/roofing/shingles/landmark/",
+      "resourcesUrl": "https://www.certainteed.com/resources/installation-instructions/",
+      "category": "Asphalt Shingles",
+      "hvhzApproved": true,
+      "estimatedSize": "3.1 MB"
+    },
+    {
+      "sopNumber": "CER-MOD-HVHZ",
+      "product": "CertainTeed Modified Bitumen Roof Systems",
+      "manufacturer": "CertainTeed Corporation",
+      "manualTitle": "Modified Bitumen Systems Installation Manual",
+      "searchUrl": "https://www.certainteed.com/commercial-roofing/modified-bitumen/",
+      "resourcesUrl": "https://www.certainteed.com/resources/installation-instructions/",
+      "category": "Modified Bitumen",
+      "hvhzApproved": true,
+      "estimatedSize": "5.4 MB"
+    },
+    {
+      "sopNumber": "EAG-CAP-HVHZ",
+      "product": "Eagle Roofing Tile Capistrano Concrete Roof Tiles",
+      "manufacturer": "Eagle Roofing Tile",
+      "manualTitle": "Capistrano Concrete Tile Installation Guide",
+      "searchUrl": "https://www.eagleroofing.com/products/capistrano/",
+      "resourcesUrl": "https://www.eagleroofing.com/installation-guides/",
+      "category": "Concrete Tiles",
+      "hvhzApproved": true,
+      "estimatedSize": "4.7 MB"
+    },
+    {
+      "sopNumber": "FIR-RUB-HVHZ",
+      "product": "Firestone RubberGard EPDM System",
+      "manufacturer": "Firestone Building Products",
+      "manualTitle": "RubberGard EPDM Installation Manual",
+      "searchUrl": "https://www.firestonebpe.com/products/rubbergard-epdm/",
+      "resourcesUrl": "https://www.firestonebpe.com/installation-specs/",
+      "category": "EPDM Membrane",
+      "hvhzApproved": true,
+      "estimatedSize": "7.2 MB"
+    },
+    {
+      "sopNumber": "GAF-FOR-HVHZ",
+      "product": "GAF Fortitude",
+      "manufacturer": "GAF Materials Corporation",
+      "manualTitle": "Fortitude Impact Resistant Shingle Installation Guide",
+      "searchUrl": "https://www.gaf.com/en-us/roofing-products/residential-roofing/shingles/fortitude/",
+      "resourcesUrl": "https://www.gaf.com/en-us/for-professionals/installation-instructions/",
+      "category": "Impact Resistant Shingles",
+      "hvhzApproved": true,
+      "estimatedSize": "3.8 MB"
+    },
+    {
+      "sopNumber": "GAF-TIM-HVHZ",
+      "product": "GAF Timberline HDZ",
+      "manufacturer": "GAF Materials Corporation",
+      "manualTitle": "Timberline HDZ Installation Instructions",
+      "searchUrl": "https://www.gaf.com/en-us/roofing-products/residential-roofing/shingles/timberline-hdz/",
+      "resourcesUrl": "https://www.gaf.com/en-us/for-professionals/installation-instructions/",
+      "category": "Asphalt Shingles",
+      "hvhzApproved": true,
+      "estimatedSize": "4.1 MB"
+    },
+    {
+      "sopNumber": "GUL-COR-HVHZ",
+      "product": "Gulf Coast Supply Corrugated Steel Panel System",
+      "manufacturer": "Gulf Coast Supply",
+      "manualTitle": "Corrugated Steel Panel Installation Manual",
+      "searchUrl": "https://www.gulfcoastsupply.com/products/metal-roofing/corrugated-panels/",
+      "resourcesUrl": "https://www.gulfcoastsupply.com/installation-guides/",
+      "category": "Metal Roofing",
+      "hvhzApproved": true,
+      "estimatedSize": "2.9 MB"
+    },
+    {
+      "sopNumber": "GUL-STA-HVHZ",
+      "product": "Gulf Coast Supply Standing Seam Aluminum Roof System",
+      "manufacturer": "Gulf Coast Supply",
+      "manualTitle": "Standing Seam Aluminum Installation Guide",
+      "searchUrl": "https://www.gulfcoastsupply.com/products/metal-roofing/standing-seam/",
+      "resourcesUrl": "https://www.gulfcoastsupply.com/installation-guides/",
+      "category": "Metal Roofing",
+      "hvhzApproved": true,
+      "estimatedSize": "3.3 MB"
+    },
+    {
+      "sopNumber": "MAL-HIG-HVHZ",
+      "product": "Malarkey Highlander",
+      "manufacturer": "Malarkey Roofing Products",
+      "manualTitle": "Highlander Shingle Installation Guide",
+      "searchUrl": "https://www.malarkeyroofing.com/products/highlander/",
+      "resourcesUrl": "https://www.malarkeyroofing.com/installation-guides/",
+      "category": "Asphalt Shingles",
+      "hvhzApproved": true,
+      "estimatedSize": "3.6 MB"
+    },
+    {
+      "sopNumber": "OWE-DUR-HVHZ",
+      "product": "Owens Corning TruDefinition Duration",
+      "manufacturer": "Owens Corning",
+      "manualTitle": "TruDefinition Duration Installation Instructions",
+      "searchUrl": "https://www.owenscorning.com/roofing/shingles/trudefinition-duration/",
+      "resourcesUrl": "https://www.owenscorning.com/roofing/resources/installation-guides/",
+      "category": "Asphalt Shingles",
+      "hvhzApproved": true,
+      "estimatedSize": "3.9 MB"
+    },
+    {
+      "sopNumber": "SOP-COL-HVHZ",
+      "product": "Soprema Colphene Self Adhered Modified Bitumen",
+      "manufacturer": "Soprema Inc.",
+      "manualTitle": "Colphene Self-Adhered Installation Manual",
+      "searchUrl": "https://www.soprema.us/en/product/colphene/",
+      "resourcesUrl": "https://www.soprema.us/en/technical-resources/",
+      "category": "Modified Bitumen",
+      "hvhzApproved": true,
+      "estimatedSize": "5.1 MB"
+    },
+    {
+      "sopNumber": "SOP-SOP-HVHZ",
+      "product": "Soprema Sopralene Flam Modified Bitumen",
+      "manufacturer": "Soprema Inc.",
+      "manualTitle": "Sopralene Flam Installation Manual",
+      "searchUrl": "https://www.soprema.us/en/product/sopralene-flam/",
+      "resourcesUrl": "https://www.soprema.us/en/technical-resources/",
+      "category": "Modified Bitumen",
+      "hvhzApproved": true,
+      "estimatedSize": "4.8 MB"
+    },
+    {
+      "sopNumber": "TRI-MET-HVHZ",
+      "product": "Tri County Metals Metal Tile Profile System",
+      "manufacturer": "Tri County Metals",
+      "manualTitle": "Metal Tile Profile Installation Guide",
+      "searchUrl": "https://www.tricountymetals.com/products/metal-tile/",
+      "resourcesUrl": "https://www.tricountymetals.com/installation-guides/",
+      "category": "Metal Roofing",
+      "hvhzApproved": true,
+      "estimatedSize": "3.2 MB"
+    },
+    {
+      "sopNumber": "TRI-SNA-HVHZ",
+      "product": "Tri County Metals Snap Lock Steel Standing Seam",
+      "manufacturer": "Tri County Metals",
+      "manualTitle": "Snap Lock Standing Seam Installation Manual",
+      "searchUrl": "https://www.tricountymetals.com/products/standing-seam/",
+      "resourcesUrl": "https://www.tricountymetals.com/installation-guides/",
+      "category": "Metal Roofing",
+      "hvhzApproved": true,
+      "estimatedSize": "3.7 MB"
+    },
+    {
+      "sopNumber": "VER-VER-HVHZ",
+      "product": "Versico VersiWeld TPO System",
+      "manufacturer": "Versico Roofing Systems",
+      "manualTitle": "VersiWeld TPO Installation Manual",
+      "searchUrl": "https://www.versico.com/products/tpo/versiweld/",
+      "resourcesUrl": "https://www.versico.com/technical-resources/",
+      "category": "TPO Membrane",
+      "hvhzApproved": true,
+      "estimatedSize": "6.5 MB"
+    }
+  ]
+}

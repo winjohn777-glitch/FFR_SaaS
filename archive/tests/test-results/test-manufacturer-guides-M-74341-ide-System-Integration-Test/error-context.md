@@ -1,0 +1,326 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e6]:
+        - img "Florida First Roofing Logo" [ref=e7]
+        - generic [ref=e8]: Florida First Roofing LLC
+      - navigation [ref=e9]:
+        - generic [ref=e10]:
+          - heading "Overview" [level=3] [ref=e11]
+          - link "Dashboard" [ref=e12] [cursor=pointer]:
+            - /url: /
+            - img [ref=e14] [cursor=pointer]
+            - text: Dashboard
+        - generic [ref=e17]:
+          - heading "Sales & Projects" [level=3] [ref=e18]
+          - link "Customer CRM" [ref=e19] [cursor=pointer]:
+            - /url: /crm
+            - img [ref=e21] [cursor=pointer]
+            - text: Customer CRM
+          - link "Project Management" [ref=e26] [cursor=pointer]:
+            - /url: /project-management
+            - img [ref=e28] [cursor=pointer]
+            - text: Project Management
+        - generic [ref=e31]:
+          - heading "Job Execution" [level=3] [ref=e32]
+          - link "Job Costing" [ref=e33] [cursor=pointer]:
+            - /url: /job-costing
+            - img [ref=e35] [cursor=pointer]
+            - text: Job Costing
+          - link "Inventory" [ref=e40] [cursor=pointer]:
+            - /url: /inventory
+            - img [ref=e42] [cursor=pointer]
+            - text: Inventory
+        - generic [ref=e46]:
+          - heading "Financial Management" [level=3] [ref=e47]
+          - link "Invoicing" [ref=e48] [cursor=pointer]:
+            - /url: /invoicing
+            - img [ref=e50] [cursor=pointer]
+            - text: Invoicing
+          - link "Bookkeeping" [ref=e53] [cursor=pointer]:
+            - /url: /bookkeeping
+            - img [ref=e55] [cursor=pointer]
+            - text: Bookkeeping
+          - link "Chart of Accounts" [ref=e57] [cursor=pointer]:
+            - /url: /chart-of-accounts
+            - img [ref=e59] [cursor=pointer]
+            - text: Chart of Accounts
+          - link "Reports" [ref=e61] [cursor=pointer]:
+            - /url: /reports
+            - img [ref=e63] [cursor=pointer]
+            - text: Reports
+          - link "Pricing Administration" [ref=e65] [cursor=pointer]:
+            - /url: /pricing-admin
+            - img [ref=e67] [cursor=pointer]
+            - text: Pricing Administration
+        - generic [ref=e69]:
+          - heading "Business Operations" [level=3] [ref=e70]
+          - link "Human Resources" [ref=e71] [cursor=pointer]:
+            - /url: /hr
+            - img [ref=e73] [cursor=pointer]
+            - text: Human Resources
+          - link "Training & LMS" [ref=e77] [cursor=pointer]:
+            - /url: /training
+            - img [ref=e79] [cursor=pointer]
+            - text: Training & LMS
+          - link "SOP Management" [ref=e82] [cursor=pointer]:
+            - /url: /sop-management
+            - img [ref=e84] [cursor=pointer]
+            - text: SOP Management
+          - link "Documents" [ref=e86] [cursor=pointer]:
+            - /url: /documents
+            - img [ref=e88] [cursor=pointer]
+            - text: Documents
+      - generic [ref=e90]:
+        - generic [ref=e91]:
+          - img "Florida First Roofing Logo" [ref=e92]
+          - generic [ref=e93]: Florida First Roofing LLC
+        - generic [ref=e94]: State Certified Contractor
+        - generic [ref=e95]: CCC1336561
+    - main [ref=e96]:
+      - generic [ref=e97]:
+        - generic [ref=e99]:
+          - generic:
+            - img
+          - textbox "Search transactions, jobs, customers..." [ref=e100]
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]:
+              - generic [ref=e104]: "12"
+              - generic [ref=e105]: Active Jobs
+            - generic [ref=e106]:
+              - generic [ref=e107]: $84.2K
+              - generic [ref=e108]: Monthly Revenue
+            - generic [ref=e109]:
+              - generic [ref=e110]: 95%
+              - generic [ref=e111]: Collection Rate
+          - button [ref=e112] [cursor=pointer]:
+            - img [ref=e113] [cursor=pointer]
+          - generic [ref=e117] [cursor=pointer]:
+            - generic [ref=e118] [cursor=pointer]: JD
+            - generic [ref=e119] [cursor=pointer]:
+              - generic [ref=e120] [cursor=pointer]: John Doe
+              - generic [ref=e121] [cursor=pointer]: Owner/Operator
+      - generic [ref=e122]:
+        - generic [ref=e124]:
+          - heading "FFRFlorida First Roofing LLC" [level=1] [ref=e125]:
+            - img "FFR" [ref=e126]
+            - text: Florida First Roofing LLC
+          - generic [ref=e127]:
+            - generic [ref=e128]: "3815 HWY 1 #13, Cocoa, FL 32926"
+            - generic [ref=e129]: 321-301-4512
+            - generic [ref=e130]: "License: CCC1336561"
+        - generic [ref=e132]:
+          - generic [ref=e133]:
+            - heading "Document Management" [level=1] [ref=e134]:
+              - img [ref=e135]
+              - text: Document Management
+            - generic [ref=e138]:
+              - button "New Contract" [ref=e139] [cursor=pointer]:
+                - img [ref=e140] [cursor=pointer]
+                - text: New Contract
+              - button "Apply for Permit" [ref=e143] [cursor=pointer]:
+                - img [ref=e144] [cursor=pointer]
+                - text: Apply for Permit
+              - button "Compliance Check" [ref=e147] [cursor=pointer]:
+                - img [ref=e148] [cursor=pointer]
+                - text: Compliance Check
+              - button "Organize" [ref=e150] [cursor=pointer]:
+                - img [ref=e151] [cursor=pointer]
+                - text: Organize
+              - button "FFR Documents" [ref=e154] [cursor=pointer]:
+                - img [ref=e155] [cursor=pointer]
+                - text: FFR Documents
+              - button "Download Mfg Guides" [ref=e158] [cursor=pointer]:
+                - img [ref=e159] [cursor=pointer]
+                - text: Download Mfg Guides
+              - button "Upload Documents" [ref=e162] [cursor=pointer]:
+                - img [ref=e163] [cursor=pointer]
+                - text: Upload Documents
+          - generic [ref=e166]:
+            - generic [ref=e167]:
+              - generic [ref=e168]:
+                - heading "Folders" [level=3] [ref=e169]
+                - generic [ref=e170] [cursor=pointer]:
+                  - img [ref=e171] [cursor=pointer]
+                  - text: All Documents
+                  - generic [ref=e173] [cursor=pointer]: "12"
+                - generic [ref=e174] [cursor=pointer]:
+                  - img [ref=e175] [cursor=pointer]
+                  - text: Contracts
+                  - generic [ref=e177] [cursor=pointer]: "1"
+                - generic [ref=e178] [cursor=pointer]:
+                  - img [ref=e179] [cursor=pointer]
+                  - text: Insurance
+                  - generic [ref=e181] [cursor=pointer]: "1"
+                - generic [ref=e182] [cursor=pointer]:
+                  - img [ref=e183] [cursor=pointer]
+                  - text: Permits
+                  - generic [ref=e185] [cursor=pointer]: "1"
+                - generic [ref=e186] [cursor=pointer]:
+                  - img [ref=e187] [cursor=pointer]
+                  - text: Compliance
+                  - generic [ref=e189] [cursor=pointer]: "1"
+                - generic [ref=e190] [cursor=pointer]:
+                  - img [ref=e191] [cursor=pointer]
+                  - text: Reports
+                  - generic [ref=e193] [cursor=pointer]: "1"
+                - generic [ref=e194] [cursor=pointer]:
+                  - img [ref=e195] [cursor=pointer]
+                  - text: Estimates
+                  - generic [ref=e197] [cursor=pointer]: "1"
+                - generic [ref=e198] [cursor=pointer]:
+                  - img [ref=e199] [cursor=pointer]
+                  - text: Receipts
+                  - generic [ref=e201] [cursor=pointer]: "1"
+                - generic [ref=e202] [cursor=pointer]:
+                  - img [ref=e203] [cursor=pointer]
+                  - text: Photos
+                  - generic [ref=e205] [cursor=pointer]: "1"
+                - generic [ref=e206] [cursor=pointer]:
+                  - img [ref=e207] [cursor=pointer]
+                  - text: Manufacturer Guides
+                  - generic [ref=e209] [cursor=pointer]: "4"
+                - generic [ref=e210] [cursor=pointer]:
+                  - img [ref=e211] [cursor=pointer]
+                  - text: Warranties
+                  - generic [ref=e213] [cursor=pointer]: "0"
+              - generic [ref=e214]:
+                - heading "Workflows" [level=3] [ref=e215]
+                - generic [ref=e216] [cursor=pointer]:
+                  - img [ref=e217] [cursor=pointer]
+                  - text: Contract Workflows
+                - generic [ref=e221] [cursor=pointer]:
+                  - img [ref=e222] [cursor=pointer]
+                  - text: Permit Tracking
+                - generic [ref=e224] [cursor=pointer]:
+                  - img [ref=e225] [cursor=pointer]
+                  - text: Compliance Monitor
+              - generic [ref=e227]:
+                - heading "Quick Actions" [level=3] [ref=e228]
+                - generic [ref=e229] [cursor=pointer]:
+                  - img [ref=e230] [cursor=pointer]
+                  - text: Recent
+                - generic [ref=e232] [cursor=pointer]:
+                  - img [ref=e233] [cursor=pointer]
+                  - text: Shared
+                - generic [ref=e236] [cursor=pointer]:
+                  - img [ref=e237] [cursor=pointer]
+                  - text: Tagged
+                - generic [ref=e240] [cursor=pointer]:
+                  - img [ref=e241] [cursor=pointer]
+                  - text: Expiring Soon
+            - generic [ref=e243]:
+              - generic [ref=e244]:
+                - generic [ref=e245]:
+                  - generic:
+                    - img
+                  - textbox "Search documents, tags, or descriptions..." [ref=e246]
+                - generic [ref=e247]:
+                  - combobox [ref=e248]:
+                    - option "All Types" [selected]
+                    - option "PDF Documents"
+                    - option "Images"
+                    - option "Spreadsheets"
+                    - option "Word Documents"
+                  - button "Export" [ref=e249] [cursor=pointer]:
+                    - img [ref=e250] [cursor=pointer]
+                    - text: Export
+              - generic [ref=e253]:
+                - generic [ref=e254] [cursor=pointer]:
+                  - img [ref=e256] [cursor=pointer]
+                  - heading "GAF Timberline HDZ Installation Guide.pdf" [level=4] [ref=e259] [cursor=pointer]
+                  - generic [ref=e260] [cursor=pointer]:
+                    - generic [ref=e261] [cursor=pointer]: Uploaded by System Auto-Download
+                    - generic [ref=e262] [cursor=pointer]: Feb 17, 2024
+                    - generic [ref=e263] [cursor=pointer]:
+                      - generic [ref=e264] [cursor=pointer]: gaf
+                      - generic [ref=e265] [cursor=pointer]: timberline hdz
+                      - generic [ref=e266] [cursor=pointer]: installation
+                      - generic [ref=e267] [cursor=pointer]: shingles
+                      - generic [ref=e268] [cursor=pointer]: hvhz
+                  - generic [ref=e269] [cursor=pointer]:
+                    - generic [ref=e270] [cursor=pointer]: 4.2 MB
+                    - generic [ref=e271] [cursor=pointer]:
+                      - button "View document" [ref=e272] [cursor=pointer]:
+                        - img [ref=e273] [cursor=pointer]
+                      - button "Edit document details" [ref=e276] [cursor=pointer]:
+                        - img [ref=e277] [cursor=pointer]
+                      - button "Download document" [ref=e280] [cursor=pointer]:
+                        - img [ref=e281] [cursor=pointer]
+                      - button "Delete document" [ref=e284] [cursor=pointer]:
+                        - img [ref=e285] [cursor=pointer]
+                - generic [ref=e288] [cursor=pointer]:
+                  - img [ref=e290] [cursor=pointer]
+                  - heading "Carlisle Sure-Weld TPO Installation Manual.pdf" [level=4] [ref=e293] [cursor=pointer]
+                  - generic [ref=e294] [cursor=pointer]:
+                    - generic [ref=e295] [cursor=pointer]: Uploaded by System Auto-Download
+                    - generic [ref=e296] [cursor=pointer]: Feb 16, 2024
+                    - generic [ref=e297] [cursor=pointer]:
+                      - generic [ref=e298] [cursor=pointer]: carlisle
+                      - generic [ref=e299] [cursor=pointer]: sure-weld
+                      - generic [ref=e300] [cursor=pointer]: tpo
+                      - generic [ref=e301] [cursor=pointer]: membrane
+                      - generic [ref=e302] [cursor=pointer]: commercial
+                  - generic [ref=e303] [cursor=pointer]:
+                    - generic [ref=e304] [cursor=pointer]: 6.8 MB
+                    - generic [ref=e305] [cursor=pointer]:
+                      - button "View document" [ref=e306] [cursor=pointer]:
+                        - img [ref=e307] [cursor=pointer]
+                      - button "Edit document details" [ref=e310] [cursor=pointer]:
+                        - img [ref=e311] [cursor=pointer]
+                      - button "Download document" [ref=e314] [cursor=pointer]:
+                        - img [ref=e315] [cursor=pointer]
+                      - button "Delete document" [ref=e318] [cursor=pointer]:
+                        - img [ref=e319] [cursor=pointer]
+                - generic [ref=e322] [cursor=pointer]:
+                  - img [ref=e324] [cursor=pointer]
+                  - heading "Eagle Roofing Capistrano Tile Installation Guide.pdf" [level=4] [ref=e327] [cursor=pointer]
+                  - generic [ref=e328] [cursor=pointer]:
+                    - generic [ref=e329] [cursor=pointer]: Uploaded by System Auto-Download
+                    - generic [ref=e330] [cursor=pointer]: Feb 15, 2024
+                    - generic [ref=e331] [cursor=pointer]:
+                      - generic [ref=e332] [cursor=pointer]: eagle
+                      - generic [ref=e333] [cursor=pointer]: capistrano
+                      - generic [ref=e334] [cursor=pointer]: concrete tile
+                      - generic [ref=e335] [cursor=pointer]: hurricane
+                      - generic [ref=e336] [cursor=pointer]: installation
+                  - generic [ref=e337] [cursor=pointer]:
+                    - generic [ref=e338] [cursor=pointer]: 3.9 MB
+                    - generic [ref=e339] [cursor=pointer]:
+                      - button "View document" [ref=e340] [cursor=pointer]:
+                        - img [ref=e341] [cursor=pointer]
+                      - button "Edit document details" [ref=e344] [cursor=pointer]:
+                        - img [ref=e345] [cursor=pointer]
+                      - button "Download document" [ref=e348] [cursor=pointer]:
+                        - img [ref=e349] [cursor=pointer]
+                      - button "Delete document" [ref=e352] [cursor=pointer]:
+                        - img [ref=e353] [cursor=pointer]
+                - generic [ref=e356] [cursor=pointer]:
+                  - img [ref=e358] [cursor=pointer]
+                  - heading "Firestone RubberGard EPDM System Guide.pdf" [level=4] [ref=e361] [cursor=pointer]
+                  - generic [ref=e362] [cursor=pointer]:
+                    - generic [ref=e363] [cursor=pointer]: Uploaded by System Auto-Download
+                    - generic [ref=e364] [cursor=pointer]: Feb 14, 2024
+                    - generic [ref=e365] [cursor=pointer]:
+                      - generic [ref=e366] [cursor=pointer]: firestone
+                      - generic [ref=e367] [cursor=pointer]: rubbergard
+                      - generic [ref=e368] [cursor=pointer]: epdm
+                      - generic [ref=e369] [cursor=pointer]: commercial
+                      - generic [ref=e370] [cursor=pointer]: membrane
+                  - generic [ref=e371] [cursor=pointer]:
+                    - generic [ref=e372] [cursor=pointer]: 5.1 MB
+                    - generic [ref=e373] [cursor=pointer]:
+                      - button "View document" [ref=e374] [cursor=pointer]:
+                        - img [ref=e375] [cursor=pointer]
+                      - button "Edit document details" [ref=e378] [cursor=pointer]:
+                        - img [ref=e379] [cursor=pointer]
+                      - button "Download document" [ref=e382] [cursor=pointer]:
+                        - img [ref=e383] [cursor=pointer]
+                      - button "Delete document" [ref=e386] [cursor=pointer]:
+                        - img [ref=e387] [cursor=pointer]
+  - generic [ref=e390]: "0"
+```

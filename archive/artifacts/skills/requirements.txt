@@ -1,0 +1,35 @@
+# Python dependencies for Florida First Roofing Skills automation
+# Core libraries
+requests>=2.28.0
+beautifulsoup4>=4.11.0
+python-dotenv>=0.19.0
+click>=8.0.0
+colorama>=0.4.6
+
+# File processing
+jinja2>=3.1.0
+pyyaml>=6.0
+jsonschema>=4.4.0
+
+# Code analysis and generation
+black>=22.0.0
+isort>=5.10.0
+pylint>=2.15.0
+ast-tools>=0.1.0
+
+# Testing and validation
+pytest>=7.0.0
+pytest-cov>=4.0.0
+
+# Documentation and content
+markdown>=3.4.0
+pypandoc>=1.11.0
+
+# Data validation and transformation
+pandas>=1.5.0
+numpy>=1.24.0
+
+# Web scraping (for external content verification)
+selenium>=4.10.0
+webkit-html-to-pdf>=0.1.0
+

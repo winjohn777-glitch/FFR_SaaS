@@ -1,0 +1,278 @@
+{
+  "issues": [
+    {
+      "type": "duplicate_component_name",
+      "component_name": "generateLowStockAlert",
+      "location1": "src/components/InventoryReports.tsx",
+      "location2": "src/components/InventoryReports.tsx",
+      "recommendation": "Rename one of the generateLowStockAlert components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleEscape",
+      "location1": "src/components/EditableModal.tsx",
+      "location2": "src/components/Modal.tsx",
+      "recommendation": "Rename one of the handleEscape components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleBackdropClick",
+      "location1": "src/components/EditableModal.tsx",
+      "location2": "src/components/Modal.tsx",
+      "recommendation": "Rename one of the handleBackdropClick components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSubmit",
+      "location1": "src/components/DynamicFormGenerator.tsx",
+      "location2": "src/components/Financing/FinanceContractModal.tsx",
+      "recommendation": "Rename one of the handleSubmit components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleInputChange",
+      "location1": "src/components/DataFlow/UnifiedDataDemo.tsx",
+      "location2": "src/components/Forms/SampleForms/SafetyInspectionForm.tsx",
+      "recommendation": "Rename one of the handleInputChange components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSave",
+      "location1": "src/components/ModalStructureEditor.tsx",
+      "location2": "src/components/CRM/AutoFollowUpModal.tsx",
+      "recommendation": "Rename one of the handleSave components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "formatDate",
+      "location1": "src/components/CRM/CustomerDetailsModal.tsx",
+      "location2": "src/components/CRM/SalesPipelineModal.tsx",
+      "recommendation": "Rename one of the formatDate components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSave",
+      "location1": "src/components/ModalStructureEditor.tsx",
+      "location2": "src/components/CRM/DigitalProposalModal.tsx",
+      "recommendation": "Rename one of the handleSave components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSubmit",
+      "location1": "src/components/DynamicFormGenerator.tsx",
+      "location2": "src/components/CRM/AddCustomerModal.tsx",
+      "recommendation": "Rename one of the handleSubmit components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "generateInvoicePDF",
+      "location1": "src/components/InvoicePDF.tsx",
+      "location2": "src/components/PDF/FFRPDFGenerator.tsx",
+      "recommendation": "Rename one of the generateInvoicePDF components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "FFRHeaderBranding",
+      "location1": "src/components/FFRBranding.tsx",
+      "location2": "src/components/Shared/UnifiedFFRBranding.tsx",
+      "recommendation": "Rename one of the FFRHeaderBranding components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "FFRFooterBranding",
+      "location1": "src/components/FFRBranding.tsx",
+      "location2": "src/components/Shared/UnifiedFFRBranding.tsx",
+      "recommendation": "Rename one of the FFRFooterBranding components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "FFRCompactBranding",
+      "location1": "src/components/FFRBranding.tsx",
+      "location2": "src/components/Shared/UnifiedFFRBranding.tsx",
+      "recommendation": "Rename one of the FFRCompactBranding components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "FFRDocumentBranding",
+      "location1": "src/components/FFRBranding.tsx",
+      "location2": "src/components/Shared/UnifiedFFRBranding.tsx",
+      "recommendation": "Rename one of the FFRDocumentBranding components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSubmit",
+      "location1": "src/components/DynamicFormGenerator.tsx",
+      "location2": "src/components/JobCosting/AddJobModal.tsx",
+      "recommendation": "Rename one of the handleSubmit components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSubmit",
+      "location1": "src/components/DynamicFormGenerator.tsx",
+      "location2": "src/components/ProjectManagement/AssignCrewModal.tsx",
+      "recommendation": "Rename one of the handleSubmit components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSubmit",
+      "location1": "src/components/DynamicFormGenerator.tsx",
+      "location2": "src/components/ProjectManagement/EditProjectModal.tsx",
+      "recommendation": "Rename one of the handleSubmit components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSave",
+      "location1": "src/components/ModalStructureEditor.tsx",
+      "location2": "src/components/ProjectManagement/AddTimelineEventModal.tsx",
+      "recommendation": "Rename one of the handleSave components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSave",
+      "location1": "src/components/ModalStructureEditor.tsx",
+      "location2": "src/components/ProjectManagement/AddBudgetItemModal.tsx",
+      "recommendation": "Rename one of the handleSave components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "formatDate",
+      "location1": "src/components/CRM/CustomerDetailsModal.tsx",
+      "location2": "src/components/ProjectManagement/CustomerReviewDashboard.tsx",
+      "recommendation": "Rename one of the formatDate components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSubmit",
+      "location1": "src/components/DynamicFormGenerator.tsx",
+      "location2": "src/components/ProjectManagement/AddProjectModal.tsx",
+      "recommendation": "Rename one of the handleSubmit components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSave",
+      "location1": "src/components/ModalStructureEditor.tsx",
+      "location2": "src/components/ProjectManagement/AddEquipmentModal.tsx",
+      "recommendation": "Rename one of the handleSave components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSave",
+      "location1": "src/components/ModalStructureEditor.tsx",
+      "location2": "src/components/ProjectManagement/AddMilestoneModal.tsx",
+      "recommendation": "Rename one of the handleSave components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleSubmit",
+      "location1": "src/components/DynamicFormGenerator.tsx",
+      "location2": "src/templates/CustomizableModalTemplate.tsx",
+      "recommendation": "Rename one of the handleSubmit components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "formatCurrency",
+      "location1": "src/components/CRM/SalesPipelineModal.tsx",
+      "location2": "src/pages/CRM.tsx",
+      "recommendation": "Rename one of the formatCurrency components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "formatDate",
+      "location1": "src/components/CRM/CustomerDetailsModal.tsx",
+      "location2": "src/pages/CRM.tsx",
+      "recommendation": "Rename one of the formatDate components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "formatCurrency",
+      "location1": "src/components/CRM/SalesPipelineModal.tsx",
+      "location2": "src/pages/Reports.tsx",
+      "recommendation": "Rename one of the formatCurrency components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "generateStockReport",
+      "location1": "src/components/InventoryReports.tsx",
+      "location2": "src/pages/Inventory.tsx",
+      "recommendation": "Rename one of the generateStockReport components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "generateReorderReport",
+      "location1": "src/components/InventoryReports.tsx",
+      "location2": "src/pages/Inventory.tsx",
+      "recommendation": "Rename one of the generateReorderReport components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleGenerateReport",
+      "location1": "src/pages/Reports.tsx",
+      "location2": "src/pages/ProjectManagement.tsx",
+      "recommendation": "Rename one of the handleGenerateReport components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "formatDate",
+      "location1": "src/components/CRM/CustomerDetailsModal.tsx",
+      "location2": "src/pages/ProjectManagement.tsx",
+      "recommendation": "Rename one of the formatDate components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "clearFilters",
+      "location1": "src/pages/SOPManagement.tsx",
+      "location2": "src/pages/ProjectManagement.tsx",
+      "recommendation": "Rename one of the clearFilters components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "formatCurrency",
+      "location1": "src/components/CRM/SalesPipelineModal.tsx",
+      "location2": "src/pages/Invoicing.tsx",
+      "recommendation": "Rename one of the formatCurrency components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "formatDate",
+      "location1": "src/components/CRM/CustomerDetailsModal.tsx",
+      "location2": "src/pages/Invoicing.tsx",
+      "recommendation": "Rename one of the formatDate components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "calculateTotal",
+      "location1": "src/components/CRM/DigitalProposalModal.tsx",
+      "location2": "src/pages/Invoicing.tsx",
+      "recommendation": "Rename one of the calculateTotal components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "downloadCSV",
+      "location1": "src/pages/JobCosting.tsx",
+      "location2": "src/pages/Invoicing.tsx",
+      "recommendation": "Rename one of the downloadCSV components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "formatDate",
+      "location1": "src/components/CRM/CustomerDetailsModal.tsx",
+      "location2": "src/pages/Documents.tsx",
+      "recommendation": "Rename one of the formatDate components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "formatCurrency",
+      "location1": "src/components/CRM/SalesPipelineModal.tsx",
+      "location2": "src/pages/Bookkeeping.tsx",
+      "recommendation": "Rename one of the formatCurrency components to avoid conflicts"
+    },
+    {
+      "type": "duplicate_component_name",
+      "component_name": "handleGenerateReport",
+      "location1": "src/pages/Reports.tsx",
+      "location2": "src/pages/HumanResources.tsx",
+      "recommendation": "Rename one of the handleGenerateReport components to avoid conflicts"
+    }
+  ],
+  "count": 39
+}

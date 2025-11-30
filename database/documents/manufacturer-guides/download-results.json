@@ -1,0 +1,62 @@
+[
+  {
+    "sopCode": "GAF-TIM-HVHZ",
+    "status": "failed",
+    "error": "HTTP 403: Forbidden",
+    "url": "https://www.gaf.com/content/dam/gaf/documents/residential/installation-and-application-instructions/shingles/timberline-hdz-installation-instructions.pdf"
+  },
+  {
+    "sopCode": "GAF-FOR-HVHZ",
+    "status": "failed",
+    "error": "HTTP 403: Forbidden",
+    "url": "https://www.gaf.com/content/dam/gaf/documents/residential/installation-and-application-instructions/shingles/fortitude-installation-instructions.pdf"
+  },
+  {
+    "sopCode": "CER-LAN-HVHZ",
+    "status": "already_exists",
+    "filename": "CertainTeed-Landmark-Installation-Instructions.pdf",
+    "size": 185254
+  },
+  {
+    "sopCode": "OWE-DUR-HVHZ",
+    "status": "failed",
+    "error": "HTTP 403: Forbidden",
+    "url": "https://www.owenscorning.com/content/dam/owenscorning/roofing/documents/duration-shingles-installation-guide.pdf"
+  },
+  {
+    "sopCode": "CAR-SUR-HVHZ",
+    "status": "failed",
+    "error": "getaddrinfo ENOTFOUND www.carlisle-ccm.com",
+    "url": "https://www.carlisle-ccm.com/content/dam/carlisle/ccm/technical-documents/tpo/sure-weld-tpo-installation-guide.pdf"
+  },
+  {
+    "sopCode": "FIR-RUB-HVHZ",
+    "status": "failed",
+    "error": "Hostname/IP does not match certificate's altnames: Host: www.firestonebpe.com. is not in the cert's altnames: DNS:*.adobeaemcloud.com",
+    "url": "https://www.firestonebpe.com/content/dam/fbpe/installation-specifications/rubbergard-epdm-installation-specifications.pdf"
+  },
+  {
+    "sopCode": "VER-VER-HVHZ",
+    "status": "failed",
+    "error": "HTTP 404: Not Found",
+    "url": "https://www.versico.com/content/dam/versico/technical-documents/tpo/versiweld-tpo-installation-guide.pdf"
+  },
+  {
+    "sopCode": "EAG-CAP-HVHZ",
+    "status": "failed",
+    "error": "HTTP 404: Not Found",
+    "url": "https://www.eagleroofing.com/content/dam/eagle/installation-guides/capistrano-installation-guide.pdf"
+  },
+  {
+    "sopCode": "ATL-PIN-HVHZ",
+    "status": "failed",
+    "error": "HTTP 404: Not Found",
+    "url": "https://www.atlasroofing.com/content/dam/atlas/residential/shingles/pinnacle-pristine/pinnacle-pristine-installation-guide.pdf"
+  },
+  {
+    "sopCode": "MAL-HIG-HVHZ",
+    "status": "failed",
+    "error": "HTTP 404: Not Found",
+    "url": "https://www.malarkeyroofing.com/content/dam/malarkey/installation-guides/highlander-installation-guide.pdf"
+  }
+]

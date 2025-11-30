@@ -1,0 +1,120 @@
+{
+  "services": [
+    {
+      "id": "complete_reroof",
+      "title": "Complete Re-roof",
+      "description": "Full roof replacement with new materials",
+      "basePrice": 15000,
+      "category": "Major Services"
+    },
+    {
+      "id": "roof_repair",
+      "title": "Roof Repair",
+      "description": "Targeted repairs for damaged areas",
+      "basePrice": 2500,
+      "category": "Repair Services"
+    },
+    {
+      "id": "gutter_replacement",
+      "title": "Gutter System",
+      "description": "New gutter installation or replacement",
+      "basePrice": 1800,
+      "category": "Gutter Services"
+    },
+    {
+      "id": "ventilation",
+      "title": "Roof Ventilation",
+      "description": "Improve attic ventilation and airflow",
+      "basePrice": 800,
+      "category": "Ventilation Services"
+    },
+    {
+      "id": "insulation",
+      "title": "Attic Insulation",
+      "description": "Improve energy efficiency with proper insulation",
+      "basePrice": 1200,
+      "category": "Insulation Services"
+    },
+    {
+      "id": "inspection",
+      "title": "Roof Inspection",
+      "description": "Comprehensive roof condition assessment",
+      "basePrice": 350,
+      "category": "Assessment Services"
+    }
+  ],
+  "materials": {
+    "costPerSquareFoot": 4.5,
+    "description": "Material cost per square foot of roofing area"
+  },
+  "labor": {
+    "costPerSquareFoot": 3.2,
+    "description": "Labor cost per square foot of roofing area"
+  },
+  "fixedCosts": {
+    "permits": {
+      "amount": 250,
+      "description": "Building permits and inspection fees"
+    },
+    "disposal": {
+      "amount": 500,
+      "description": "Debris removal and disposal fees"
+    }
+  },
+  "materialTypes": {
+    "asphalt_shingles": {
+      "name": "Asphalt Shingles",
+      "multiplier": 1.0,
+      "description": "Standard asphalt shingle roofing"
+    },
+    "metal": {
+      "name": "Metal Roofing",
+      "multiplier": 1.8,
+      "description": "Standing seam or metal panel roofing"
+    },
+    "tile": {
+      "name": "Tile Roofing",
+      "multiplier": 2.2,
+      "description": "Clay or concrete tile roofing"
+    },
+    "slate": {
+      "name": "Slate Roofing",
+      "multiplier": 3.5,
+      "description": "Natural slate roofing materials"
+    },
+    "tpo": {
+      "name": "TPO Membrane",
+      "multiplier": 1.3,
+      "description": "Commercial TPO membrane roofing"
+    },
+    "epdm": {
+      "name": "EPDM Rubber",
+      "multiplier": 1.4,
+      "description": "EPDM rubber membrane roofing"
+    }
+  },
+  "complexityMultipliers": {
+    "simple": {
+      "name": "Simple",
+      "multiplier": 1.0,
+      "description": "Basic roof design with minimal complexity"
+    },
+    "standard": {
+      "name": "Standard",
+      "multiplier": 1.2,
+      "description": "Average complexity with moderate features"
+    },
+    "complex": {
+      "name": "Complex",
+      "multiplier": 1.5,
+      "description": "High complexity with multiple features and angles"
+    },
+    "very_complex": {
+      "name": "Very Complex",
+      "multiplier": 1.8,
+      "description": "Extremely complex design requiring specialized work"
+    }
+  },
+  "lastUpdated": "2025-01-15T12:00:00Z",
+  "version": "1.0.0"
+}

@@ -1,0 +1,27 @@
+
+🎯 COMPREHENSIVE APPLICATION TEST SUMMARY
+=============================================
+
+Duration: 1.09 minutes
+Timestamp: 2025-10-18T18:05:53.033Z
+
+📊 TEST STATISTICS:
+- Total Tests: 0
+- Passed: 0 ✅
+- Failed: 0 ✅
+- Skipped: 0
+
+🏗️ MODULE ACCESSIBILITY:
+- Dashboard: ✅ (8ms)\n- Customer Management (CRM): ✅ (4ms)\n- Project Management: ✅ (3ms)\n- Invoicing & Billing: ✅ (3ms)\n- Human Resources: ✅ (3ms)\n- Accounting & Finance: ✅ (2ms)\n- Standard Operating Procedures: ✅ (2ms)\n- Document Management System: ✅ (4ms)
+
+⚡ PERFORMANCE ISSUES: 0
+
+
+🔧 FUNCTIONAL ISSUES: 1
+- Test errors: Error: Project(s) "chromium" not found. Available projects: ""
+    at filterProjects (/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting/node_modules/playwright/lib/runner/projectUtils...
+
+🔗 INTEGRATION ISSUES: 0
+
+
+⚠️ ISSUES DETECTED - REVIEW REQUIRED

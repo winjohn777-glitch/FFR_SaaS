@@ -1,0 +1,32 @@
+[
+  {
+    "sopNumber": "OWE-DUR-HVHZ",
+    "product": "Owens Corning TruDefinition Duration",
+    "manufacturer": "Owens Corning",
+    "filename": "OWE-DUR-HVHZ-TruDefinition-Duration-Installation-Instructions.pdf",
+    "filePath": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting/database/documents/manufacturer-guides/owens-corning/OWE-DUR-HVHZ-TruDefinition-Duration-Installation-Instructions.pdf",
+    "size": 831,
+    "status": "demo_created",
+    "actualUrl": "https://www.owenscorning.com/roofing/shingles/trudefinition-duration/"
+  },
+  {
+    "sopNumber": "TRI-MET-HVHZ",
+    "product": "Tri County Metals Metal Tile Profile System",
+    "manufacturer": "Tri County Metals",
+    "filename": "TRI-MET-HVHZ-Metal-Tile-Profile-Installation-Guide.pdf",
+    "filePath": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting/database/documents/manufacturer-guides/tri-county-metals/TRI-MET-HVHZ-Metal-Tile-Profile-Installation-Guide.pdf",
+    "size": 804,
+    "status": "demo_created",
+    "actualUrl": "https://www.tricountymetals.com/products/metal-tile/"
+  },
+  {
+    "sopNumber": "TRI-SNA-HVHZ",
+    "product": "Tri County Metals Snap Lock Steel Standing Seam",
+    "manufacturer": "Tri County Metals",
+    "filename": "TRI-SNA-HVHZ-Snap-Lock-Standing-Seam-Installation-Manual.pdf",
+    "filePath": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting/database/documents/manufacturer-guides/tri-county-metals/TRI-SNA-HVHZ-Snap-Lock-Standing-Seam-Installation-Manual.pdf",
+    "size": 813,
+    "status": "demo_created",
+    "actualUrl": "https://www.tricountymetals.com/products/standing-seam/"
+  }
+]

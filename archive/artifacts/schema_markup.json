@@ -1,0 +1,182 @@
+{
+    "@context": "https://schema.org",
+    "@type": "RoofingContractor",
+    "name": "Florida First Roofing LLC",
+    "image": "https://test.floridafirstroofing.com/wp-content/uploads/florida-first-roofing-logo.jpg",
+    "description": "Florida's leading storm-resistant roofing contractor specializing in hurricane-proof roof installation, emergency storm repairs, and insurance claim assistance. Serving Central Florida, Tampa Bay, and coastal areas for 40+ years.",
+    "url": "https://test.floridafirstroofing.com",
+    "telephone": "(321) 301-4512",
+    "email": "info@floridafirstroofing.com",
+    "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "3815 N HWY 1 #13",
+        "addressLocality": "Cocoa",
+        "addressRegion": "FL",
+        "postalCode": "32926",
+        "addressCountry": "US"
+    },
+    "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "28.4219216",
+        "longitude": "-80.7576559"
+    },
+    "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+    },
+    "priceRange": "$$",
+    "areaServed": [{
+            "@type": "City",
+            "name": "Cocoa",
+            "containedInPlace": {
+                "@type": "State",
+                "name": "Florida"
+            }
+        },
+        {
+            "@type": "City",
+            "name": "Melbourne",
+            "containedInPlace": {
+                "@type": "State",
+                "name": "Florida"
+            }
+        },
+        {
+            "@type": "City",
+            "name": "Tampa",
+            "containedInPlace": {
+                "@type": "State",
+                "name": "Florida"
+            }
+        },
+        {
+            "@type": "City",
+            "name": "Orlando",
+            "containedInPlace": {
+                "@type": "State",
+                "name": "Florida"
+            }
+        },
+        {
+            "@type": "State",
+            "name": "Florida"
+        }
+    ],
+    "serviceType": [
+        "Emergency Storm Repairs",
+        "Hurricane-Resistant Roof Installation",
+        "Roof Replacement",
+        "Storm Damage Assessment",
+        "Insurance Claim Assistance",
+        "TPO Roofing",
+        "Metal Roofing",
+        "Shingle Roofing"
+    ],
+    "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Roofing Services",
+        "itemListElement": [{
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Emergency Storm Repairs",
+                    "description": "24/7 emergency storm damage repair services"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Hurricane-Resistant Roof Installation",
+                    "description": "Category 5 hurricane-resistant roofing systems"
+                }
+            },
+            {
+                "@type": "Offer",
+                "itemOffered": {
+                    "@type": "Service",
+                    "name": "Insurance Claim Assistance",
+                    "description": "Complete insurance claim documentation and assistance"
+                }
+            }
+        ]
+    },
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "127",
+        "bestRating": "5",
+        "worstRating": "1"
+    },
+    "review": [{
+            "@type": "Review",
+            "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5"
+            },
+            "author": {
+                "@type": "Person",
+                "name": "Sarah M."
+            },
+            "reviewBody": "After Hurricane Ian, these guys were at my house the same day. They handled everything with my insurance company and got my roof replaced in record time. Amazing work!",
+            "datePublished": "2024-01-15"
+        },
+        {
+            "@type": "Review",
+            "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5"
+            },
+            "author": {
+                "@type": "Person",
+                "name": "Mike R."
+            },
+            "reviewBody": "The storm damage assessment was thorough and honest. They found issues I didn't even know existed and saved me thousands in future repairs.",
+            "datePublished": "2024-02-01"
+        },
+        {
+            "@type": "Review",
+            "reviewRating": {
+                "@type": "Rating",
+                "ratingValue": "5",
+                "bestRating": "5"
+            },
+            "author": {
+                "@type": "Person",
+                "name": "Jennifer L."
+            },
+            "reviewBody": "Professional, reliable, and their hurricane-resistant installation has already proven itself in multiple storms. Worth every penny!",
+            "datePublished": "2024-03-10"
+        }
+    ],
+    "founder": {
+        "@type": "Person",
+        "name": "David V. Johnson"
+    },
+    "foundingDate": "1980",
+    "employee": {
+        "@type": "Person",
+        "name": "Winston Johnson"
+    },
+    "award": [
+        "BBB A+ Rating",
+        "40+ Years in Business",
+        "Licensed Florida Contractor #CCC1336561"
+    ],
+    "sameAs": [
+        "https://www.facebook.com/FloridaFirstRoofing/",
+        "https://www.yelp.com/biz/florida-first-roofing-cocoa"
+    ]
+}

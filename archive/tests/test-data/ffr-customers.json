@@ -1,0 +1,28 @@
+[
+  {
+    "id": "C1760788715090",
+    "firstName": "David",
+    "lastName": "Johnson",
+    "companyName": "",
+    "email": "david.johnson@email.com",
+    "phone": "321-123-4567",
+    "alternatePhone": "",
+    "address": {
+      "street": "3812 coopers corner",
+      "city": "abc",
+      "state": "FL",
+      "zipCode": "33777",
+      "county": "Pinellas"
+    },
+    "type": "Residential",
+    "status": "Prospect",
+    "propertyType": "Single Family",
+    "roofType": "Unknown",
+    "leadSource": "Website",
+    "creditRating": "Good",
+    "dateAdded": "2025-10-18",
+    "lastContact": "2025-10-18",
+    "notes": "32 squares of GAF HDZ shingles needed. Contract: $7.50/sq ft, Total project value: $24,000. DMS Integration: Will auto-generate proposal document upon customer creation.",
+    "tags": []
+  }
+]

@@ -1,0 +1,730 @@
+{
+  "companyInfo": {
+    "name": "Florida First Roofing LLC",
+    "address": "3815 HWY 1 #13, Cocoa, FL 32926",
+    "phone": "321-301-4512",
+    "license": "CCC1336561",
+    "type": "State of Florida Certified Roofing Contractor",
+    "entityType": "LLC"
+  },
+  "chartOfAccounts": {
+    "1000": {
+      "category": "ASSETS",
+      "subcategory": "Current Assets",
+      "accounts": {
+        "1010": {
+          "name": "Checking Account - Operating",
+          "type": "Bank",
+          "description": "Primary business checking account"
+        },
+        "1020": {
+          "name": "Checking Account - Payroll",
+          "type": "Bank",
+          "description": "Dedicated payroll account"
+        },
+        "1030": {
+          "name": "Savings Account",
+          "type": "Bank",
+          "description": "Business savings/reserve account"
+        },
+        "1100": {
+          "name": "Accounts Receivable",
+          "type": "Accounts Receivable",
+          "description": "Customer invoices pending payment"
+        },
+        "1110": {
+          "name": "Allowance for Doubtful Accounts",
+          "type": "Other Current Asset",
+          "description": "Reserve for uncollectible receivables"
+        },
+        "1200": {
+          "name": "Job Materials Inventory",
+          "type": "Inventory",
+          "description": "Roofing materials on hand"
+        },
+        "1210": {
+          "name": "Shingles Inventory",
+          "type": "Inventory",
+          "description": "Asphalt and other shingles"
+        },
+        "1220": {
+          "name": "Underlayment Inventory",
+          "type": "Inventory",
+          "description": "Roof underlayment materials"
+        },
+        "1230": {
+          "name": "Flashing & Accessories Inventory",
+          "type": "Inventory",
+          "description": "Metal flashing, vents, accessories"
+        },
+        "1240": {
+          "name": "Fasteners Inventory",
+          "type": "Inventory",
+          "description": "Nails, screws, staples"
+        },
+        "1250": {
+          "name": "Metal Roofing Inventory",
+          "type": "Inventory",
+          "description": "Standing seam panels, corrugated metal, galvalume"
+        },
+        "1260": {
+          "name": "TPO Membrane Inventory",
+          "type": "Inventory",
+          "description": "TPO roofing membrane materials"
+        },
+        "1270": {
+          "name": "Tile Inventory",
+          "type": "Inventory",
+          "description": "Concrete and clay roofing tiles"
+        },
+        "1280": {
+          "name": "Modified Bitumen Inventory",
+          "type": "Inventory",
+          "description": "Modified bitumen roofing materials"
+        },
+        "1290": {
+          "name": "Tools & Equipment Inventory",
+          "type": "Inventory",
+          "description": "Small tools and consumable equipment"
+        },
+        "1295": {
+          "name": "Safety Equipment Inventory",
+          "type": "Inventory",
+          "description": "Safety harnesses, hard hats, protective gear"
+        },
+        "1300": {
+          "name": "Work in Progress",
+          "type": "Other Current Asset",
+          "description": "Ongoing job costs"
+        },
+        "1400": {
+          "name": "Prepaid Insurance",
+          "type": "Other Current Asset",
+          "description": "Prepaid insurance premiums"
+        },
+        "1410": {
+          "name": "Prepaid License & Permits",
+          "type": "Other Current Asset",
+          "description": "Prepaid contractor licenses and permits"
+        },
+        "1420": {
+          "name": "Prepaid Rent",
+          "type": "Other Current Asset",
+          "description": "Prepaid office/warehouse rent"
+        },
+        "1500": {
+          "name": "Employee Advances",
+          "type": "Other Current Asset",
+          "description": "Advances to employees"
+        },
+        "1600": {
+          "name": "Retainage Receivable",
+          "type": "Other Current Asset",
+          "description": "Contract retainage held by customers"
+        },
+        "1650": {
+          "name": "Notes Receivable - Finance Contracts",
+          "type": "Other Current Asset",
+          "description": "Customer finance contracts receivable"
+        },
+        "1660": {
+          "name": "Allowance for Credit Losses - Finance Contracts",
+          "type": "Other Current Asset",
+          "description": "Reserve for uncollectible finance contracts"
+        },
+        "1670": {
+          "name": "Accrued Interest Receivable",
+          "type": "Other Current Asset",
+          "description": "Interest earned but not yet received on finance contracts"
+        }
+      }
+    },
+    "1700": {
+      "category": "ASSETS",
+      "subcategory": "Fixed Assets",
+      "accounts": {
+        "1710": {
+          "name": "Trucks & Vehicles",
+          "type": "Fixed Asset",
+          "description": "Work trucks and company vehicles"
+        },
+        "1711": {
+          "name": "Accumulated Depreciation - Vehicles",
+          "type": "Fixed Asset",
+          "description": "Accumulated depreciation on vehicles"
+        },
+        "1720": {
+          "name": "Roofing Equipment",
+          "type": "Fixed Asset",
+          "description": "Ladders, nail guns, compressors, etc."
+        },
+        "1721": {
+          "name": "Accumulated Depreciation - Equipment",
+          "type": "Fixed Asset",
+          "description": "Accumulated depreciation on equipment"
+        },
+        "1730": {
+          "name": "Safety Equipment",
+          "type": "Fixed Asset",
+          "description": "Harnesses, hard hats, safety gear"
+        },
+        "1731": {
+          "name": "Accumulated Depreciation - Safety Equipment",
+          "type": "Fixed Asset",
+          "description": "Accumulated depreciation on safety equipment"
+        },
+        "1740": {
+          "name": "Office Equipment",
+          "type": "Fixed Asset",
+          "description": "Computers, phones, office furniture"
+        },
+        "1741": {
+          "name": "Accumulated Depreciation - Office Equipment",
+          "type": "Fixed Asset",
+          "description": "Accumulated depreciation on office equipment"
+        },
+        "1750": {
+          "name": "Warehouse/Shop",
+          "type": "Fixed Asset",
+          "description": "Warehouse or shop property"
+        },
+        "1751": {
+          "name": "Accumulated Depreciation - Buildings",
+          "type": "Fixed Asset",
+          "description": "Accumulated depreciation on buildings"
+        }
+      }
+    },
+    "2000": {
+      "category": "LIABILITIES",
+      "subcategory": "Current Liabilities",
+      "accounts": {
+        "2010": {
+          "name": "Accounts Payable",
+          "type": "Accounts Payable",
+          "description": "Vendor invoices pending payment"
+        },
+        "2011": {
+          "name": "Accounts Payable - USA Supply",
+          "type": "Accounts Payable",
+          "description": "USA Supply vendor payables"
+        },
+        "2012": {
+          "name": "Accounts Payable - Tri-County Metals",
+          "type": "Accounts Payable",
+          "description": "Tri-County Metals vendor payables"
+        },
+        "2013": {
+          "name": "Accounts Payable - Gulf Coast Supply",
+          "type": "Accounts Payable",
+          "description": "Gulf Coast Supply vendor payables"
+        },
+        "2014": {
+          "name": "Accounts Payable - Beacon Supply",
+          "type": "Accounts Payable",
+          "description": "Beacon Supply vendor payables"
+        },
+        "2015": {
+          "name": "Accounts Payable - Home Depot",
+          "type": "Accounts Payable",
+          "description": "Home Depot commercial account payables"
+        },
+        "2016": {
+          "name": "Accounts Payable - Lowes",
+          "type": "Accounts Payable",
+          "description": "Lowes commercial account payables"
+        },
+        "2100": {
+          "name": "Sales Tax Payable",
+          "type": "Other Current Liability",
+          "description": "Florida sales tax collected"
+        },
+        "2200": {
+          "name": "Payroll Liabilities",
+          "type": "Other Current Liability",
+          "description": "Payroll taxes and withholdings"
+        },
+        "2210": {
+          "name": "Federal Payroll Taxes Payable",
+          "type": "Other Current Liability",
+          "description": "Federal income tax, FICA withholdings"
+        },
+        "2220": {
+          "name": "State Payroll Taxes Payable",
+          "type": "Other Current Liability",
+          "description": "Florida state taxes"
+        },
+        "2230": {
+          "name": "FUTA Payable",
+          "type": "Other Current Liability",
+          "description": "Federal unemployment tax"
+        },
+        "2240": {
+          "name": "SUTA Payable",
+          "type": "Other Current Liability",
+          "description": "Florida unemployment tax"
+        },
+        "2250": {
+          "name": "Workers Compensation Payable",
+          "type": "Other Current Liability",
+          "description": "Workers compensation insurance premiums"
+        },
+        "2300": {
+          "name": "Customer Deposits",
+          "type": "Other Current Liability",
+          "description": "Deposits received from customers"
+        },
+        "2400": {
+          "name": "Accrued Expenses",
+          "type": "Other Current Liability",
+          "description": "Accrued but unpaid expenses"
+        },
+        "2500": {
+          "name": "Credit Cards Payable",
+          "type": "Credit Card",
+          "description": "Business credit card balances"
+        },
+        "2600": {
+          "name": "Line of Credit",
+          "type": "Other Current Liability",
+          "description": "Business line of credit balance"
+        },
+        "2700": {
+          "name": "Retainage Payable",
+          "type": "Other Current Liability",
+          "description": "Retainage withheld from subcontractors"
+        }
+      }
+    },
+    "2800": {
+      "category": "LIABILITIES",
+      "subcategory": "Long Term Liabilities",
+      "accounts": {
+        "2810": {
+          "name": "Equipment Loans",
+          "type": "Long Term Liability",
+          "description": "Equipment financing loans"
+        },
+        "2820": {
+          "name": "Vehicle Loans",
+          "type": "Long Term Liability",
+          "description": "Vehicle financing loans"
+        },
+        "2830": {
+          "name": "SBA Loan",
+          "type": "Long Term Liability",
+          "description": "SBA business loans"
+        },
+        "2840": {
+          "name": "Mortgage Payable",
+          "type": "Long Term Liability",
+          "description": "Property mortgage"
+        }
+      }
+    },
+    "3000": {
+      "category": "EQUITY",
+      "subcategory": "Owner's Equity",
+      "accounts": {
+        "3010": {
+          "name": "Owner's Capital",
+          "type": "Equity",
+          "description": "Owner's investment in business"
+        },
+        "3020": {
+          "name": "Owner's Draw",
+          "type": "Equity",
+          "description": "Owner withdrawals"
+        },
+        "3030": {
+          "name": "Retained Earnings",
+          "type": "Equity",
+          "description": "Accumulated business profits"
+        }
+      }
+    },
+    "4000": {
+      "category": "REVENUE",
+      "subcategory": "Operating Revenue",
+      "accounts": {
+        "4010": {
+          "name": "Roofing Revenue - Residential",
+          "type": "Income",
+          "description": "Residential roofing contracts"
+        },
+        "4020": {
+          "name": "Roofing Revenue - Commercial",
+          "type": "Income",
+          "description": "Commercial roofing contracts"
+        },
+        "4030": {
+          "name": "Roof Repair Revenue",
+          "type": "Income",
+          "description": "Roof repair services"
+        },
+        "4040": {
+          "name": "Emergency Repair Revenue",
+          "type": "Income",
+          "description": "Emergency roof repair services"
+        },
+        "4050": {
+          "name": "Inspection Revenue",
+          "type": "Income",
+          "description": "Roof inspection services"
+        },
+        "4060": {
+          "name": "Maintenance Contract Revenue",
+          "type": "Income",
+          "description": "Ongoing maintenance contracts"
+        },
+        "4070": {
+          "name": "Insurance Claim Revenue",
+          "type": "Income",
+          "description": "Insurance restoration work"
+        },
+        "4080": {
+          "name": "Change Order Revenue",
+          "type": "Income",
+          "description": "Additional work on existing contracts"
+        },
+        "4090": {
+          "name": "Metal Roofing Revenue",
+          "type": "Income",
+          "description": "Metal roofing installation revenue"
+        },
+        "4091": {
+          "name": "Shingle Roofing Revenue",
+          "type": "Income",
+          "description": "Shingle roofing installation revenue"
+        },
+        "4092": {
+          "name": "TPO Roofing Revenue",
+          "type": "Income",
+          "description": "TPO membrane roofing revenue"
+        },
+        "4093": {
+          "name": "Tile Roofing Revenue",
+          "type": "Income",
+          "description": "Tile roofing installation revenue"
+        },
+        "4094": {
+          "name": "Modified Bitumen Revenue",
+          "type": "Income",
+          "description": "Modified bitumen roofing revenue"
+        },
+        "4100": {
+          "name": "Interest Income - Bank Accounts",
+          "type": "Other Income",
+          "description": "Interest earned on bank accounts"
+        },
+        "4110": {
+          "name": "Interest Income - Finance Contracts",
+          "type": "Other Income",
+          "description": "Interest income from customer finance contracts"
+        },
+        "4120": {
+          "name": "Late Payment Fees - Finance Contracts",
+          "type": "Other Income",
+          "description": "Late payment fees on finance contracts"
+        },
+        "4130": {
+          "name": "Finance Contract Processing Fees",
+          "type": "Other Income",
+          "description": "Processing and origination fees on finance contracts"
+        },
+        "4200": {
+          "name": "Other Income",
+          "type": "Other Income",
+          "description": "Miscellaneous income"
+        }
+      }
+    },
+    "5000": {
+      "category": "COST OF GOODS SOLD",
+      "subcategory": "Direct Job Costs",
+      "accounts": {
+        "5010": {
+          "name": "Materials - Shingles",
+          "type": "Cost of Goods Sold",
+          "description": "Shingle costs for jobs"
+        },
+        "5020": {
+          "name": "Materials - Underlayment",
+          "type": "Cost of Goods Sold",
+          "description": "Underlayment costs for jobs"
+        },
+        "5030": {
+          "name": "Materials - Flashing",
+          "type": "Cost of Goods Sold",
+          "description": "Flashing and metal work"
+        },
+        "5040": {
+          "name": "Materials - Fasteners",
+          "type": "Cost of Goods Sold",
+          "description": "Nails, screws, fasteners"
+        },
+        "5050": {
+          "name": "Materials - Other",
+          "type": "Cost of Goods Sold",
+          "description": "Other roofing materials"
+        },
+        "5060": {
+          "name": "Materials - Metal Roofing",
+          "type": "Cost of Goods Sold",
+          "description": "Metal roofing materials used in jobs"
+        },
+        "5070": {
+          "name": "Materials - TPO Membrane",
+          "type": "Cost of Goods Sold",
+          "description": "TPO membrane materials used in jobs"
+        },
+        "5080": {
+          "name": "Materials - Tile",
+          "type": "Cost of Goods Sold",
+          "description": "Roofing tile materials used in jobs"
+        },
+        "5090": {
+          "name": "Materials - Modified Bitumen",
+          "type": "Cost of Goods Sold",
+          "description": "Modified bitumen materials used in jobs"
+        },
+        "5095": {
+          "name": "Materials - Tools & Safety",
+          "type": "Cost of Goods Sold",
+          "description": "Job-specific tools and safety equipment"
+        },
+        "5100": {
+          "name": "Direct Labor",
+          "type": "Cost of Goods Sold",
+          "description": "Job-specific labor costs"
+        },
+        "5200": {
+          "name": "Subcontractor Costs",
+          "type": "Cost of Goods Sold",
+          "description": "Subcontractor expenses"
+        },
+        "5300": {
+          "name": "Equipment Rental",
+          "type": "Cost of Goods Sold",
+          "description": "Job-specific equipment rentals"
+        },
+        "5400": {
+          "name": "Permits & Inspections",
+          "type": "Cost of Goods Sold",
+          "description": "Job-specific permits and inspections"
+        },
+        "5500": {
+          "name": "Disposal & Cleanup",
+          "type": "Cost of Goods Sold",
+          "description": "Debris removal and cleanup costs"
+        },
+        "5600": {
+          "name": "Job-Related Transportation",
+          "type": "Cost of Goods Sold",
+          "description": "Vehicle costs directly related to jobs"
+        }
+      }
+    },
+    "6000": {
+      "category": "OPERATING EXPENSES",
+      "subcategory": "General & Administrative",
+      "accounts": {
+        "6010": {
+          "name": "Owner Salary",
+          "type": "Expense",
+          "description": "Owner/manager salary"
+        },
+        "6020": {
+          "name": "Office Salaries",
+          "type": "Expense",
+          "description": "Administrative staff salaries"
+        },
+        "6100": {
+          "name": "Payroll Taxes",
+          "type": "Expense",
+          "description": "Employer payroll taxes"
+        },
+        "6110": {
+          "name": "Workers Compensation Insurance",
+          "type": "Expense",
+          "description": "Workers compensation premiums"
+        },
+        "6120": {
+          "name": "General Liability Insurance",
+          "type": "Expense",
+          "description": "General liability insurance"
+        },
+        "6130": {
+          "name": "Vehicle Insurance",
+          "type": "Expense",
+          "description": "Commercial vehicle insurance"
+        },
+        "6140": {
+          "name": "Bonding Insurance",
+          "type": "Expense",
+          "description": "Contractor bonding costs"
+        },
+        "6200": {
+          "name": "Rent - Office/Warehouse",
+          "type": "Expense",
+          "description": "Office and warehouse rent"
+        },
+        "6210": {
+          "name": "Utilities",
+          "type": "Expense",
+          "description": "Electric, water, gas, internet"
+        },
+        "6220": {
+          "name": "Telephone",
+          "type": "Expense",
+          "description": "Business phone expenses"
+        },
+        "6300": {
+          "name": "Vehicle Expenses",
+          "type": "Expense",
+          "description": "Gas, maintenance, repairs"
+        },
+        "6310": {
+          "name": "Equipment Maintenance",
+          "type": "Expense",
+          "description": "Equipment repairs and maintenance"
+        },
+        "6320": {
+          "name": "Small Tools & Equipment",
+          "type": "Expense",
+          "description": "Consumable tools and small equipment purchases"
+        },
+        "6330": {
+          "name": "Safety Equipment & Training",
+          "type": "Expense",
+          "description": "Safety gear, harnesses, training costs"
+        },
+        "6335": {
+          "name": "Fall Protection Equipment",
+          "type": "Expense",
+          "description": "Harnesses, ropes, anchor points, safety systems"
+        },
+        "6400": {
+          "name": "Professional Services",
+          "type": "Expense",
+          "description": "Legal, accounting, consulting"
+        },
+        "6410": {
+          "name": "License & Permit Fees",
+          "type": "Expense",
+          "description": "Business licenses and permits"
+        },
+        "6420": {
+          "name": "Continuing Education",
+          "type": "Expense",
+          "description": "Training and certification costs"
+        },
+        "6500": {
+          "name": "Advertising & Marketing",
+          "type": "Expense",
+          "description": "Marketing and advertising expenses"
+        },
+        "6510": {
+          "name": "Website & Software",
+          "type": "Expense",
+          "description": "Website and software subscriptions"
+        },
+        "6600": {
+          "name": "Office Supplies",
+          "type": "Expense",
+          "description": "General office supplies"
+        },
+        "6610": {
+          "name": "Postage & Shipping",
+          "type": "Expense",
+          "description": "Postage and shipping costs"
+        },
+        "6700": {
+          "name": "Bank Fees",
+          "type": "Expense",
+          "description": "Banking fees and charges"
+        },
+        "6710": {
+          "name": "Credit Card Processing Fees",
+          "type": "Expense",
+          "description": "Credit card merchant fees"
+        },
+        "6800": {
+          "name": "Interest Expense",
+          "type": "Expense",
+          "description": "Interest on loans and credit"
+        },
+        "6900": {
+          "name": "Depreciation Expense",
+          "type": "Expense",
+          "description": "Depreciation of fixed assets"
+        },
+        "6950": {
+          "name": "Bad Debt Expense",
+          "type": "Expense",
+          "description": "Uncollectible accounts expense"
+        },
+        "6960": {
+          "name": "Credit Loss Expense - Finance Contracts",
+          "type": "Expense",
+          "description": "Credit losses on customer finance contracts"
+        },
+        "6970": {
+          "name": "Finance Contract Administration",
+          "type": "Expense",
+          "description": "Costs related to administering finance contracts"
+        },
+        "6980": {
+          "name": "Collection Costs - Finance Contracts",
+          "type": "Expense",
+          "description": "Costs for collecting overdue finance contracts"
+        },
+        "6999": {
+          "name": "Miscellaneous Expense",
+          "type": "Expense",
+          "description": "Other business expenses"
+        }
+      }
+    }
+  },
+  "roofingSpecificAccounts": {
+    "jobCosting": {
+      "enabled": true,
+      "costCenters": [
+        "Residential New Construction",
+        "Residential Re-roof",
+        "Commercial New Construction",
+        "Commercial Re-roof",
+        "Repair & Maintenance",
+        "Emergency Services",
+        "Insurance Restoration"
+      ]
+    },
+    "inventoryManagement": {
+      "enabled": true,
+      "methods": ["FIFO", "Average Cost"],
+      "trackingLevel": "SKU"
+    },
+    "workersCompensation": {
+      "classCode": "5551",
+      "description": "Roofing Contractor",
+      "rateType": "Per $100 of payroll"
+    }
+  },
+  "floridaSpecific": {
+    "salesTax": {
+      "stateRate": 0.06,
+      "localRates": "Variable by county",
+      "exemptions": ["Labor only services", "Materials installed by contractor"]
+    },
+    "licensingRequirements": {
+      "stateContractorLicense": "CCC1336561",
+      "renewalPeriod": "2 years",
+      "continuingEducation": "14 hours per cycle"
+    },
+    "workersCompensation": {
+      "required": true,
+      "exemptionLimit": "3 or fewer employees"
+    }
+  }
+}

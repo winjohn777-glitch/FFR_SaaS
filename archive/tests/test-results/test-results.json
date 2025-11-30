@@ -1,0 +1,592 @@
+{
+  "config": {
+    "configFile": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting/playwright.config.ts",
+    "rootDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "test-results/playwright-report"
+        }
+      ],
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting/test-results/test-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 300000
+      },
+      {
+        "outputDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting/test-results/test-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 300000
+      },
+      {
+        "outputDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting/test-results/test-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 300000
+      },
+      {
+        "outputDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting/test-results/test-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 300000
+      },
+      {
+        "outputDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting/test-results/test-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 300000
+      },
+      {
+        "outputDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting/test-results/test-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "Microsoft Edge",
+        "name": "Microsoft Edge",
+        "testDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 300000
+      },
+      {
+        "outputDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting/test-results/test-artifacts",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "Google Chrome",
+        "name": "Google Chrome",
+        "testDir": "/Users/winstonjohnson/Claude Code/florida-first-roofing-accounting",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.spec\\.ts$/"
+        ],
+        "timeout": 300000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:3001",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "test-modal-interactions.spec.ts",
+      "file": "test-modal-interactions.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Modal and Form Interaction Tests",
+          "file": "test-modal-interactions.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "CRM - Add Customer Modal Interaction",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2668,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n🔍 Testing CRM Add Customer Modal\n"
+                        },
+                        {
+                          "text": "────────────────────────────────────────────────────────────\n"
+                        },
+                        {
+                          "text": "Add Customer button visible: true\n"
+                        },
+                        {
+                          "text": "Modal/Form appeared: true\n"
+                        },
+                        {
+                          "text": "Form inputs in modal: 10\n"
+                        },
+                        {
+                          "text": "  Input 1: type=\"text\", placeholder=\"Enter first name\"\n"
+                        },
+                        {
+                          "text": "  Input 2: type=\"text\", placeholder=\"Enter last name\"\n"
+                        },
+                        {
+                          "text": "  Input 3: type=\"text\", placeholder=\"Enter company name (optional)\"\n"
+                        },
+                        {
+                          "text": "  Input 4: type=\"email\", placeholder=\"Enter email address\"\n"
+                        },
+                        {
+                          "text": "  Input 5: type=\"tel\", placeholder=\"Enter phone number\"\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-20T14:56:39.379Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b9977ecea840c072eedd-e50172e3a7ef251e0db0",
+              "file": "test-modal-interactions.spec.ts",
+              "line": 8,
+              "column": 7
+            },
+            {
+              "title": "Project Management - New Project Button Test",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3121,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n🔍 Testing Project Management - New Project\n"
+                        },
+                        {
+                          "text": "────────────────────────────────────────────────────────────\n"
+                        },
+                        {
+                          "text": "New Project button visible: true\n"
+                        },
+                        {
+                          "text": "Button text: \"New Project\"\n"
+                        },
+                        {
+                          "text": "Button classes: sc-LLdIr iWNKGk\n"
+                        },
+                        {
+                          "text": "URL after click: http://localhost:3001/project-management\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-20T14:56:42.280Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b9977ecea840c072eedd-accee0b1253f792fc837",
+              "file": "test-modal-interactions.spec.ts",
+              "line": 57,
+              "column": 7
+            },
+            {
+              "title": "Invoicing - Create Invoice Flow",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 2472,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n🔍 Testing Invoicing - Create Invoice\n"
+                        },
+                        {
+                          "text": "────────────────────────────────────────────────────────────\n"
+                        },
+                        {
+                          "text": "Create Invoice button visible: true\n"
+                        },
+                        {
+                          "text": "Current URL: http://localhost:3001/invoicing\n"
+                        },
+                        {
+                          "text": "Forms visible: 0\n"
+                        },
+                        {
+                          "text": "Modals visible: 0\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-20T14:56:45.414Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b9977ecea840c072eedd-e19e2ae5b852959d1a7f",
+              "file": "test-modal-interactions.spec.ts",
+              "line": 87,
+              "column": 7
+            },
+            {
+              "title": "SOP Management - New SOP Interaction",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3441,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n🔍 Testing SOP Management - New SOP\n"
+                        },
+                        {
+                          "text": "────────────────────────────────────────────────────────────\n"
+                        },
+                        {
+                          "text": "New SOP button visible: true\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-20T14:56:47.902Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b9977ecea840c072eedd-dfcf338770588abdba49",
+              "file": "test-modal-interactions.spec.ts",
+              "line": 117,
+              "column": 7
+            },
+            {
+              "title": "Documents - New Contract Interaction",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3359,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n🔍 Testing Documents - New Contract\n"
+                        },
+                        {
+                          "text": "────────────────────────────────────────────────────────────\n"
+                        },
+                        {
+                          "text": "New Contract button visible: true\n"
+                        },
+                        {
+                          "text": "URL after click: http://localhost:3001/documents\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-20T14:56:51.364Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b9977ecea840c072eedd-c604d2758c50421b36d2",
+              "file": "test-modal-interactions.spec.ts",
+              "line": 137,
+              "column": 7
+            },
+            {
+              "title": "SOP - Click on SOP Items",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 4655,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n🔍 Testing SOP Items - Clicking Individual SOPs\n"
+                        },
+                        {
+                          "text": "────────────────────────────────────────────────────────────\n"
+                        },
+                        {
+                          "text": "Total buttons found: 93\n"
+                        },
+                        {
+                          "text": "\n  Testing button: \"Procedures...\"\n"
+                        },
+                        {
+                          "text": "  ⚠ No modal appeared\n"
+                        },
+                        {
+                          "text": "\n  Testing button: \"Forms & Checklists...\"\n"
+                        },
+                        {
+                          "text": "  ⚠ No modal appeared\n"
+                        },
+                        {
+                          "text": "\n  Testing button: \"Manuals...\"\n"
+                        },
+                        {
+                          "text": "  ⚠ No modal appeared\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-20T14:56:54.737Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b9977ecea840c072eedd-08c2580123d670698cb3",
+              "file": "test-modal-interactions.spec.ts",
+              "line": 160,
+              "column": 7
+            },
+            {
+              "title": "Test All Available API Endpoints",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 300000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 199,
+                      "errors": [],
+                      "stdout": [
+                        {
+                          "text": "\n📡 Testing All Available API Endpoints\n"
+                        },
+                        {
+                          "text": "────────────────────────────────────────────────────────────\n"
+                        },
+                        {
+                          "text": "  ✓ GET /api/health - 200 (Health check)\n"
+                        },
+                        {
+                          "text": "  ❌ GET /api/courses - 401 (LMS courses)\n"
+                        },
+                        {
+                          "text": "  ❌ GET /api/enrollments - 401 (Course enrollments)\n"
+                        },
+                        {
+                          "text": "  ❌ GET /api/progress - 401 (Learning progress)\n"
+                        },
+                        {
+                          "text": "  ❌ GET /api/quizzes - 401 (Quizzes)\n"
+                        },
+                        {
+                          "text": "  ❌ GET /api/certifications - 401 (Certifications)\n"
+                        },
+                        {
+                          "text": "  ❌ GET /api/osha - 401 (OSHA compliance)\n"
+                        },
+                        {
+                          "text": "  ❌ GET /api/reports - 401 (Reports)\n"
+                        },
+                        {
+                          "text": "  ✓ GET /api/sop/categories - 200 (SOP categories)\n"
+                        },
+                        {
+                          "text": "  ✓ GET /api/sop/procedures - 200 (SOP procedures)\n"
+                        },
+                        {
+                          "text": "\n📊 API Summary: 3/10 endpoints working\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-10-20T14:56:59.401Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "b9977ecea840c072eedd-366d21cf58bdcca19e92",
+              "file": "test-modal-interactions.spec.ts",
+              "line": 214,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-10-20T14:56:38.429Z",
+    "duration": 21260.85,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

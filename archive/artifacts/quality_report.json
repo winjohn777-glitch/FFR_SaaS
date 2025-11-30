@@ -1,0 +1,1092 @@
+{
+  "overall_status": "pass",
+  "results": {
+    "typescript": {
+      "status": "pass",
+      "errors": [],
+      "warnings": [],
+      "error_count": 0,
+      "warning_count": 0
+    },
+    "eslint": {
+      "status": "pass",
+      "issues": [
+        {
+          "type": "warning",
+          "message": "3:9  warning  'requireRole' is assigned a value but never used  no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "140:7  warning  'CompanyLogo' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:29  warning  'Phone' is defined but never used     @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:66  warning  'Settings' is defined but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:19  warning  'Mail' is defined but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:13   warning  'FileText' is defined but never used                                                                                     @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:23   warning  'Upload' is defined but never used                                                                                       @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:69   warning  'Calendar' is defined but never used                                                                                     @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:104  warning  'Clock' is defined but never used                                                                                        @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "510:10   warning  'pricingRefreshKey' is assigned a value but never used                                                                   @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "546:6    warning  React Hook React.useEffect has a missing dependency: 'refreshPricing'. Either include it or remove the dependency array  react-hooks/exhaustive-deps"
+        },
+        {
+          "type": "warning",
+          "message": "553:6    warning  React Hook React.useEffect has a missing dependency: 'refreshPricing'. Either include it or remove the dependency array  react-hooks/exhaustive-deps"
+        },
+        {
+          "type": "warning",
+          "message": "1:27  warning  'useEffect' is defined but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:44  warning  'Calendar' is defined but never used   @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "261:9  warning  'employees' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "4:10  warning  'Calendar' is defined but never used                                                                                @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "4:20  warning  'DollarSign' is defined but never used                                                                              @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "4:77  warning  'Eye' is defined but never used                                                                                     @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "5:10  warning  'motion' is defined but never used                                                                                  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "5:18  warning  'AnimatePresence' is defined but never used                                                                         @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "199:10  warning  'journalEntries' is assigned a value but never used                                                                 @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "202:10  warning  'selectedPayment' is assigned a value but never used                                                                @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "207:6   warning  React Hook useEffect has a missing dependency: 'loadPaymentData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps"
+        },
+        {
+          "type": "warning",
+          "message": "140:7  warning  'PageBreak' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "2:10  warning  'createReportPDF' is defined but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "35:9  warning  'modalService' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:30  warning  'User' is defined but never used               @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:36  warning  'Shield' is defined but never used             @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "203:7   warning  'Logo' is assigned a value but never used      @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "214:7   warning  'LogoIcon' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "221:7   warning  'LogoText' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "4:10  warning  'FFR_BRANDING' is defined but never used            @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "7:11  warning  'PDFGeneratorProps' is defined but never used       @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "235:9   warning  'finalY' is assigned a value but never used         @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "247:9   warning  'contentStartY' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "260:9   warning  'contentStartY' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "1:8   warning  'jsPDF' is defined but never used                @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "2:10  warning  'FFR_BRANDING' is defined but never used         @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "71:37  warning  'pageHeight' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "12:3  warning  'Users' is defined but never used                                                                                  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "17:3  warning  'BarChart3' is defined but never used                                                                              @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "230:6  warning  React Hook useEffect has a missing dependency: 'loadReviewData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps"
+        },
+        {
+          "type": "warning",
+          "message": "14:3  warning  'Upload' is defined but never used                                                                            @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "15:3  warning  'Download' is defined but never used                                                                          @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "18:3  warning  'Clock' is defined but never used                                                                             @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "21:3  warning  'Users' is defined but never used                                                                             @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "22:3  warning  'Tag' is defined but never used                                                                               @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "23:3  warning  'Calendar' is defined but never used                                                                          @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "26:3  warning  'Link' is defined but never used                                                                              @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "27:3  warning  'PlayCircle' is defined but never used                                                                        @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "30:3  warning  'Copy' is defined but never used                                                                              @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "774:6  warning  React Hook useEffect has a missing dependency: 'templates'. Either include it or remove the dependency array  react-hooks/exhaustive-deps"
+        },
+        {
+          "type": "warning",
+          "message": "325:10  warning  'metrics' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "425:6   warning  React Hook useEffect has a missing dependency: 'loadSOPContent'. Either include it or remove the dependency array  react-hooks/exhaustive-deps"
+        },
+        {
+          "type": "warning",
+          "message": "605:30  warning  Unnecessary escape character: \\.                                                                                   no-useless-escape"
+        },
+        {
+          "type": "warning",
+          "message": "269:6  warning  React Hook React.useEffect was passed a dependency list that is not an array literal. This means we can't statically verify whether you've passed the correct dependencies  react-hooks/exhaustive-deps"
+        },
+        {
+          "type": "warning",
+          "message": "269:6  warning  React Hook React.useEffect has missing dependencies: 'event' and 'listener'. Either include them or remove the dependency array                                             react-hooks/exhaustive-deps"
+        },
+        {
+          "type": "warning",
+          "message": "287:6  warning  React Hook React.useEffect has a missing dependency: 'subscriptions'. Either include it or remove the dependency array                                                      react-hooks/exhaustive-deps"
+        },
+        {
+          "type": "warning",
+          "message": "6:23  warning  'useEffect' is defined but never used        @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "9:10  warning  'UnifiedCustomer' is defined but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "9:44  warning  'UnifiedProject' is defined but never used   @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "10:10  warning  'Customer' is defined but never used                         @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "36:5   warning  'updateCustomer' is assigned a value but never used          @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "37:5   warning  'updateEmployee' is assigned a value but never used          @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "38:5   warning  'updateProject' is assigned a value but never used           @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "379:11  warning  'syncCustomerFromLead' is assigned a value but never used    @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "379:33  warning  'syncEmployeeOnboarding' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "379:57  warning  'syncOpportunityWon' is assigned a value but never used      @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "357:35  warning  'addJob' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "7:3   warning  'Filter' is defined but never used                 @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "14:3   warning  'Plus' is defined but never used                   @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "18:3   warning  'User' is defined but never used                   @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "20:3   warning  'FileImage' is defined but never used              @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "543:11  warning  'ContractWorkflow' is defined but never used       @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "563:11  warning  'PermitTracking' is defined but never used         @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "585:11  warning  'ComplianceItem' is defined but never used         @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "610:10  warning  'activeTab' is assigned a value but never used     @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "610:21  warning  'setActiveTab' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "9:3   warning  'Filter' is defined but never used                         @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "13:3   warning  'Award' is defined but never used                          @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "32:3   warning  'Star' is defined but never used                           @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "33:3   warning  'X' is defined but never used                              @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "770:10  warning  'showAddEmployeeModal' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "771:10  warning  'selectedEmployee' is assigned a value but never used      @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "772:10  warning  'showEmployeeDetails' is assigned a value but never used   @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "4:40   warning  'Search' is defined but never used             @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "4:48   warning  'Filter' is defined but never used             @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "4:139  warning  'Shield' is defined but never used             @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "4:147  warning  'FileCheck' is defined but never used          @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "4:158  warning  'Clipboard' is defined but never used          @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "9:25   warning  'InventoryFormData' is defined but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:69  warning  'Filter' is defined but never used                             @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "8:8   warning  'FinanceContractBookkeepingService' is defined but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "472:7   warning  'CompanyLogo' is assigned a value but never used               @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "429:7   warning  'FormTextarea' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "491:11  warning  'customers' is assigned a value but never used     @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:49  warning  'Plus' is defined but never used                        @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "3:55  warning  'Trash2' is defined but never used                      @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "232:10  warning  'editingService' is assigned a value but never used     @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "232:26  warning  'setEditingService' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "22:3   warning  'Search' is defined but never used                                  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "34:3   warning  'Send' is defined but never used                                    @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "714:7   warning  'CrewMemberCard' is assigned a value but never used                 @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "847:7   warning  'TimelineEvent' is already defined                                  @typescript-eslint/no-redeclare"
+        },
+        {
+          "type": "warning",
+          "message": "960:10  warning  'selectedMilestone' is assigned a value but never used              @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "960:29  warning  'setSelectedMilestone' is assigned a value but never used           @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "961:10  warning  'selectedTimelineEvent' is assigned a value but never used          @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "961:33  warning  'setSelectedTimelineEvent' is assigned a value but never used       @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "1312:9   warning  'handleScheduleProject' is assigned a value but never used          @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "1411:9   warning  'handleMilestoneStatusUpdate' is assigned a value but never used    @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "1415:9   warning  'handleUpdateMilestoneProgress' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "7:3  warning  'ComplianceMetrics' is defined but never used           @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "723:9  warning  'handleDownloadSOP' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "9:3  warning  'Filter' is defined but never used    @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "15:3  warning  'Calendar' is defined but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "183:50  warning  'jobData' is assigned a value but never used             @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "190:11  warning  'projectTransformed' is assigned a value but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "8:60  warning  'DataEvent' is defined but never used  @typescript-eslint/no-unused-vars"
+        },
+        {
+          "type": "warning",
+          "message": "\u2716 118 problems (0 errors, 118 warnings)"
+        }
+      ],
+      "error_count": 0,
+      "warning_count": 119
+    },
+    "duplicates": {
+      "status": "pass",
+      "issues": [],
+      "issue_count": 0
+    },
+    "imports": {
+      "status": "warn",
+      "issues": [
+        {
+          "type": "unused_import",
+          "file": "src/App.tsx",
+          "import": "BrowserRouter as Router",
+          "line": "import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/App.tsx",
+          "import": "DefaultTheme",
+          "line": "import { DefaultTheme } from 'styled-components';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/App.test.tsx",
+          "import": "render",
+          "line": "import { render, screen } from '@testing-library/react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/App.test.tsx",
+          "import": "screen",
+          "line": "import { render, screen } from '@testing-library/react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/InventoryReports.tsx",
+          "import": "createReportPDF",
+          "line": "import { createReportPDF } from '../utils/UnifiedPDFGenerator';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/DynamicFormGenerator.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField, ModalStructure } from './ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/DynamicFormGenerator.tsx",
+          "import": "ModalStructure",
+          "line": "import { ModalField, ModalStructure } from './ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/InvoicePDF.tsx",
+          "import": "FFR_BRANDING",
+          "line": "import { FFR_BRANDING } from './FFRBranding';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/DataFlow/UnifiedDataDemo.tsx",
+          "import": "motion",
+          "line": "import { motion } from 'framer-motion';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/DataFlow/UnifiedDataDemo.tsx",
+          "import": "useDataFlowOrchestrator",
+          "line": "import { useDataFlowOrchestrator } from '../../hooks/useDataFlow';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/DataFlow/UnifiedDataDemo.tsx",
+          "import": "useCustomers",
+          "line": "import { useCustomers, useEmployees, useProjects } from '../../stores/centralStore';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/DataFlow/UnifiedDataDemo.tsx",
+          "import": "useEmployees",
+          "line": "import { useCustomers, useEmployees, useProjects } from '../../stores/centralStore';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/DataFlow/UnifiedDataDemo.tsx",
+          "import": "useProjects",
+          "line": "import { useCustomers, useEmployees, useProjects } from '../../stores/centralStore';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/DataFlow/UnifiedDataDemo.tsx",
+          "import": "useEventHistory",
+          "line": "import { useEventHistory } from '../../events/eventBus';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Financing/FinanceContractPayments.tsx",
+          "import": "formatCurrency",
+          "line": "import { formatCurrency } from '../../utils/currencyFormatter';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Financing/FinanceContractPayments.tsx",
+          "import": "Calendar",
+          "line": "import { Calendar, DollarSign, CreditCard, Check, AlertCircle, Clock, Plus, Eye, FileText } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Financing/FinanceContractPayments.tsx",
+          "import": "DollarSign",
+          "line": "import { Calendar, DollarSign, CreditCard, Check, AlertCircle, Clock, Plus, Eye, FileText } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Financing/FinanceContractPayments.tsx",
+          "import": "Eye",
+          "line": "import { Calendar, DollarSign, CreditCard, Check, AlertCircle, Clock, Plus, Eye, FileText } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Financing/FinanceContractPayments.tsx",
+          "import": "motion",
+          "line": "import { motion, AnimatePresence } from 'framer-motion';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Financing/FinanceContractPayments.tsx",
+          "import": "AnimatePresence",
+          "line": "import { motion, AnimatePresence } from 'framer-motion';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Financing/FinanceContractModal.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField } from '../ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Forms/FormsChecklistsPage.tsx",
+          "import": "motion",
+          "line": "import { motion, AnimatePresence } from 'framer-motion';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Forms/FFRFormTemplate.tsx",
+          "import": "FFR_BRANDING",
+          "line": "import { FFR_BRANDING } from '../FFRBranding';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Layout/Header.tsx",
+          "import": "Shield",
+          "line": "import { Menu, Bell, Search, User, Shield } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Layout/Sidebar.tsx",
+          "import": "Link",
+          "line": "import { Link, useLocation } from 'react-router-dom';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Layout/Sidebar.tsx",
+          "import": "useLocation",
+          "line": "import { Link, useLocation } from 'react-router-dom';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Layout/Sidebar.tsx",
+          "import": "motion",
+          "line": "import { motion, AnimatePresence } from 'framer-motion';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/SOP/SampleSOP.tsx",
+          "import": "FFR_BRANDING",
+          "line": "import { FFR_BRANDING } from '../FFRBranding';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/SOP/SOPViewerModal.tsx",
+          "import": "motion",
+          "line": "import { motion, AnimatePresence } from 'framer-motion';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/SOP/SOPDashboard.tsx",
+          "import": "motion",
+          "line": "import { motion } from 'framer-motion';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/CRM/CustomerDetailsModal.tsx",
+          "import": "Mail",
+          "line": "import { X, User, Mail, Phone, MapPin, Calendar, Tag, Building } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/CRM/AutoFollowUpModal.tsx",
+          "import": "Phone",
+          "line": "import { X, Calendar, Mail, Phone, MessageSquare, Clock, Target, Settings } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/CRM/AutoFollowUpModal.tsx",
+          "import": "Clock",
+          "line": "import { X, Calendar, Mail, Phone, MessageSquare, Clock, Target, Settings } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/CRM/AutoFollowUpModal.tsx",
+          "import": "Settings",
+          "line": "import { X, Calendar, Mail, Phone, MessageSquare, Clock, Target, Settings } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/CRM/SalesPipelineModal.tsx",
+          "import": "Calendar",
+          "line": "import { X, TrendingUp, Users, DollarSign, Calendar, Target, ArrowRight, Plus, Edit, Trash2, BarChart3 } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/CRM/DigitalProposalModal.tsx",
+          "import": "FileText",
+          "line": "import { X, FileText, Upload, Download, Share2, Calculator, MapPin, Calendar, DollarSign, CheckCircle, Clock, Edit3, Mail, CreditCard, Shield, AlertCircle, RefreshCw } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/CRM/DigitalProposalModal.tsx",
+          "import": "Upload",
+          "line": "import { X, FileText, Upload, Download, Share2, Calculator, MapPin, Calendar, DollarSign, CheckCircle, Clock, Edit3, Mail, CreditCard, Shield, AlertCircle, RefreshCw } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/CRM/DigitalProposalModal.tsx",
+          "import": "Calendar",
+          "line": "import { X, FileText, Upload, Download, Share2, Calculator, MapPin, Calendar, DollarSign, CheckCircle, Clock, Edit3, Mail, CreditCard, Shield, AlertCircle, RefreshCw } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/CRM/DigitalProposalModal.tsx",
+          "import": "Clock",
+          "line": "import { X, FileText, Upload, Download, Share2, Calculator, MapPin, Calendar, DollarSign, CheckCircle, Clock, Edit3, Mail, CreditCard, Shield, AlertCircle, RefreshCw } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/CRM/DigitalProposalModal.tsx",
+          "import": "formatCurrency",
+          "line": "import { formatCurrency } from '../../utils/currencyFormatter';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/CRM/AddCustomerModal.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField } from '../ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/PDF/FinanceContractPDF.tsx",
+          "import": "FFR_BRANDING",
+          "line": "import { FFR_BRANDING } from '../FFRBranding';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/PDF/FinanceContractPDF.tsx",
+          "import": "createContractPDF",
+          "line": "import { createContractPDF } from '../../utils/UnifiedPDFGenerator';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/PDF/FFRPDFGenerator.tsx",
+          "import": "FFR_BRANDING",
+          "line": "import { FFR_BRANDING } from '../FFRBranding';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/PDF/FFRPDFGenerator.tsx",
+          "import": "UnifiedPDFGenerator",
+          "line": "import { UnifiedPDFGenerator, createFFRPDF } from '../../utils/UnifiedPDFGenerator';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/PDF/FFRPDFGenerator.tsx",
+          "import": "createFFRPDF",
+          "line": "import { UnifiedPDFGenerator, createFFRPDF } from '../../utils/UnifiedPDFGenerator';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/JobCosting/AddJobModal.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField } from '../ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/JobCosting/AddJobModal.tsx",
+          "import": "useData",
+          "line": "import { useData } from '../../contexts/DataContext';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/Templates/PrintableDocument.tsx",
+          "import": "FFR_BRANDING",
+          "line": "import { FFRDocumentBranding, FFR_BRANDING } from '../FFRBranding';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/ProjectManagement/AssignCrewModal.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField } from '../ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/ProjectManagement/EditProjectModal.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField } from '../ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/ProjectManagement/AddTimelineEventModal.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField } from '../ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/ProjectManagement/AddBudgetItemModal.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField } from '../ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/ProjectManagement/CustomerReviewDashboard.tsx",
+          "import": "motion",
+          "line": "import { motion } from 'framer-motion';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/ProjectManagement/AddProjectModal.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField } from '../ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/ProjectManagement/AddEquipmentModal.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField } from '../ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/components/ProjectManagement/AddMilestoneModal.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField } from '../ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/templates/CustomizableModalTemplate.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField } from '../components/ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/CRM.tsx",
+          "import": "Lead",
+          "line": "import { Customer, Lead, Opportunity, CRMFilters } from '../types/crm';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/CRM.tsx",
+          "import": "Opportunity",
+          "line": "import { Customer, Lead, Opportunity, CRMFilters } from '../types/crm';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/CRM.tsx",
+          "import": "useData",
+          "line": "import { useData } from '../contexts/DataContext';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Reports.tsx",
+          "import": "createReportPDF",
+          "line": "import { createReportPDF } from '../utils/UnifiedPDFGenerator';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Inventory.tsx",
+          "import": "formatCurrency",
+          "line": "import { formatCurrency } from '../utils/currencyFormatter';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Inventory.tsx",
+          "import": "Shield",
+          "line": "import { Plus, Package, AlertTriangle, Search, Filter, Edit, Trash2, Eye, Download, TrendingUp, TrendingDown, BarChart3, FileText, Truck, Shield, FileCheck, Clipboard } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Inventory.tsx",
+          "import": "FileCheck",
+          "line": "import { Plus, Package, AlertTriangle, Search, Filter, Edit, Trash2, Eye, Download, TrendingUp, TrendingDown, BarChart3, FileText, Truck, Shield, FileCheck, Clipboard } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Inventory.tsx",
+          "import": "Clipboard",
+          "line": "import { Plus, Package, AlertTriangle, Search, Filter, Edit, Trash2, Eye, Download, TrendingUp, TrendingDown, BarChart3, FileText, Truck, Shield, FileCheck, Clipboard } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Inventory.tsx",
+          "import": "downloadStockReport",
+          "line": "import { downloadStockReport, downloadReorderReport, generateLowStockAlert } from '../components/InventoryReports';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Inventory.tsx",
+          "import": "downloadReorderReport",
+          "line": "import { downloadStockReport, downloadReorderReport, generateLowStockAlert } from '../components/InventoryReports';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Inventory.tsx",
+          "import": "generateLowStockAlert",
+          "line": "import { downloadStockReport, downloadReorderReport, generateLowStockAlert } from '../components/InventoryReports';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Inventory.tsx",
+          "import": "ModalField",
+          "line": "import { ModalField } from '../components/ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Inventory.tsx",
+          "import": "InventoryFormData",
+          "line": "import { InventoryItem, InventoryFormData } from '../types/inventory';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/JobCosting.tsx",
+          "import": "useData",
+          "line": "import { useData } from '../contexts/DataContext';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/JobCosting.tsx",
+          "import": "formatCurrency",
+          "line": "import { formatCurrency } from '../utils/currencyFormatter';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/ChartOfAccounts.tsx",
+          "import": "motion",
+          "line": "import { motion, AnimatePresence } from 'framer-motion';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/ChartOfAccounts.tsx",
+          "import": "useDataSync",
+          "line": "import { useDataSync } from '../hooks/useDataSync';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/ProjectManagement.tsx",
+          "import": "motion",
+          "line": "import { motion } from 'framer-motion';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/ProjectManagement.tsx",
+          "import": "useData",
+          "line": "import { useData } from '../contexts/DataContext';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/ProjectManagement.tsx",
+          "import": "formatCurrency",
+          "line": "import { formatCurrency } from '../utils/currencyFormatter';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Invoicing.tsx",
+          "import": "downloadInvoicePDF",
+          "line": "import { downloadInvoicePDF, emailInvoicePDF } from '../components/InvoicePDF';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Invoicing.tsx",
+          "import": "emailInvoicePDF",
+          "line": "import { downloadInvoicePDF, emailInvoicePDF } from '../components/InvoicePDF';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Invoicing.tsx",
+          "import": "FFR_BRANDING",
+          "line": "import { FFR_BRANDING } from '../components/FFRBranding';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Invoicing.tsx",
+          "import": "useData",
+          "line": "import { useData } from '../contexts/DataContext';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/PricingAdmin.tsx",
+          "import": "Plus",
+          "line": "import { Save, RefreshCw, DollarSign, Settings, Plus, Trash2, Edit3 } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/PricingAdmin.tsx",
+          "import": "Trash2",
+          "line": "import { Save, RefreshCw, DollarSign, Settings, Plus, Trash2, Edit3 } from 'lucide-react';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/PricingAdmin.tsx",
+          "import": "formatCurrency",
+          "line": "import { formatCurrency } from '../utils/currencyFormatter';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/Bookkeeping.tsx",
+          "import": "motion",
+          "line": "import { motion } from 'framer-motion';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/pages/HumanResources.tsx",
+          "import": "formatCurrency",
+          "line": "import { formatCurrency } from '../utils/currencyFormatter';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/services/ModalStructureService.tsx",
+          "import": "ModalField",
+          "line": "import { ModalStructure, ModalField } from '../components/ModalStructureEditor';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/services/DocumentGenerationService.tsx",
+          "import": "generateInvoicePDF",
+          "line": "import { generateInvoicePDF } from '../components/InvoicePDF';"
+        },
+        {
+          "type": "unused_import",
+          "file": "src/services/DocumentGenerationService.tsx",
+          "import": "generateFinanceContractPDF",
+          "line": "import { generateFinanceContractPDF } from '../components/PDF/FinanceContractPDF';"
+        }
+      ],
+      "issue_count": 90
+    },
+    "central_store": {
+      "status": "warn",
+      "issues": [
+        {
+          "type": "incorrect_state_usage",
+          "file": "src/components/Forms/FormsChecklistsPage.tsx",
+          "description": "Page component using useState instead of central store"
+        },
+        {
+          "type": "incorrect_state_usage",
+          "file": "src/components/CRM/AutoFollowUpModal.tsx",
+          "description": "Page component using useState instead of central store"
+        },
+        {
+          "type": "incorrect_state_usage",
+          "file": "src/components/CRM/DigitalProposalModal.tsx",
+          "description": "Page component using useState instead of central store"
+        },
+        {
+          "type": "incorrect_state_usage",
+          "file": "src/components/ProjectManagement/CustomerReviewDashboard.tsx",
+          "description": "Page component using useState instead of central store"
+        },
+        {
+          "type": "incorrect_state_usage",
+          "file": "src/pages/CRM.tsx",
+          "description": "Page component using useState instead of central store"
+        },
+        {
+          "type": "incorrect_state_usage",
+          "file": "src/pages/ProjectManagement.tsx",
+          "description": "Page component using useState instead of central store"
+        },
+        {
+          "type": "incorrect_state_usage",
+          "file": "src/pages/Invoicing.tsx",
+          "description": "Page component using useState instead of central store"
+        }
+      ],
+      "issue_count": 7
+    }
+  },
+  "summary": {
+    "total_errors": 0,
+    "total_warnings": 119,
+    "total_issues": 97
+  }
+}

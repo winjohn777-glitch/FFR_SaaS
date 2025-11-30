@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Florida First Roofing - Construction Accounting System</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-home"></i>
+                <span>Florida First Roofing</span>
+            </div>
+            <nav class="nav">
+                <button class="nav-btn" data-tab="dashboard">
+                    <i class="fas fa-chart-dashboard"></i> Dashboard
+                </button>
+                <button class="nav-btn" data-tab="customers">
+                    <i class="fas fa-users"></i> Customers
+                </button>
+                <button class="nav-btn" data-tab="projects">
+                    <i class="fas fa-hammer"></i> Projects
+                </button>
+                <button class="nav-btn" data-tab="sop">
+                    <i class="fas fa-list-check"></i> SOPs
+                </button>
+                <button class="nav-btn" data-tab="analytics">
+                    <i class="fas fa-chart-line"></i> Analytics
+                </button>
+            </nav>
+            <div class="user-info">
+                <span id="user-name">Admin User</span>
+                <button id="logout-btn" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Login Screen -->
+        <div id="login-section" class="section active">
+            <div class="login-container">
+                <div class="login-form">
+                    <h1><i class="fas fa-home"></i> Florida First Roofing</h1>
+                    <h2>Construction Accounting System</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" value="admin@floridafirstroofing.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" id="password" name="password" value="admin123" required>
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </form>
+                    <div id="login-error" class="error-message"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard-section" class="section">
+            <div class="dashboard-header">
+                <h1><i class="fas fa-chart-dashboard"></i> Dashboard</h1>
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <h3 id="total-customers">0</h3>
+                            <p>Total Customers</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-hammer"></i>
+                        <div>
+                            <h3 id="active-projects">0</h3>
+                            <p>Active Projects</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-list-check"></i>
+                        <div>
+                            <h3 id="active-workflows">0</h3>
+                            <p>Active SOPs</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-bell"></i>
+                        <div>
+                            <h3 id="notifications-count">0</h3>
+                            <p>Notifications</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dashboard-content">
+                <div class="dashboard-grid">
+                    <div class="dashboard-widget">
+                        <h3>Recent Activities</h3>
+                        <div id="recent-activities" class="activities-list"></div>
+                    </div>
+                    <div class="dashboard-widget">
+                        <h3>Project Status</h3>
+                        <canvas id="project-chart" width="300" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customers Section -->
+        <div id="customers-section" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-users"></i> Customer Management</h1>
+                <button id="add-customer-btn" class="btn-primary">
+                    <i class="fas fa-plus"></i> Add Customer
+                </button>
+            </div>
+            <div class="customers-content">
+                <div class="search-bar">
+                    <input type="text" id="customer-search" placeholder="Search customers...">
+                    <button class="btn-search"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="customers-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Customer #</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>County</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customers-list"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add/Edit Customer Modal -->
+        <div id="customer-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-user-plus"></i> Add New Customer</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <form id="customer-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customer-first-name">First Name:</label>
+                            <input type="text" id="customer-first-name" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-last-name">Last Name:</label>
+                            <input type="text" id="customer-last-name" name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customer-email">Email:</label>
+                            <input type="email" id="customer-email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-phone">Phone:</label>
+                            <input type="tel" id="customer-phone" name="phone" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customer-address">Address:</label>
+                            <input type="text" id="customer-address" name="address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-city">City:</label>
+                            <input type="text" id="customer-city" name="city" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customer-county">County:</label>
+                            <select id="customer-county" name="county" required>
+                                <option value="">Select County</option>
+                                <option value="Orange">Orange</option>
+                                <option value="Brevard">Brevard</option>
+                                <option value="Volusia">Volusia</option>
+                                <option value="Seminole">Seminole</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-zip">ZIP Code:</label>
+                            <input type="text" id="customer-zip" name="zipCode" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="customer-type">Customer Type:</label>
+                            <select id="customer-type" name="customerType" required>
+                                <option value="residential">Residential</option>
+                                <option value="commercial">Commercial</option>
+                                <option value="insurance">Insurance</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="customer-source">Lead Source:</label>
+                            <select id="customer-source" name="leadSource" required>
+                                <option value="website">Website</option>
+                                <option value="referral">Referral</option>
+                                <option value="advertising">Advertising</option>
+                                <option value="direct">Direct</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary modal-close">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i> Save Customer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <div id="projects-section" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-hammer"></i> Project Management</h1>
+                <button id="add-project-btn" class="btn-primary">
+                    <i class="fas fa-plus"></i> Add Project
+                </button>
+            </div>
+            <div class="projects-content">
+                <div class="projects-filters">
+                    <select id="project-status-filter">
+                        <option value="">All Statuses</option>
+                        <option value="estimation">Estimation</option>
+                        <option value="active">Active</option>
+                        <option value="completed">Completed</option>
+                        <option value="on-hold">On Hold</option>
+                    </select>
+                    <select id="project-type-filter">
+                        <option value="">All Types</option>
+                        <option value="roof-replacement">Roof Replacement</option>
+                        <option value="roof-repair">Roof Repair</option>
+                        <option value="commercial">Commercial</option>
+                        <option value="maintenance">Maintenance</option>
+                    </select>
+                </div>
+                <div class="projects-grid" id="projects-list"></div>
+            </div>
+        </div>
+
+        <!-- SOP Section -->
+        <div id="sop-section" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-list-check"></i> Standard Operating Procedures <span id="sop-count" class="count-badge">248</span></h1>
+                <div class="header-actions">
+                    <button id="trigger-sop-btn" class="btn-primary">
+                        <i class="fas fa-play"></i> Trigger SOP
+                    </button>
+                    <button id="add-sop-btn" class="btn-secondary">
+                        <i class="fas fa-plus"></i> Add SOP
+                    </button>
+                </div>
+            </div>
+
+            <!-- SOP Dashboard -->
+            <div class="sop-dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-file-alt"></i>
+                        <div>
+                            <h3 id="total-sops">248</h3>
+                            <p>Total SOPs</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-check-circle"></i>
+                        <div>
+                            <h3 id="active-sops">248</h3>
+                            <p>Active SOPs</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-flag-usa"></i>
+                        <div>
+                            <h3 id="florida-sops">248</h3>
+                            <p>Florida-Specific</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-hurricane"></i>
+                        <div>
+                            <h3 id="hurricane-sops">193</h3>
+                            <p>Hurricane-Related</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-hard-hat"></i>
+                        <div>
+                            <h3 id="osha-sops">242</h3>
+                            <p>OSHA-Related</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SOP Search and Filter -->
+            <div class="sop-controls">
+                <div class="search-controls">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="sop-search" placeholder="Search SOPs by number, title, or content...">
+                    </div>
+                    <select id="category-filter" class="filter-select">
+                        <option value="">All Categories</option>
+                        <option value="0000">System Management (97)</option>
+                        <option value="1000">Safety & OSHA (30)</option>
+                        <option value="2000">Field Operations (30)</option>
+                        <option value="3000">Quality Control (9)</option>
+                        <option value="4000">Customer Service (8)</option>
+                        <option value="5000">Administrative (12)</option>
+                        <option value="6000">Emergency Response (16)</option>
+                        <option value="7000">Training (6)</option>
+                        <option value="8000">Regulatory Compliance (27)</option>
+                        <option value="9000">Innovation (13)</option>
+                    </select>
+                    <select id="status-filter" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="draft">Draft</option>
+                        <option value="under_review">Under Review</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                    <select id="priority-filter" class="filter-select">
+                        <option value="">All Priorities</option>
+                        <option value="critical">Critical</option>
+                        <option value="high">High</option>
+                        <option value="standard">Standard</option>
+                        <option value="low">Low</option>
+                    </select>
+                </div>
+                <div class="view-controls">
+                    <button id="grid-view" class="view-btn active">
+                        <i class="fas fa-th"></i> Grid
+                    </button>
+                    <button id="list-view" class="view-btn">
+                        <i class="fas fa-list"></i> List
+                    </button>
+                    <button id="category-view" class="view-btn">
+                        <i class="fas fa-folder"></i> Categories
+                    </button>
+                </div>
+            </div>
+
+            <!-- SOP Content Area -->
+            <div class="sop-content">
+                <!-- Category View -->
+                <div id="categories-view" class="sop-view active">
+                    <div class="sop-categories">
+                        <div class="sop-category" data-category="0000">
+                            <div class="category-icon">
+                                <i class="fas fa-cogs" style="color: #6B73FF;"></i>
+                            </div>
+                            <h3>System Management</h3>
+                            <p>Framework, templates, and system administration procedures</p>
+                            <div class="category-stats">
+                                <span class="sop-count">97 SOPs</span>
+                                <span class="compliance-badges">
+                                    <span class="badge florida">FL</span>
+                                    <span class="badge hurricane">Hurricane</span>
+                                    <span class="badge osha">OSHA</span>
+                                </span>
+                            </div>
+                            <button class="btn-view-sops" data-category="0000">View SOPs</button>
+                        </div>
+
+                        <div class="sop-category" data-category="1000">
+                            <div class="category-icon">
+                                <i class="fas fa-hard-hat" style="color: #FF6B6B;"></i>
+                            </div>
+                            <h3>Safety & OSHA</h3>
+                            <p>Safety procedures and OSHA compliance requirements</p>
+                            <div class="category-stats">
+                                <span class="sop-count">30 SOPs</span>
+                                <span class="compliance-badges">
+                                    <span class="badge florida">FL</span>
+                                    <span class="badge hurricane">Hurricane</span>
+                                    <span class="badge osha">OSHA</span>
+                                </span>
+                            </div>
+                            <button class="btn-view-sops" data-category="1000">View SOPs</button>
+                        </div>
+
+                        <div class="sop-category" data-category="2000">
+                            <div class="category-icon">
+                                <i class="fas fa-hammer" style="color: #4ECDC4;"></i>
+                            </div>
+                            <h3>Field Operations</h3>
+                            <p>Field operations and installation standards</p>
+                            <div class="category-stats">
+                                <span class="sop-count">30 SOPs</span>
+                                <span class="compliance-badges">
+                                    <span class="badge florida">FL</span>
+                                    <span class="badge hurricane">Hurricane</span>
+                                    <span class="badge osha">OSHA</span>
+                                </span>
+                            </div>
+                            <button class="btn-view-sops" data-category="2000">View SOPs</button>
+                        </div>
+
+                        <div class="sop-category" data-category="3000">
+                            <div class="category-icon">
+                                <i class="fas fa-award" style="color: #45B7D1;"></i>
+                            </div>
+                            <h3>Quality Control</h3>
+                            <p>Quality assurance and control procedures</p>
+                            <div class="category-stats">
+                                <span class="sop-count">9 SOPs</span>
+                                <span class="compliance-badges">
+                                    <span class="badge florida">FL</span>
+                                    <span class="badge hurricane">Hurricane</span>
+                                    <span class="badge osha">OSHA</span>
+                                </span>
+                            </div>
+                            <button class="btn-view-sops" data-category="3000">View SOPs</button>
+                        </div>
+
+                        <div class="sop-category" data-category="4000">
+                            <div class="category-icon">
+                                <i class="fas fa-headset" style="color: #F39C12;"></i>
+                            </div>
+                            <h3>Customer Service</h3>
+                            <p>Customer service and communication excellence</p>
+                            <div class="category-stats">
+                                <span class="sop-count">8 SOPs</span>
+                                <span class="compliance-badges">
+                                    <span class="badge florida">FL</span>
+                                    <span class="badge hurricane">Hurricane</span>
+                                    <span class="badge osha">OSHA</span>
+                                </span>
+                            </div>
+                            <button class="btn-view-sops" data-category="4000">View SOPs</button>
+                        </div>
+
+                        <div class="sop-category" data-category="5000">
+                            <div class="category-icon">
+                                <i class="fas fa-file-invoice" style="color: #96CEB4;"></i>
+                            </div>
+                            <h3>Administrative</h3>
+                            <p>Administrative procedures and documentation</p>
+                            <div class="category-stats">
+                                <span class="sop-count">12 SOPs</span>
+                                <span class="compliance-badges">
+                                    <span class="badge florida">FL</span>
+                                    <span class="badge hurricane">Hurricane</span>
+                                    <span class="badge osha">OSHA</span>
+                                </span>
+                            </div>
+                            <button class="btn-view-sops" data-category="5000">View SOPs</button>
+                        </div>
+
+                        <div class="sop-category" data-category="6000">
+                            <div class="category-icon">
+                                <i class="fas fa-exclamation-triangle" style="color: #E74C3C;"></i>
+                            </div>
+                            <h3>Emergency Response</h3>
+                            <p>Emergency procedures and crisis management</p>
+                            <div class="category-stats">
+                                <span class="sop-count">16 SOPs</span>
+                                <span class="compliance-badges">
+                                    <span class="badge florida">FL</span>
+                                    <span class="badge hurricane">Hurricane</span>
+                                    <span class="badge osha">OSHA</span>
+                                </span>
+                            </div>
+                            <button class="btn-view-sops" data-category="6000">View SOPs</button>
+                        </div>
+
+                        <div class="sop-category" data-category="7000">
+                            <div class="category-icon">
+                                <i class="fas fa-graduation-cap" style="color: #9B59B6;"></i>
+                            </div>
+                            <h3>Training</h3>
+                            <p>Training and certification procedures</p>
+                            <div class="category-stats">
+                                <span class="sop-count">6 SOPs</span>
+                                <span class="compliance-badges">
+                                    <span class="badge florida">FL</span>
+                                    <span class="badge hurricane">Hurricane</span>
+                                    <span class="badge osha">OSHA</span>
+                                </span>
+                            </div>
+                            <button class="btn-view-sops" data-category="7000">View SOPs</button>
+                        </div>
+
+                        <div class="sop-category" data-category="8000">
+                            <div class="category-icon">
+                                <i class="fas fa-balance-scale" style="color: #34495E;"></i>
+                            </div>
+                            <h3>Regulatory Compliance</h3>
+                            <p>Regulatory compliance and legal requirements</p>
+                            <div class="category-stats">
+                                <span class="sop-count">27 SOPs</span>
+                                <span class="compliance-badges">
+                                    <span class="badge florida">FL</span>
+                                    <span class="badge hurricane">Hurricane</span>
+                                    <span class="badge osha">OSHA</span>
+                                </span>
+                            </div>
+                            <button class="btn-view-sops" data-category="8000">View SOPs</button>
+                        </div>
+
+                        <div class="sop-category" data-category="9000">
+                            <div class="category-icon">
+                                <i class="fas fa-lightbulb" style="color: #F1C40F;"></i>
+                            </div>
+                            <h3>Innovation</h3>
+                            <p>Innovation and technology implementation</p>
+                            <div class="category-stats">
+                                <span class="sop-count">13 SOPs</span>
+                                <span class="compliance-badges">
+                                    <span class="badge florida">FL</span>
+                                    <span class="badge hurricane">Hurricane</span>
+                                    <span class="badge osha">OSHA</span>
+                                </span>
+                            </div>
+                            <button class="btn-view-sops" data-category="9000">View SOPs</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grid View -->
+                <div id="grid-view-content" class="sop-view">
+                    <div id="sop-grid" class="sop-grid"></div>
+                    <div class="pagination-controls">
+                        <button id="prev-page" class="btn-secondary">Previous</button>
+                        <span id="page-info">Page 1 of 10</span>
+                        <button id="next-page" class="btn-secondary">Next</button>
+                    </div>
+                </div>
+
+                <!-- List View -->
+                <div id="list-view-content" class="sop-view">
+                    <div class="sop-table-container">
+                        <table class="sop-table">
+                            <thead>
+                                <tr>
+                                    <th>SOP Number</th>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Priority</th>
+                                    <th>Compliance</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sop-table-body">
+                                <!-- SOPs will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-controls">
+                        <button id="prev-page-list" class="btn-secondary">Previous</button>
+                        <span id="page-info-list">Page 1 of 10</span>
+                        <button id="next-page-list" class="btn-secondary">Next</button>
+                    </div>
+                </div>
+
+                <!-- Active Workflows -->
+                <div class="active-workflows">
+                    <h3>Active SOP Workflows</h3>
+                    <div id="workflows-list" class="workflows-container"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOP Trigger Modal -->
+        <div id="sop-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><i class="fas fa-play"></i> Trigger SOP Workflow</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <form id="sop-form">
+                    <div class="form-group">
+                        <label for="sop-select">Select SOP:</label>
+                        <select id="sop-select" name="sopId" required>
+                            <option value="">Choose SOP...</option>
+                            <option value="SOP-1001">SOP-1001: Pre-Job Safety Inspection</option>
+                            <option value="SOP-2001">SOP-2001: Roof Inspection and Assessment</option>
+                            <option value="SOP-4001">SOP-4001: Customer Lead Response</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sop-urgency">Urgency:</label>
+                        <select id="sop-urgency" name="urgency" required>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                            <option value="emergency">Emergency</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sop-service-type">Service Type:</label>
+                        <select id="sop-service-type" name="serviceType" required>
+                            <option value="roof-replacement">Roof Replacement</option>
+                            <option value="roof-repair">Roof Repair</option>
+                            <option value="commercial">Commercial</option>
+                            <option value="maintenance">Maintenance</option>
+                            <option value="emergency">Emergency</option>
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary modal-close">Cancel</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-play"></i> Trigger Workflow
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Analytics Section -->
+        <div id="analytics-section" class="section">
+            <div class="section-header">
+                <h1><i class="fas fa-chart-line"></i> Analytics & Reporting</h1>
+                <button id="refresh-analytics-btn" class="btn-primary">
+                    <i class="fas fa-refresh"></i> Refresh Data
+                </button>
+            </div>
+            <div class="analytics-content">
+                <div class="analytics-grid">
+                    <div class="analytics-widget">
+                        <h3>Lead Conversion Trends</h3>
+                        <canvas id="lead-trends-chart" width="400" height="200"></canvas>
+                    </div>
+                    <div class="analytics-widget">
+                        <h3>SOP Performance</h3>
+                        <div id="sop-performance" class="performance-list"></div>
+                    </div>
+                    <div class="analytics-widget">
+                        <h3>Team Assignment Analytics</h3>
+                        <div id="team-analytics" class="team-stats"></div>
+                    </div>
+                    <div class="analytics-widget">
+                        <h3>System Performance</h3>
+                        <div id="system-metrics" class="metrics-grid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- JavaScript -->
+    <script src="../js/main.js"></script>
+
+    <!-- SOP Management JavaScript -->
+    <script>
+        // SOP Management System JavaScript
+        let currentSOPs = [];
+        let filteredSOPs = [];
+        let currentView = 'grid';
+        let currentPage = 1;
+        const itemsPerPage = 12;
+
+        // Initialize SOP Management
+        async function initSOPManagement() {
+            try {
+                await loadSOPs();
+                setupEventListeners();
+                renderSOPs();
+            } catch (error) {
+                console.error('Failed to initialize SOP management:', error);
+                showError('Failed to load SOPs. Please check the server connection.');
+            }
+        }
+
+        // Load SOPs from API
+        async function loadSOPs() {
+            const response = await fetch('/api/sop/procedures');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            currentSOPs = await response.json();
+            filteredSOPs = [...currentSOPs];
+            updateStats();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search functionality
+            const searchInput = document.getElementById('sopSearch');
+            if (searchInput) {
+                searchInput.addEventListener('input', handleSearch);
+            }
+
+            // Filter functionality
+            const categoryFilter = document.getElementById('sopCategoryFilter');
+            const complianceFilter = document.getElementById('sopComplianceFilter');
+            if (categoryFilter) categoryFilter.addEventListener('change', handleFilter);
+            if (complianceFilter) complianceFilter.addEventListener('change', handleFilter);
+
+            // View mode toggle
+            document.querySelectorAll('.view-mode-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => switchView(e.target.dataset.view));
+            });
+
+            // Pagination
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+            if (prevBtn) prevBtn.addEventListener('click', () => changePage(-1));
+            if (nextBtn) nextBtn.addEventListener('click', () => changePage(1));
+        }
+
+        // Handle search
+        function handleSearch(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            applyFilters();
+        }
+
+        // Handle filters
+        function handleFilter() {
+            applyFilters();
+        }
+
+        // Apply all filters
+        function applyFilters() {
+            const searchInput = document.getElementById('sopSearch');
+            const categoryFilter = document.getElementById('sopCategoryFilter');
+            const complianceFilter = document.getElementById('sopComplianceFilter');
+
+            const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+            const categoryFilter_value = categoryFilter ? categoryFilter.value : '';
+            const complianceFilter_value = complianceFilter ? complianceFilter.value : '';
+
+            filteredSOPs = currentSOPs.filter(sop => {
+                const matchesSearch = !searchTerm ||
+                    sop.title.toLowerCase().includes(searchTerm) ||
+                    (sop.purpose && sop.purpose.toLowerCase().includes(searchTerm));
+
+                const matchesCategory = !categoryFilter_value || sop.category_id == categoryFilter_value;
+
+                const matchesCompliance = !complianceFilter_value ||
+                    (complianceFilter_value === 'hvhz' && sop.hvhz_applicable) ||
+                    (complianceFilter_value === 'hurricane' && sop.hurricane_related) ||
+                    (complianceFilter_value === 'osha' && sop.osha_related);
+
+                return matchesSearch && matchesCategory && matchesCompliance;
+            });
+
+            currentPage = 1;
+            renderSOPs();
+            updatePagination();
+        }
+
+        // Switch view mode
+        function switchView(view) {
+            currentView = view;
+            document.querySelectorAll('.view-mode-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.querySelector(`[data-view="${view}"]`);
+            if (activeBtn) activeBtn.classList.add('active');
+            renderSOPs();
+        }
+
+        // Change page
+        function changePage(direction) {
+            const totalPages = Math.ceil(filteredSOPs.length / itemsPerPage);
+            const newPage = currentPage + direction;
+
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentPage = newPage;
+                renderSOPs();
+                updatePagination();
+            }
+        }
+
+        // Render SOPs based on current view
+        function renderSOPs() {
+            const container = document.getElementById('sopGrid');
+            if (!container) return;
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageSOPs = filteredSOPs.slice(startIndex, endIndex);
+
+            if (currentView === 'grid') {
+                renderGridView(container, pageSOPs);
+            } else if (currentView === 'list') {
+                renderListView(container, pageSOPs);
+            } else if (currentView === 'categories') {
+                renderCategoryView(container);
+            }
+        }
+
+        // Render grid view
+        function renderGridView(container, sops) {
+            container.className = 'sop-grid';
+            container.innerHTML = sops.map(sop => `
+                <div class="sop-card">
+                    <div class="sop-card-header">
+                        <div class="sop-id">SOP-${sop.id.toString().padStart(4, '0')}</div>
+                        <div class="compliance-badges">
+                            ${sop.hvhz_applicable ? '<span class="badge hvhz">HVHZ</span>' : ''}
+                            ${sop.hurricane_related ? '<span class="badge hurricane">Hurricane</span>' : ''}
+                            ${sop.osha_related ? '<span class="badge osha">OSHA</span>' : ''}
+                        </div>
+                    </div>
+                    <h3 class="sop-title">${sop.title}</h3>
+                    <p class="sop-purpose">${(sop.purpose || '').substring(0, 100)}${(sop.purpose || '').length > 100 ? '...' : ''}</p>
+                    <div class="sop-footer">
+                        <span class="version">v${sop.version || '1.0'}</span>
+                        <button class="btn-view" onclick="viewSOP(${sop.id})">View Details</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render list view
+        function renderListView(container, sops) {
+            container.className = 'sop-list';
+            container.innerHTML = sops.map(sop => `
+                <div class="sop-list-item">
+                    <div class="sop-info">
+                        <div class="sop-header-list">
+                            <span class="sop-id">SOP-${sop.id.toString().padStart(4, '0')}</span>
+                            <h3 class="sop-title">${sop.title}</h3>
+                            <div class="compliance-badges">
+                                ${sop.hvhz_applicable ? '<span class="badge hvhz">HVHZ</span>' : ''}
+                                ${sop.hurricane_related ? '<span class="badge hurricane">Hurricane</span>' : ''}
+                                ${sop.osha_related ? '<span class="badge osha">OSHA</span>' : ''}
+                            </div>
+                        </div>
+                        <p class="sop-purpose">${sop.purpose || ''}</p>
+                    </div>
+                    <div class="sop-actions">
+                        <span class="version">v${sop.version || '1.0'}</span>
+                        <button class="btn-view" onclick="viewSOP(${sop.id})">View Details</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render category view
+        function renderCategoryView(container) {
+            const categories = getCategoryStats();
+            container.className = 'category-grid';
+            container.innerHTML = categories.map(cat => `
+                <div class="category-card" onclick="filterByCategory(${cat.id})">
+                    <div class="category-icon">${cat.icon}</div>
+                    <h3 class="category-title">${cat.name}</h3>
+                    <div class="category-count">${cat.count} SOPs</div>
+                    <div class="category-description">${cat.description}</div>
+                </div>
+            `).join('');
+        }
+
+        // Get category statistics
+        function getCategoryStats() {
+            const categories = [
+                {id: 1000, name: 'General Procedures', icon: '📋', description: 'Basic operational procedures'},
+                {id: 2000, name: 'Safety & Health', icon: '🦺', description: 'OSHA and safety protocols'},
+                {id: 3000, name: 'Roof Installation', icon: '🏠', description: 'Installation procedures'},
+                {id: 4000, name: 'Roof Repair', icon: '🔧', description: 'Repair and maintenance'},
+                {id: 5000, name: 'Emergency Response', icon: '🚨', description: 'Emergency procedures'},
+                {id: 6000, name: 'Quality Control', icon: '✅', description: 'QC and inspection'},
+                {id: 7000, name: 'Customer Service', icon: '👥', description: 'Customer interaction'},
+                {id: 8000, name: 'Administrative', icon: '📊', description: 'Admin and documentation'},
+                {id: 9000, name: 'Compliance', icon: '⚖️', description: 'Regulatory compliance'}
+            ];
+
+            return categories.map(cat => ({
+                ...cat,
+                count: currentSOPs.filter(sop => Math.floor(sop.id / 100) * 100 === cat.id).length
+            }));
+        }
+
+        // Filter by category
+        function filterByCategory(categoryId) {
+            const categoryFilter = document.getElementById('sopCategoryFilter');
+            if (categoryFilter) {
+                categoryFilter.value = categoryId;
+            }
+            switchView('grid');
+            applyFilters();
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalElement = document.getElementById('totalSOPs');
+            const hurricaneElement = document.getElementById('hurricaneSOPs');
+            const oshaElement = document.getElementById('oshaSOPs');
+
+            if (totalElement) totalElement.textContent = currentSOPs.length;
+            if (hurricaneElement) hurricaneElement.textContent = currentSOPs.filter(s => s.hurricane_related).length;
+            if (oshaElement) oshaElement.textContent = currentSOPs.filter(s => s.osha_related).length;
+        }
+
+        // Update pagination
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredSOPs.length / itemsPerPage);
+            const currentPageElement = document.getElementById('currentPage');
+            const totalPagesElement = document.getElementById('totalPages');
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+
+            if (currentPageElement) currentPageElement.textContent = currentPage;
+            if (totalPagesElement) totalPagesElement.textContent = totalPages;
+
+            if (prevBtn) prevBtn.disabled = currentPage === 1;
+            if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+        }
+
+        // View SOP details
+        function viewSOP(sopId) {
+            // Implementation for viewing SOP details
+            alert(`Viewing SOP details for ID: ${sopId}`);
+        }
+
+        // Show error message
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.textContent = message;
+            document.body.appendChild(errorDiv);
+
+            setTimeout(() => {
+                if (document.body.contains(errorDiv)) {
+                    document.body.removeChild(errorDiv);
+                }
+            }, 5000);
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initSOPManagement);
+    </script>
+
+    <!-- SOP Management Styles -->
+    <style>
+        /* SOP Management Styles */
+        .sop-section {
+            padding: 2rem;
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        .sop-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .sop-header h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .sop-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .sop-controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-group select {
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            background: white;
+        }
+
+        .view-modes {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .view-mode-btn {
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-mode-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .sop-content {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 2rem;
+        }
+
+        /* Grid View */
+        .sop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .sop-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .sop-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .sop-id {
+            background: #f0f0f0;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .compliance-badges {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.hvhz { background: #ff6b6b; color: white; }
+        .badge.hurricane { background: #4ecdc4; color: white; }
+        .badge.osha { background: #45b7d1; color: white; }
+
+        .sop-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin: 0 0 0.75rem 0;
+            color: #333;
+        }
+
+        .sop-purpose {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .sop-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .version {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        .btn-view {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-view:hover {
+            background: #5a6fd8;
+        }
+
+        /* List View */
+        .sop-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .sop-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .sop-list-item:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .sop-info {
+            flex: 1;
+        }
+
+        .sop-header-list {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .sop-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Category View */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+            color: #333;
+        }
+
+        .category-count {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-description {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e0e0e0;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #f0f0f0;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-info {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Error Message */
+        .error-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ff6b6b;
+            color: white;
+            padding: 1rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sop-section {
+                padding: 1rem;
+            }
+
+            .controls-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: unset;
+            }
+
+            .filter-group {
+                justify-content: center;
+            }
+
+            .view-modes {
+                justify-content: center;
+            }
+
+            .sop-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sop-list-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .sop-actions {
+                align-self: stretch;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "J001",
+    "jobCode": "RE-2024-001",
+    "name": "GAF HDZ Shingle Installation",
+    "customer": "David Johnson",
+    "projectType": "Re-roof",
+    "type": "Re-roof",
+    "status": "pending",
+    "startDate": "2025-10-18",
+    "estimatedValue": 24000,
+    "actualCosts": 0,
+    "laborCosts": 7000,
+    "materialCosts": 4000,
+    "equipmentCosts": 800,
+    "profitMargin": 50.8,
+    "progress": 0,
+    "description": "32 squares of GAF HDZ shingles installation. Contract: $7.5/sq ft, Internal costs: $3.5/sq ft, Total: 3200 sq ft. Location: 3812 coopers corner, abc, FL 33777"
+  }
+]
