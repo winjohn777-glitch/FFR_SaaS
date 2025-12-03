@@ -55,14 +55,8 @@ class PricingService {
   }
 
   private loadConfiguration(): PricingConfig {
-    try {
-      const savedConfig = localStorage.getItem('pricingConfig');
-      if (savedConfig) {
-        return JSON.parse(savedConfig);
-      }
-    } catch (error) {
-      console.error('Failed to load saved pricing configuration:', error);
-    }
+    // TODO: Replace with API call to fetch pricing configuration from database
+    // For now, use default configuration from JSON file
     return pricingConfigData;
   }
 
@@ -178,15 +172,14 @@ class PricingService {
 
   public updateConfiguration(newConfig: PricingConfig): void {
     this.config = newConfig;
-    localStorage.setItem('pricingConfig', JSON.stringify({
-      ...newConfig,
-      lastUpdated: new Date().toISOString()
-    }));
+    // TODO: Replace with API call to save pricing configuration to database
+    console.log('Pricing configuration updated. Database persistence not yet implemented.');
   }
 
   public resetToDefaults(): void {
     this.config = pricingConfigData;
-    localStorage.removeItem('pricingConfig');
+    // TODO: Replace with API call to reset pricing configuration in database
+    console.log('Pricing configuration reset to defaults. Database persistence not yet implemented.');
   }
 }
 

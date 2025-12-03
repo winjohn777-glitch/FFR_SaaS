@@ -4,9 +4,9 @@
  */
 
 import { create } from 'zustand';
-import { persist, createJSONStorage } from 'zustand/middleware';
 import { UnifiedCustomer, UnifiedEmployee, UnifiedProject, DataEvent } from '../types/unified';
 import { eventBus } from '../events/eventBus';
+import apiClient from '../services/ApiClient';
 
 interface CentralState {
   // Data Collections
@@ -29,7 +29,7 @@ interface CentralState {
   };
 
   // Customer Actions
-  addCustomer: (customer: UnifiedCustomer) => void;
+  addCustomer: (customer: UnifiedCustomer) => Promise<void>;
   updateCustomer: (id: string, updates: Partial<UnifiedCustomer>) => void;
   deleteCustomer: (id: string) => void;
   getCustomer: (id: string) => UnifiedCustomer | undefined;
@@ -71,9 +71,7 @@ interface CentralState {
   setError: (entity: keyof CentralState['errors'], error: string | null) => void;
 }
 
-export const useCentralStore = create<CentralState>()(
-  persist(
-    (set, get) => ({
+export const useCentralStore = create<CentralState>()((set, get) => ({
       // Initial State
       customers: [],
       employees: [],
@@ -92,13 +90,21 @@ export const useCentralStore = create<CentralState>()(
       },
 
       // Customer Actions
-      addCustomer: (customer) => {
-        set((state) => ({
-          customers: [...state.customers, customer],
-        }));
+      addCustomer: async (customer) => {
+        try {
+          const response = await apiClient.post('/api/customers', customer);
+          if (response.data) {
+            set((state) => ({
+              customers: [...state.customers, response.data],
+            }));
 
-        // Emit event for cross-module synchronization
-        eventBus.emit('customer:created', customer);
+            // Emit event for cross-module synchronization
+            eventBus.emit('customer:created', response.data);
+          }
+        } catch (error) {
+          console.error('Error adding customer to database:', error);
+          get().setError('customers', 'Failed to add customer to database');
+        }
       },
 
       updateCustomer: (id, updates) => {
@@ -449,13 +455,39 @@ export const useCentralStore = create<CentralState>()(
         get().setLoading('projects', true);
 
         try {
-          // Here you would implement actual API calls to load data
-          // For now, we'll just clear errors
+          // Load customers from database
+          const customersResponse = await apiClient.get('/api/customers');
+          if (customersResponse.data) {
+            set((state) => ({
+              customers: customersResponse.data,
+            }));
+          }
+
+          // Load employees from database
+          const employeesResponse = await apiClient.get('/api/employees');
+          if (employeesResponse.data) {
+            set((state) => ({
+              employees: employeesResponse.data,
+            }));
+          }
+
+          // Load jobs/projects from database
+          const jobsResponse = await apiClient.get('/api/jobs');
+          if (jobsResponse.data) {
+            set((state) => ({
+              projects: jobsResponse.data,
+            }));
+          }
+
+          // Clear errors
           get().setError('customers', null);
           get().setError('employees', null);
           get().setError('projects', null);
         } catch (error) {
-          console.error('Failed to load initial data:', error);
+          console.error('Failed to load initial data from database:', error);
+          get().setError('customers', 'Failed to load customer data');
+          get().setError('employees', 'Failed to load employee data');
+          get().setError('projects', 'Failed to load project data');
         } finally {
           get().setLoading('customers', false);
           get().setLoading('employees', false);
@@ -494,18 +526,7 @@ export const useCentralStore = create<CentralState>()(
           },
         }));
       },
-    }),
-    {
-      name: 'florida-first-roofing-central-store',
-      storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({
-        customers: state.customers,
-        employees: state.employees,
-        projects: state.projects,
-      }),
-    }
-  )
-);
+    }));
 
 // Export selectors for common use cases
 export const useCustomers = () => useCentralStore((state) => state.customers);
