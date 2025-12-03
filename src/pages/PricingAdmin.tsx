@@ -239,22 +239,20 @@ const PricingAdmin: React.FC = () => {
   const savePricingConfig = async () => {
     setIsLoading(true);
     try {
-      // Save to localStorage for persistence
+      // Configuration saved to component state (removed localStorage dependency)
       const updatedConfig = {
         ...config,
         lastUpdated: new Date().toISOString()
       };
-
-      localStorage.setItem('pricingConfig', JSON.stringify(updatedConfig));
 
       // Dispatch custom event to notify other components
       window.dispatchEvent(new CustomEvent('pricingConfigUpdated', {
         detail: updatedConfig
       }));
 
-      showMessage('success', 'Pricing configuration saved successfully!');
+      showMessage('success', 'Pricing configuration updated for this session!');
     } catch (error) {
-      showMessage('error', 'Failed to save pricing configuration.');
+      showMessage('error', 'Failed to update pricing configuration.');
     } finally {
       setIsLoading(false);
     }
@@ -262,7 +260,6 @@ const PricingAdmin: React.FC = () => {
 
   const resetToDefaults = () => {
     setConfig(pricingConfigData);
-    localStorage.removeItem('pricingConfig');
 
     // Dispatch custom event to notify other components
     window.dispatchEvent(new CustomEvent('pricingConfigUpdated', {
@@ -329,16 +326,11 @@ const PricingAdmin: React.FC = () => {
     }));
   };
 
-  // Load saved config on mount
+  // Initialize with default configuration (removed localStorage dependency)
   useEffect(() => {
-    const savedConfig = localStorage.getItem('pricingConfig');
-    if (savedConfig) {
-      try {
-        setConfig(JSON.parse(savedConfig));
-      } catch (error) {
-        console.error('Failed to load saved pricing config:', error);
-      }
-    }
+    // Pricing configuration now uses default values from JSON file
+    // To persist changes across sessions, integrate with backend API
+    console.log('Pricing configuration initialized with default values');
   }, []);
 
   return (

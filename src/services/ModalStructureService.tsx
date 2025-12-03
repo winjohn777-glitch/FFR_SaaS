@@ -11,8 +11,14 @@ export interface FieldMapping {
 
 class ModalStructureService {
   private static instance: ModalStructureService;
+  private inMemoryStructures: Record<string, ModalStructure> = {};
+  private changeListeners: ((modalId: string, structure: ModalStructure) => void)[] = [];
 
-  private constructor() {}
+  private constructor() {
+    // Initialize with default structures (removed localStorage migration)
+    this.inMemoryStructures = this.getDefaultStructures();
+    console.log('🏁 ModalStructureService initialized with default structures');
+  }
 
   static getInstance(): ModalStructureService {
     if (!ModalStructureService.instance) {
@@ -21,31 +27,69 @@ class ModalStructureService {
     return ModalStructureService.instance;
   }
 
-  // Load modal structure from localStorage
+  // Get modal structure from in-memory storage
   getModalStructure(modalId: string): ModalStructure | null {
-    try {
-      const savedStructures = localStorage.getItem('modalStructures');
-      if (savedStructures) {
-        const structures = JSON.parse(savedStructures);
-        return structures[modalId] || null;
-      }
-    } catch (error) {
-      console.error('Error loading modal structure:', error);
-    }
-    return null;
+    return this.inMemoryStructures[modalId] || null;
   }
 
-  // Get all modal structures
-  getAllModalStructures(): Record<string, ModalStructure> {
-    try {
-      const savedStructures = localStorage.getItem('modalStructures');
-      if (savedStructures) {
-        return JSON.parse(savedStructures);
+  // Save modal structure to in-memory storage
+  setModalStructure(modalId: string, structure: ModalStructure): void {
+    this.inMemoryStructures[modalId] = structure;
+    console.log(`💾 Modal structure updated for ${modalId}:`, structure.title);
+
+    // Notify listeners of the change
+    this.changeListeners.forEach(listener => {
+      try {
+        listener(modalId, structure);
+      } catch (error) {
+        console.error('Error notifying modal structure change listener:', error);
       }
-    } catch (error) {
-      console.error('Error loading modal structures:', error);
-    }
-    return {};
+    });
+  }
+
+  // Get all modal structures from in-memory storage
+  getAllModalStructures(): Record<string, ModalStructure> {
+    return { ...this.inMemoryStructures };
+  }
+
+  // Clear all modal structures
+  clearAllModalStructures(): void {
+    this.inMemoryStructures = {};
+    console.log('🗺️ Cleared all modal structures from memory');
+  }
+
+  // Reset modal structures to default configurations
+  resetToDefaults(): void {
+    this.inMemoryStructures = this.getDefaultStructures();
+    console.log('⚙️ Reset modal structures to default configurations');
+  }
+
+  // Get default modal structures
+  private getDefaultStructures(): Record<string, ModalStructure> {
+    // Return basic default structures that can be customized
+    return {
+      'add-customer': {
+        id: 'add-customer',
+        title: 'Add Customer',
+        fields: [
+          { id: 'firstName', label: 'First Name', type: 'text', required: true, order: 1 },
+          { id: 'lastName', label: 'Last Name', type: 'text', required: true, order: 2 },
+          { id: 'email', label: 'Email', type: 'email', required: false, order: 3 },
+          { id: 'phone', label: 'Phone', type: 'phone', required: false, order: 4 },
+          { id: 'address', label: 'Address', type: 'text', required: false, order: 5 }
+        ]
+      },
+      'add-project': {
+        id: 'add-project',
+        title: 'Add Project',
+        fields: [
+          { id: 'name', label: 'Project Name', type: 'text', required: true, order: 1 },
+          { id: 'client', label: 'Client', type: 'text', required: true, order: 2 },
+          { id: 'budget', label: 'Budget', type: 'currency', required: false, order: 3 },
+          { id: 'startDate', label: 'Start Date', type: 'date', required: false, order: 4 }
+        ]
+      }
+    };
   }
 
   // Get fields that should be included in documents
@@ -223,23 +267,49 @@ class ModalStructureService {
     return section;
   }
 
-  // Subscribe to modal structure changes
+  // Subscribe to modal structure changes (in-memory)
   onModalStructureChange(callback: (modalId: string, structure: ModalStructure) => void): () => void {
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'modalStructures') {
-        try {
-          const structures = JSON.parse(e.newValue || '{}');
-          Object.keys(structures).forEach(modalId => {
-            callback(modalId, structures[modalId]);
-          });
-        } catch (error) {
-          console.error('Error parsing modal structure change:', error);
-        }
+    this.changeListeners.push(callback);
+
+    // Return unsubscribe function
+    return () => {
+      const index = this.changeListeners.indexOf(callback);
+      if (index > -1) {
+        this.changeListeners.splice(index, 1);
       }
     };
+  }
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+  // Get statistics about modal structures
+  getModalStructureStats(): {
+    totalStructures: number;
+    totalCustomFields: number;
+    structuresByType: Record<string, number>;
+  } {
+    const structures = Object.values(this.inMemoryStructures);
+    const defaultFieldIds = Object.keys(this.getDefaultStructures()).reduce((acc, modalId) => {
+      acc[modalId] = this.getDefaultFieldIds(modalId);
+      return acc;
+    }, {} as Record<string, string[]>);
+
+    let totalCustomFields = 0;
+    const structuresByType: Record<string, number> = {};
+
+    structures.forEach(structure => {
+      const defaultFields = defaultFieldIds[structure.id] || [];
+      const customFields = structure.fields.filter(field => !defaultFields.includes(field.id));
+      totalCustomFields += customFields.length;
+
+      const type = structure.id.includes('add') ? 'add' :
+                   structure.id.includes('edit') ? 'edit' : 'other';
+      structuresByType[type] = (structuresByType[type] || 0) + 1;
+    });
+
+    return {
+      totalStructures: structures.length,
+      totalCustomFields,
+      structuresByType
+    };
   }
 }
 

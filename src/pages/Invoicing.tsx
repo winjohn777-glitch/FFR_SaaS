@@ -550,10 +550,9 @@ const Invoicing: React.FC = () => {
   const [financeContracts, setFinanceContracts] = useState<any[]>([]);
   const [editFormData, setEditFormData] = useState<any>({});
 
-  // Load finance contracts on component mount
+  // Initialize empty finance contracts (removed localStorage dependency)
   React.useEffect(() => {
-    const contracts = JSON.parse(localStorage.getItem('finance-contracts') || '[]');
-    setFinanceContracts(contracts);
+    setFinanceContracts([]);
   }, []);
 
   // Invoices now come from shared DataContext - no local state needed

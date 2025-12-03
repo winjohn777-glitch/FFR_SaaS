@@ -236,35 +236,22 @@ const EditableModal: React.FC<EditableModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [documentService] = useState(() => DocumentGenerationService.getInstance());
 
-  // Load saved modal structure from localStorage
+  // Initialize modal structure from props (removed localStorage dependency)
   useEffect(() => {
-    const savedStructures = localStorage.getItem('modalStructures');
-    if (savedStructures) {
-      try {
-        const structures = JSON.parse(savedStructures);
-        const savedStructure = structures[modalId];
-        if (savedStructure) {
-          setModalStructure({
-            ...savedStructure,
-            lastModified: new Date(savedStructure.lastModified)
-          });
-        }
-      } catch (error) {
-        console.error('Error loading modal structure:', error);
-      }
-    }
+    // Modal structures now managed via component state
+    // In production, this would be loaded from backend API
+    console.log('Modal structure initialized from props/defaults');
   }, [modalId]);
 
-  // Save modal structure to localStorage
+  // Save modal structure to component state (removed localStorage dependency)
   const saveModalStructure = (structure: ModalStructure) => {
     try {
-      const savedStructures = localStorage.getItem('modalStructures');
-      const structures = savedStructures ? JSON.parse(savedStructures) : {};
-      structures[modalId] = structure;
-      localStorage.setItem('modalStructures', JSON.stringify(structures));
+      // In production, this would be saved via API
+      // await saveModalStructureToAPI(modalId, structure);
       setModalStructure(structure);
+      console.log('Modal structure updated in component state');
     } catch (error) {
-      console.error('Error saving modal structure:', error);
+      console.error('Error updating modal structure:', error);
     }
   };
 
@@ -302,10 +289,11 @@ const EditableModal: React.FC<EditableModalProps> = ({
       onSubmit(data);
     }
 
-    // Store the form data for potential document generation
+    // Prepare form data for document generation (removed localStorage dependency)
     const timestamp = Date.now();
     const formDataWithTimestamp = { ...data, _timestamp: timestamp, _modalId: modalId };
-    localStorage.setItem(`modal-form-data-${modalId}-${timestamp}`, JSON.stringify(formDataWithTimestamp));
+    console.log('Form data prepared for processing:', formDataWithTimestamp);
+    // In production, this would be sent to the backend API
 
     // Simulate async operation
     setTimeout(() => {

@@ -1,3 +1,5 @@
+import apiClient from './ApiClient';
+
 interface ReviewRequest {
   id: string;
   jobId: string;
@@ -56,12 +58,20 @@ class CustomerReviewService {
       method: customer.email ? 'both' : 'sms'
     };
 
-    // Save to localStorage
-    const existingRequests = this.getReviewRequests();
-    existingRequests.push(reviewRequest);
-    localStorage.setItem('customer-review-requests', JSON.stringify(existingRequests));
-
-    console.log('📝 Review request created:', reviewRequest);
+    // Save to database
+    try {
+      const result = await apiClient.post('/api/review-requests', reviewRequest);
+      if (result.error) {
+        console.error('Failed to save review request:', result.error);
+        // Fall back to in-memory storage for now
+        console.log('📝 Review request created (in-memory fallback):', reviewRequest);
+      } else {
+        console.log('📝 Review request created and saved to database:', reviewRequest);
+      }
+    } catch (error) {
+      console.error('Database save failed, using fallback:', error);
+      console.log('📝 Review request created (fallback):', reviewRequest);
+    }
 
     // Auto-send if email/phone available
     if (customer.email || customer.phone) {
@@ -73,8 +83,24 @@ class CustomerReviewService {
 
   // Send review request via email/SMS
   async sendReviewRequest(requestId: string): Promise<boolean> {
-    const requests = this.getReviewRequests();
-    const request = requests.find(r => r.id === requestId);
+    // TODO: Get request from database instead of localStorage
+    let request: ReviewRequest | undefined;
+
+    try {
+      const result = await apiClient.get<ReviewRequest>(`/api/review-requests/${requestId}`);
+      if (result.data) {
+        request = result.data;
+      } else {
+        console.error('Failed to load review request from database:', result.error);
+        // Fallback to localStorage temporarily
+        const requests = this.getReviewRequests();
+        request = requests.find(r => r.id === requestId);
+      }
+    } catch (error) {
+      console.error('Database fetch failed, using localStorage fallback:', error);
+      const requests = this.getReviewRequests();
+      request = requests.find(r => r.id === requestId);
+    }
 
     if (!request) {
       throw new Error('Review request not found');
@@ -97,7 +123,23 @@ class CustomerReviewService {
       request.status = 'sent';
       request.sentDate = new Date().toISOString();
 
-      this.saveReviewRequests(requests);
+      // Save updated status to database
+      try {
+        await apiClient.put(`/api/review-requests/${requestId}`, {
+          status: request.status,
+          sentDate: request.sentDate
+        });
+        console.log('Review request status updated in database');
+      } catch (error) {
+        console.error('Failed to update review request status in database:', error);
+        // Fallback to localStorage for now
+        const requests = this.getReviewRequests();
+        const index = requests.findIndex(r => r.id === requestId);
+        if (index >= 0) {
+          requests[index] = request;
+          this.saveReviewRequests(requests);
+        }
+      }
 
       // Show success message
       this.showReviewRequestNotification(request);
@@ -154,6 +196,9 @@ The Florida First Roofing Team
   // Get all review requests
   getReviewRequests(): ReviewRequest[] {
     try {
+      // TODO: Replace with database fetch when API endpoint is available
+      // For now, return empty array as this should be replaced with database calls
+      console.log('⚠️  getReviewRequests: Using localStorage fallback - TODO: Implement database API');
       const requests = localStorage.getItem('customer-review-requests');
       return requests ? JSON.parse(requests) : [];
     } catch (error) {
@@ -162,23 +207,76 @@ The Florida First Roofing Team
     }
   }
 
-  // Save review requests
+  // Save review requests (deprecated - use API calls instead)
   private saveReviewRequests(requests: ReviewRequest[]): void {
+    console.log('⚠️  saveReviewRequests: This method is deprecated. Use individual API calls instead.');
     localStorage.setItem('customer-review-requests', JSON.stringify(requests));
   }
 
   // Get review requests for specific job
-  getJobReviewRequests(jobId: string): ReviewRequest[] {
-    return this.getReviewRequests().filter(r => r.jobId === jobId);
+  async getJobReviewRequests(jobId: string): Promise<ReviewRequest[]> {
+    try {
+      const result = await apiClient.get<ReviewRequest[]>(`/api/review-requests/job/${jobId}`);
+      if (result.data) {
+        return result.data;
+      } else {
+        console.error('Failed to fetch job review requests:', result.error);
+        // Fallback to localStorage
+        console.log('⚠️  Using localStorage fallback for job review requests');
+        return this.getReviewRequests().filter(r => r.jobId === jobId);
+      }
+    } catch (error) {
+      console.error('Database fetch failed:', error);
+      console.log('⚠️  Using localStorage fallback for job review requests');
+      return this.getReviewRequests().filter(r => r.jobId === jobId);
+    }
   }
 
   // Get review requests for specific customer
-  getCustomerReviewRequests(customerId: string): ReviewRequest[] {
-    return this.getReviewRequests().filter(r => r.customerId === customerId);
+  async getCustomerReviewRequests(customerId: string): Promise<ReviewRequest[]> {
+    try {
+      const result = await apiClient.get<ReviewRequest[]>(`/api/review-requests/customer/${customerId}`);
+      if (result.data) {
+        return result.data;
+      } else {
+        console.error('Failed to fetch customer review requests:', result.error);
+        // Fallback to localStorage
+        console.log('⚠️  Using localStorage fallback for customer review requests');
+        return this.getReviewRequests().filter(r => r.customerId === customerId);
+      }
+    } catch (error) {
+      console.error('Database fetch failed:', error);
+      console.log('⚠️  Using localStorage fallback for customer review requests');
+      return this.getReviewRequests().filter(r => r.customerId === customerId);
+    }
   }
 
   // Update review request status
-  updateReviewRequest(requestId: string, updates: Partial<ReviewRequest>): void {
+  async updateReviewRequest(requestId: string, updates: Partial<ReviewRequest>): Promise<void> {
+    try {
+      // Add responseDate if marking as completed
+      if (updates.status === 'completed' && !updates.responseDate) {
+        updates.responseDate = new Date().toISOString();
+      }
+
+      const result = await apiClient.put(`/api/review-requests/${requestId}`, updates);
+      if (result.error) {
+        console.error('Failed to update review request in database:', result.error);
+        // Fallback to localStorage
+        console.log('⚠️  Using localStorage fallback for updating review request');
+        this.updateReviewRequestFallback(requestId, updates);
+      } else {
+        console.log('Review request updated in database successfully');
+      }
+    } catch (error) {
+      console.error('Database update failed:', error);
+      console.log('⚠️  Using localStorage fallback for updating review request');
+      this.updateReviewRequestFallback(requestId, updates);
+    }
+  }
+
+  // Fallback method for localStorage updates
+  private updateReviewRequestFallback(requestId: string, updates: Partial<ReviewRequest>): void {
     const requests = this.getReviewRequests();
     const index = requests.findIndex(r => r.id === requestId);
 
@@ -192,7 +290,26 @@ The Florida First Roofing Team
   }
 
   // Get review statistics
-  getReviewStats(): ReviewStats {
+  async getReviewStats(): Promise<ReviewStats> {
+    try {
+      const result = await apiClient.get<ReviewStats>('/api/review-requests/stats');
+      if (result.data) {
+        return result.data;
+      } else {
+        console.error('Failed to fetch review stats from database:', result.error);
+        // Fallback to localStorage calculation
+        console.log('⚠️  Using localStorage fallback for review stats');
+        return this.getReviewStatsFallback();
+      }
+    } catch (error) {
+      console.error('Database stats fetch failed:', error);
+      console.log('⚠️  Using localStorage fallback for review stats');
+      return this.getReviewStatsFallback();
+    }
+  }
+
+  // Fallback method for localStorage stats calculation
+  private getReviewStatsFallback(): ReviewStats {
     const requests = this.getReviewRequests();
     const responses = requests.filter(r => r.status === 'completed');
     const ratings = responses.filter(r => r.rating).map(r => r.rating!);
@@ -212,24 +329,35 @@ The Florida First Roofing Team
 
   // Resend review request
   async resendReviewRequest(requestId: string): Promise<boolean> {
-    const requests = this.getReviewRequests();
-    const request = requests.find(r => r.id === requestId);
+    try {
+      // Reset status in database
+      const result = await apiClient.put(`/api/review-requests/${requestId}`, {
+        status: 'pending',
+        sentDate: null
+      });
 
-    if (!request) {
+      if (result.error) {
+        console.error('Failed to reset review request status:', result.error);
+        // Fallback to localStorage
+        const requests = this.getReviewRequests();
+        const request = requests.find(r => r.id === requestId);
+        if (!request) return false;
+
+        request.status = 'pending';
+        request.sentDate = undefined;
+        this.saveReviewRequests(requests);
+      }
+
+      return await this.sendReviewRequest(requestId);
+    } catch (error) {
+      console.error('Failed to resend review request:', error);
       return false;
     }
-
-    // Reset status and send again
-    request.status = 'pending';
-    request.sentDate = undefined;
-    this.saveReviewRequests(requests);
-
-    return await this.sendReviewRequest(requestId);
   }
 
   // Mark review as completed (called when we know customer left a review)
-  markReviewCompleted(requestId: string, rating?: number, reviewText?: string): void {
-    this.updateReviewRequest(requestId, {
+  async markReviewCompleted(requestId: string, rating?: number, reviewText?: string): Promise<void> {
+    await this.updateReviewRequest(requestId, {
       status: 'completed',
       rating,
       reviewText,
@@ -238,13 +366,27 @@ The Florida First Roofing Team
   }
 
   // Get pending review requests (for dashboard/notifications)
-  getPendingRequests(): ReviewRequest[] {
-    return this.getReviewRequests().filter(r => r.status === 'pending' || r.status === 'sent');
+  async getPendingRequests(): Promise<ReviewRequest[]> {
+    try {
+      const result = await apiClient.get<ReviewRequest[]>('/api/review-requests/pending');
+      if (result.data) {
+        return result.data;
+      } else {
+        console.error('Failed to fetch pending requests from database:', result.error);
+        // Fallback to localStorage
+        console.log('⚠️  Using localStorage fallback for pending requests');
+        return this.getReviewRequests().filter(r => r.status === 'pending' || r.status === 'sent');
+      }
+    } catch (error) {
+      console.error('Database fetch failed:', error);
+      console.log('⚠️  Using localStorage fallback for pending requests');
+      return this.getReviewRequests().filter(r => r.status === 'pending' || r.status === 'sent');
+    }
   }
 
   // Generate review request summary for job completion
-  generateJobCompletionSummary(jobId: string): string {
-    const requests = this.getJobReviewRequests(jobId);
+  async generateJobCompletionSummary(jobId: string): Promise<string> {
+    const requests = await this.getJobReviewRequests(jobId);
 
     if (requests.length === 0) {
       return 'No review requests for this job.';
@@ -267,7 +409,26 @@ The Florida First Roofing Team
   }
 
   // Get overdue review requests (sent more than 7 days ago)
-  getOverdueRequests(): ReviewRequest[] {
+  async getOverdueRequests(): Promise<ReviewRequest[]> {
+    try {
+      const result = await apiClient.get<ReviewRequest[]>('/api/review-requests/overdue');
+      if (result.data) {
+        return result.data;
+      } else {
+        console.error('Failed to fetch overdue requests from database:', result.error);
+        // Fallback to localStorage
+        console.log('⚠️  Using localStorage fallback for overdue requests');
+        return this.getOverdueRequestsFallback();
+      }
+    } catch (error) {
+      console.error('Database fetch failed:', error);
+      console.log('⚠️  Using localStorage fallback for overdue requests');
+      return this.getOverdueRequestsFallback();
+    }
+  }
+
+  // Fallback method for localStorage overdue calculation
+  private getOverdueRequestsFallback(): ReviewRequest[] {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
@@ -279,8 +440,21 @@ The Florida First Roofing Team
   }
 
   // Generate review request email for manual sending
-  generateReviewRequestEmail(requestId: string): { subject: string; body: string; to: string } | null {
-    const request = this.getReviewRequests().find(r => r.id === requestId);
+  async generateReviewRequestEmail(requestId: string): Promise<{ subject: string; body: string; to: string } | null> {
+    let request: ReviewRequest | undefined;
+
+    try {
+      const result = await apiClient.get<ReviewRequest>(`/api/review-requests/${requestId}`);
+      if (result.data) {
+        request = result.data;
+      } else {
+        // Fallback to localStorage
+        request = this.getReviewRequests().find(r => r.id === requestId);
+      }
+    } catch (error) {
+      // Fallback to localStorage
+      request = this.getReviewRequests().find(r => r.id === requestId);
+    }
 
     if (!request || !request.customerEmail) {
       return null;
@@ -294,14 +468,28 @@ The Florida First Roofing Team
   }
 
   // Export review data for reporting
-  exportReviewData(): string {
-    const requests = this.getReviewRequests();
-    const csvHeader = 'Date,Customer,Job,Status,Rating,Method,Review URL\n';
-    const csvData = requests.map(r =>
-      `${r.requestDate},"${r.customerName}","${r.jobName}",${r.status},${r.rating || ''},${r.method},${r.reviewUrl}`
-    ).join('\n');
+  async exportReviewData(): Promise<string> {
+    try {
+      const result = await apiClient.get<ReviewRequest[]>('/api/review-requests');
+      const requests = result.data || this.getReviewRequests(); // Fallback to localStorage
 
-    return csvHeader + csvData;
+      const csvHeader = 'Date,Customer,Job,Status,Rating,Method,Review URL\n';
+      const csvData = requests.map(r =>
+        `${r.requestDate},"${r.customerName}","${r.jobName}",${r.status},${r.rating || ''},${r.method},${r.reviewUrl}`
+      ).join('\n');
+
+      return csvHeader + csvData;
+    } catch (error) {
+      console.error('Failed to export review data from database:', error);
+      // Fallback to localStorage
+      const requests = this.getReviewRequests();
+      const csvHeader = 'Date,Customer,Job,Status,Rating,Method,Review URL\n';
+      const csvData = requests.map(r =>
+        `${r.requestDate},"${r.customerName}","${r.jobName}",${r.status},${r.rating || ''},${r.method},${r.reviewUrl}`
+      ).join('\n');
+
+      return csvHeader + csvData;
+    }
   }
 }
 

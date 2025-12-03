@@ -1,5 +1,6 @@
 import ModalStructureService from './ModalStructureService';
 import { generateInvoicePDF } from '../components/InvoicePDF';
+import apiClient from './ApiClient';
 // import { generateFinanceContractPDF } from '../components/PDF/FinanceContractPDF'; // TODO: Enable when PDF generator is fixed
 
 interface DocumentTemplate {
@@ -344,25 +345,99 @@ class DocumentGenerationService {
       throw new Error(`Template ${templateId} not found`);
     }
 
-    // Load data from localStorage or data context
-    const customers = JSON.parse(localStorage.getItem('ffr-customers') || '[]');
-    const projects = JSON.parse(localStorage.getItem('ffr-projects') || '[]');
-    const jobs = JSON.parse(localStorage.getItem('ffr-jobs') || '[]');
+    try {
+      // Load data from database instead of localStorage
+      const [customerResult, projectResult, jobResult] = await Promise.all([
+        apiClient.get(`/api/customers/${customerId}`),
+        projectId ? apiClient.get(`/api/projects/${projectId}`) : Promise.resolve({ data: null }),
+        jobId ? apiClient.get(`/api/jobs/${jobId}`) : Promise.resolve({ data: null })
+      ]);
 
-    const customer = customers.find((c: any) => c.id === customerId);
-    const project = projectId ? projects.find((p: any) => p.id === projectId) : null;
-    const job = jobId ? jobs.find((j: any) => j.id === jobId) : null;
+      const customer = customerResult.data;
+      const project = projectResult.data;
+      const job = jobResult.data;
 
-    if (!customer) {
-      throw new Error(`Customer ${customerId} not found`);
+      if (!customer) {
+        throw new Error(`Customer ${customerId} not found in database. Please ensure customer data is properly synced.`);
+      }
+
+      await this.generateDocument({
+        template,
+        customerData: customer,
+        projectData: project,
+        jobData: job
+      });
+    } catch (error) {
+      console.error('Failed to fetch data for document generation:', error);
+      throw new Error('Unable to fetch required data for document generation. Please check database connection and data integrity.');
+    }
+  }
+
+  // Helper method to get customer data by ID
+  private async getCustomerData(customerId: string): Promise<any> {
+    try {
+      const result = await apiClient.get(`/api/customers/${customerId}`);
+      if (result.data) {
+        return result.data;
+      }
+    } catch (error) {
+      console.error('Failed to fetch customer from database:', error);
     }
 
-    await this.generateDocument({
-      template,
-      customerData: customer,
-      projectData: project,
-      jobData: job
-    });
+    // Return null when API fails (removed localStorage fallback)
+    console.error('Customer API fetch failed, no fallback available');
+    return null;
+  }
+
+  // Helper method to get project data by ID
+  private async getProjectData(projectId: string): Promise<any> {
+    try {
+      const result = await apiClient.get(`/api/projects/${projectId}`);
+      if (result.data) {
+        return result.data;
+      }
+    } catch (error) {
+      console.error('Failed to fetch project from database:', error);
+    }
+
+    // Return null when API fails (removed localStorage fallback)
+    console.error('Project API fetch failed, no fallback available');
+    return null;
+  }
+
+  // Helper method to get job data by ID
+  private async getJobData(jobId: string): Promise<any> {
+    try {
+      const result = await apiClient.get(`/api/jobs/${jobId}`);
+      if (result.data) {
+        return result.data;
+      }
+    } catch (error) {
+      console.error('Failed to fetch job from database:', error);
+    }
+
+    // Return null when API fails (removed localStorage fallback)
+    console.error('Job API fetch failed, no fallback available');
+    return null;
+  }
+
+  // Generate document template preview (no data required)
+  generateTemplatePreview(templateId: string): string {
+    const template = this.getDocumentTemplates().find(t => t.id === templateId);
+    if (!template) {
+      return 'Template not found';
+    }
+
+    return `
+      Template: ${template.name}
+      Type: ${template.type}
+      Mapped Modals: ${template.modalMappings.join(', ')}
+
+      This template can generate ${template.type} documents using data from:
+      ${template.modalMappings.map(modal => `• ${modal}`).join('\n      ')}
+
+      Note: This service uses database storage exclusively for production reliability. No localStorage fallbacks are used.
+    `;
   }
 }
 

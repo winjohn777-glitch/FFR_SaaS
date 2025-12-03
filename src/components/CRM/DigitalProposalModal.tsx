@@ -715,9 +715,8 @@ const DigitalProposalModal: React.FC<DigitalProposalModalProps> = ({
       const financeContractData = generateFinanceContractData();
       finalProposal.financeContractData = financeContractData;
 
-      // Save finance application to localStorage for potential contract generation
+      // Finance application data prepared for submission (removed localStorage dependency)
       try {
-        const existingApplications = JSON.parse(localStorage.getItem('ffr-finance-applications') || '[]');
         const applicationRecord = {
           id: `FFR-APP-${Date.now()}`,
           customerId: customerData.id,
@@ -731,13 +730,13 @@ const DigitalProposalModal: React.FC<DigitalProposalModalProps> = ({
           monthlyPayment: financeTerms.monthlyPayment
         };
 
-        existingApplications.push(applicationRecord);
-        localStorage.setItem('ffr-finance-applications', JSON.stringify(existingApplications));
-
         console.log('💳 Finance Application Submitted:', applicationRecord);
-        console.log('📋 Finance contract data ready for auto-population');
+        console.log('📋 Finance application ready for backend integration');
+
+        // In production, this would be sent to the backend API
+        // await submitFinanceApplication(applicationRecord);
       } catch (error) {
-        console.error('Error saving finance application:', error);
+        console.error('Error preparing finance application:', error);
       }
     }
 

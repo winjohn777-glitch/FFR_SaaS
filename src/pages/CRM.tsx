@@ -482,16 +482,13 @@ const CRM: React.FC = () => {
     console.log('Finance contract created:', contractData);
 
     try {
-      // Store contract data in localStorage for document generation
-      const contracts = JSON.parse(localStorage.getItem('finance-contracts') || '[]');
+      // Create contract with metadata (removed localStorage dependency)
       const contractWithMetadata = {
         ...contractData,
         customerId: selectedCustomer?.id,
         createdDate: new Date().toISOString(),
         status: 'active'
       };
-      contracts.push(contractWithMetadata);
-      localStorage.setItem('finance-contracts', JSON.stringify(contracts));
 
       // Create bookkeeping entries
       const bookkeepingService = FinanceContractBookkeepingService.getInstance();

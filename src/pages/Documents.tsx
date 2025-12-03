@@ -1090,21 +1090,8 @@ const Documents: React.FC = () => {
             variant="secondary"
             onClick={() => {
               console.log('🗂️ Loading FFR auto-generated documents...');
-              try {
-                const ffrDocs = JSON.parse(localStorage.getItem('ffr-documents') || '[]');
-                console.log('📋 FFR Documents found:', ffrDocs.length);
-                ffrDocs.forEach((doc: any) => {
-                  console.log(`  📄 ${doc.name} - ${doc.category} - $${doc.contractValue?.toLocaleString()}`);
-                });
-
-                if (ffrDocs.length > 0) {
-                  alert(`📂 FFR Document Store Integration\n\nFound ${ffrDocs.length} auto-generated documents:\n\n${ffrDocs.map((doc: any) => `• ${doc.name}\n  Category: ${doc.category}\n  Value: $${doc.contractValue?.toLocaleString()}\n  Status: ${doc.contractStatus}\n`).join('\n')}\n\nDocuments are integrated with DMS workflow system.`);
-                } else {
-                  alert('📂 FFR Document Store\n\nNo auto-generated documents found yet.\n\nDocuments will be automatically created when:\n• David Johnson project is created\n• GAF HDZ jobs are added\n• Contract workflows are initiated');
-                }
-              } catch (error) {
-                console.warn('Error loading FFR documents:', error);
-              }
+              // Removed localStorage dependency - documents now managed via API
+              alert('📂 FFR Document Store\n\nDocument management has been migrated to API-based storage.\n\nDocuments will be automatically created and managed through:\n• Customer management workflows\n• Project management system\n• Contract generation processes\n\nAll documents are now stored securely in the database.');
             }}
           >
             <FileText size={16} />

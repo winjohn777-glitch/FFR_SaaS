@@ -1,4 +1,5 @@
 import type { FinanceContractData } from '../components/Financing/FinanceContractModal';
+import apiClient from './ApiClient';
 
 interface JournalEntry {
   id: string;
@@ -80,8 +81,20 @@ class FinanceContractBookkeepingService {
       totalCredits: contractAmount
     };
 
-    // Save journal entry to localStorage
-    await this.saveJournalEntry(journalEntry);
+    // Save journal entry to database
+    try {
+      const result = await apiClient.post('/api/finance/journal-entries', journalEntry);
+      if (result.error) {
+        console.error('Failed to save journal entry:', result.error);
+        // Fallback to localStorage temporarily
+        await this.saveJournalEntry(journalEntry);
+      } else {
+        console.log('Journal entry saved to database successfully');
+      }
+    } catch (error) {
+      console.error('Database save failed, using localStorage fallback:', error);
+      await this.saveJournalEntry(journalEntry);
+    }
 
     // Create payment schedule
     await this.createPaymentSchedule(contractData);
@@ -120,8 +133,23 @@ class FinanceContractBookkeepingService {
       });
     }
 
-    // Save payment schedule to localStorage
-    await this.savePaymentSchedule(contractData.contractNumber, schedule);
+    // Save payment schedule to database
+    try {
+      const result = await apiClient.post('/api/finance/payment-schedules', {
+        contractId: contractData.contractNumber,
+        schedule
+      });
+      if (result.error) {
+        console.error('Failed to save payment schedule:', result.error);
+        // Fallback to localStorage temporarily
+        await this.savePaymentSchedule(contractData.contractNumber, schedule);
+      } else {
+        console.log('Payment schedule saved to database successfully');
+      }
+    } catch (error) {
+      console.error('Database save failed, using localStorage fallback:', error);
+      await this.savePaymentSchedule(contractData.contractNumber, schedule);
+    }
 
     return schedule;
   }
@@ -179,7 +207,21 @@ class FinanceContractBookkeepingService {
 
     // Update payment status
     nextPayment.status = 'paid';
-    await this.savePaymentSchedule(contractId, schedule);
+
+    try {
+      // Update payment status in database
+      const result = await apiClient.put(`/api/finance/payment-schedules/${contractId}/payment/${nextPayment.paymentNumber}`, {
+        status: 'paid'
+      });
+      if (result.error) {
+        console.error('Failed to update payment status in database:', result.error);
+        // Fallback to localStorage
+        await this.savePaymentSchedule(contractId, schedule);
+      }
+    } catch (error) {
+      console.error('Database update failed, using localStorage fallback:', error);
+      await this.savePaymentSchedule(contractId, schedule);
+    }
 
     // Save journal entry
     await this.saveJournalEntry(journalEntry);
@@ -298,35 +340,100 @@ class FinanceContractBookkeepingService {
     return accountMap[accountCode] || 'Roofing Revenue - Residential';
   }
 
-  // Storage helper functions
+  // Storage helper functions (deprecated - use API calls instead)
   private async saveJournalEntry(entry: JournalEntry): Promise<void> {
+    console.log('⚠️  saveJournalEntry: This method is deprecated. Use database API calls instead.');
     const existingEntries = JSON.parse(localStorage.getItem('finance-journal-entries') || '[]');
     existingEntries.push(entry);
     localStorage.setItem('finance-journal-entries', JSON.stringify(existingEntries));
   }
 
   private async savePaymentSchedule(contractId: string, schedule: PaymentScheduleEntry[]): Promise<void> {
+    console.log('⚠️  savePaymentSchedule: This method is deprecated. Use database API calls instead.');
     const existingSchedules = JSON.parse(localStorage.getItem('finance-payment-schedules') || '{}');
     existingSchedules[contractId] = schedule;
     localStorage.setItem('finance-payment-schedules', JSON.stringify(existingSchedules));
   }
 
   async getPaymentSchedule(contractId: string): Promise<PaymentScheduleEntry[]> {
-    const schedules = JSON.parse(localStorage.getItem('finance-payment-schedules') || '{}');
-    return schedules[contractId] || [];
+    try {
+      const result = await apiClient.get<PaymentScheduleEntry[]>(`/api/finance/payment-schedules/${contractId}`);
+      if (result.data) {
+        return result.data;
+      } else {
+        console.error('Failed to fetch payment schedule from database:', result.error);
+        // Fallback to localStorage
+        console.log('⚠️  Using localStorage fallback for payment schedule');
+        const schedules = JSON.parse(localStorage.getItem('finance-payment-schedules') || '{}');
+        return schedules[contractId] || [];
+      }
+    } catch (error) {
+      console.error('Database fetch failed:', error);
+      console.log('⚠️  Using localStorage fallback for payment schedule');
+      const schedules = JSON.parse(localStorage.getItem('finance-payment-schedules') || '{}');
+      return schedules[contractId] || [];
+    }
   }
 
   async getJournalEntries(): Promise<JournalEntry[]> {
-    return JSON.parse(localStorage.getItem('finance-journal-entries') || '[]');
+    try {
+      const result = await apiClient.get<JournalEntry[]>('/api/finance/journal-entries');
+      if (result.data) {
+        return result.data;
+      } else {
+        console.error('Failed to fetch journal entries from database:', result.error);
+        // Fallback to localStorage
+        console.log('⚠️  Using localStorage fallback for journal entries');
+        return JSON.parse(localStorage.getItem('finance-journal-entries') || '[]');
+      }
+    } catch (error) {
+      console.error('Database fetch failed:', error);
+      console.log('⚠️  Using localStorage fallback for journal entries');
+      return JSON.parse(localStorage.getItem('finance-journal-entries') || '[]');
+    }
   }
 
   async getContractJournalEntries(contractId: string): Promise<JournalEntry[]> {
-    const allEntries = await this.getJournalEntries();
-    return allEntries.filter(entry => entry.contractId === contractId);
+    try {
+      const result = await apiClient.get<JournalEntry[]>(`/api/finance/journal-entries/contract/${contractId}`);
+      if (result.data) {
+        return result.data;
+      } else {
+        console.error('Failed to fetch contract journal entries from database:', result.error);
+        // Fallback to localStorage
+        console.log('⚠️  Using localStorage fallback for contract journal entries');
+        const allEntries = await this.getJournalEntries();
+        return allEntries.filter(entry => entry.contractId === contractId);
+      }
+    } catch (error) {
+      console.error('Database fetch failed:', error);
+      console.log('⚠️  Using localStorage fallback for contract journal entries');
+      const allEntries = await this.getJournalEntries();
+      return allEntries.filter(entry => entry.contractId === contractId);
+    }
   }
 
   // Get overdue payments for all contracts
   async getOverduePayments(): Promise<PaymentScheduleEntry[]> {
+    try {
+      const result = await apiClient.get<PaymentScheduleEntry[]>('/api/finance/payment-schedules/overdue');
+      if (result.data) {
+        return result.data;
+      } else {
+        console.error('Failed to fetch overdue payments from database:', result.error);
+        // Fallback to localStorage
+        console.log('⚠️  Using localStorage fallback for overdue payments');
+        return this.getOverduePaymentsFallback();
+      }
+    } catch (error) {
+      console.error('Database fetch failed:', error);
+      console.log('⚠️  Using localStorage fallback for overdue payments');
+      return this.getOverduePaymentsFallback();
+    }
+  }
+
+  // Fallback method for localStorage overdue calculation
+  private getOverduePaymentsFallback(): PaymentScheduleEntry[] {
     const allSchedules = JSON.parse(localStorage.getItem('finance-payment-schedules') || '{}');
     const today = new Date().toISOString().split('T')[0];
     const overduePayments: PaymentScheduleEntry[] = [];
@@ -349,7 +456,32 @@ class FinanceContractBookkeepingService {
     days90: PaymentScheduleEntry[];
     days90Plus: PaymentScheduleEntry[];
   }> {
-    const overduePayments = await this.getOverduePayments();
+    try {
+      const result = await apiClient.get('/api/finance/aging-report');
+      if (result.data) {
+        return result.data;
+      } else {
+        console.error('Failed to fetch aging report from database:', result.error);
+        // Fallback to localStorage calculation
+        console.log('⚠️  Using localStorage fallback for aging report');
+        return this.generateAgingReportFallback();
+      }
+    } catch (error) {
+      console.error('Database fetch failed:', error);
+      console.log('⚠️  Using localStorage fallback for aging report');
+      return this.generateAgingReportFallback();
+    }
+  }
+
+  // Fallback method for localStorage aging report calculation
+  private async generateAgingReportFallback(): Promise<{
+    current: PaymentScheduleEntry[];
+    days30: PaymentScheduleEntry[];
+    days60: PaymentScheduleEntry[];
+    days90: PaymentScheduleEntry[];
+    days90Plus: PaymentScheduleEntry[];
+  }> {
+    const overduePayments = await this.getOverduePaymentsFallback();
     const today = new Date();
 
     return {
