@@ -24,6 +24,9 @@ import PricingAdmin from './pages/PricingAdmin';
 // Data Context
 import { DataProvider } from './contexts/DataContext';
 
+// Toast Provider
+import { ToastProvider } from './components/Toast';
+
 // Theme
 import { DefaultTheme } from 'styled-components';
 
@@ -180,8 +183,9 @@ function App() {
   return (
     <DataProvider>
       <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <Router>
+        <ToastProvider>
+          <GlobalStyle />
+          <Router>
           <AppContainer>
           <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
@@ -351,6 +355,7 @@ function App() {
           </MainContent>
         </AppContainer>
       </Router>
+        </ToastProvider>
     </ThemeProvider>
     </DataProvider>
   );

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { BookOpen, Plus, Calendar, Calculator, FileText, DollarSign, BarChart3, CheckSquare, Save, X, Trash2, Edit, CreditCard, Truck, Receipt, ArrowDownRight, ArrowUpRight, Zap, Home, Shield, Car } from 'lucide-react';
+import { BookOpen, Plus, Calendar, FileText, DollarSign, BarChart3, CheckSquare, Save, X, Trash2, CreditCard, Truck, Receipt, ArrowDownRight, Zap, Home, Shield, Car, AlertTriangle, Sparkles } from 'lucide-react';
 import { useData, JournalEntry as DataContextJournalEntry, JournalEntryLine as DataContextJournalEntryLine } from '../contexts/DataContext';
 import chartOfAccountsData from '../data/chartOfAccounts.json';
+import TransactionWizard from '../components/accounting/TransactionWizard';
 
 const Container = styled.div`
   padding: ${({ theme }) => theme.spacing.xl};
@@ -412,6 +413,7 @@ const Bookkeeping: React.FC = () => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showJournalForm, setShowJournalForm] = useState(false);
   const [journalLines, setJournalLines] = useState<JournalLine[]>([
+    { account: '', debit: 0, credit: 0, description: '' },
     { account: '', debit: 0, credit: 0, description: '' }
   ]);
   const [journalEntry, setJournalEntry] = useState({
@@ -441,6 +443,7 @@ const Bookkeeping: React.FC = () => {
     vendor: '',
     reference: ''
   });
+  const [activeFinancialStatement, setActiveFinancialStatement] = useState('trial-balance');
 
   const {
     journalEntries,
@@ -570,7 +573,7 @@ const Bookkeeping: React.FC = () => {
     // If DataContext has accounts, use those (they are dynamically managed)
     if (accounts && accounts.length > 0) {
       return accounts
-        .filter(account => account.is_active)
+        .filter(account => account.isActive)
         .map(account => ({
           code: account.code,
           name: account.name,
@@ -629,11 +632,15 @@ const Bookkeeping: React.FC = () => {
 
   // Helper functions for journal entry management
   const addJournalLine = () => {
-    setJournalLines([...journalLines, { account: '', debit: 0, credit: 0, description: '' }]);
+    setJournalLines([
+      ...journalLines,
+      { account: '', debit: 0, credit: 0, description: '' },
+      { account: '', debit: 0, credit: 0, description: '' }
+    ]);
   };
 
   const removeJournalLine = (index: number) => {
-    if (journalLines.length > 1) {
+    if (journalLines.length > 2) {
       setJournalLines(journalLines.filter((_, i) => i !== index));
     }
   };
@@ -699,37 +706,61 @@ const Bookkeeping: React.FC = () => {
     const dataContextLines: DataContextJournalEntryLine[] = [
       {
         id: `${entryId}-L1`,
+        accountId: template.accounts.debit,
+        debit: quickEntryData.amount,
+        credit: 0,
+        description: description,
+        memo: description,
+        // Backward compatibility properties
         account_id: template.accounts.debit,
         account_name: debitAccount.name,
         account_code: template.accounts.debit,
         debit_amount: quickEntryData.amount,
-        credit_amount: 0,
-        description: description
+        credit_amount: 0
       },
       {
         id: `${entryId}-L2`,
+        accountId: template.accounts.credit,
+        debit: 0,
+        credit: quickEntryData.amount,
+        description: description,
+        memo: description,
+        // Backward compatibility properties
         account_id: template.accounts.credit,
         account_name: creditAccount.name,
         account_code: template.accounts.credit,
         debit_amount: 0,
-        credit_amount: quickEntryData.amount,
-        description: description
+        credit_amount: quickEntryData.amount
       }
     ];
 
+    const totalDebit = dataContextLines.reduce((sum, line) => sum + (line.debit || line.debit_amount || 0), 0);
+    const totalCredit = dataContextLines.reduce((sum, line) => sum + (line.credit || line.credit_amount || 0), 0);
+
     const newEntry: DataContextJournalEntry = {
       id: entryId,
+      number: entryNumber,
       entry_number: entryNumber,
       date: new Date().toISOString().split('T')[0],
       description: description,
       reference: quickEntryData.reference || '',
       lines: dataContextLines,
       status: 'posted',
+      totalDebit,
+      totalCredit,
+      totalDebits: totalDebit,
+      totalCredits: totalCredit,
+      isBalanced: Math.abs(totalDebit - totalCredit) < 0.01,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       created_date: new Date().toISOString(),
-      posted_date: new Date().toISOString()
+      posted_date: new Date().toISOString(),
+      organizationId: 'org_default',
+      fiscalPeriodId: 'period_default',
+      createdById: 'user_default'
     };
 
-    // Save to DataContext
+    // Save to DataContext (now with enhanced structure compatibility)
     addJournalEntry(newEntry);
     console.log('📘 Quick journal entry saved:', newEntry);
 
@@ -756,6 +787,39 @@ const Bookkeeping: React.FC = () => {
       vendor: '',
       reference: ''
     });
+  };
+
+  // Transaction Wizard handlers
+  const handleWizardSubmit = (journalEntryData: any) => {
+    // Convert wizard data to journal entry format
+    const newEntry = {
+      id: `journal_${Date.now()}`,
+      entry_number: `JE-${new Date().getFullYear()}-${String(journalEntries.length + 1).padStart(4, '0')}`,
+      date: journalEntryData.date,
+      description: journalEntryData.description,
+      reference: journalEntryData.reference || '',
+      status: 'draft' as const,
+      lines: journalEntryData.lines.map((line: any, index: number) => ({
+        id: `line_${Date.now()}_${index}`,
+        accountId: line.account,
+        account: line.account,
+        description: line.description || journalEntryData.description,
+        debit: line.debit || 0,
+        credit: line.credit || 0,
+        lineNumber: index + 1
+      }))
+    };
+
+    // Add to journal entries
+    addJournalEntry(newEntry as DataContextJournalEntry);
+    setShowTransactionWizard(false);
+
+    // Show success message
+    alert('Journal entry created successfully!');
+  };
+
+  const handleWizardCancel = () => {
+    setShowTransactionWizard(false);
   };
 
   const calculateTotals = () => {
@@ -795,29 +859,49 @@ const Bookkeeping: React.FC = () => {
       const account = availableAccounts.find(acc => acc.code === line.account);
       return {
         id: `${entryId}-L${index + 1}`,
+        accountId: line.account,
+        debit: line.debit || 0,
+        credit: line.credit || 0,
+        description: line.description || journalEntry.description,
+        memo: line.description || journalEntry.description,
+        // Backward compatibility properties
         account_id: line.account,
         account_name: account ? account.name : line.account,
         account_code: line.account,
         debit_amount: line.debit || 0,
-        credit_amount: line.credit || 0,
-        description: line.description || journalEntry.description
+        credit_amount: line.credit || 0
       };
     });
+
+    // Calculate totals
+    const totalDebit = dataContextLines.reduce((sum, line) => sum + (line.debit || line.debit_amount || 0), 0);
+    const totalCredit = dataContextLines.reduce((sum, line) => sum + (line.credit || line.credit_amount || 0), 0);
 
     // Create new journal entry for DataContext
     const newEntry: DataContextJournalEntry = {
       id: entryId,
+      number: entryNumber,
       entry_number: entryNumber,
       date: journalEntry.date,
       description: journalEntry.description,
       reference: journalEntry.reference || '',
       lines: dataContextLines,
       status: 'posted',
+      totalDebit,
+      totalCredit,
+      totalDebits: totalDebit,
+      totalCredits: totalCredit,
+      isBalanced: Math.abs(totalDebit - totalCredit) < 0.01,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
       created_date: new Date().toISOString(),
-      posted_date: new Date().toISOString()
+      posted_date: new Date().toISOString(),
+      organizationId: 'org_default',
+      fiscalPeriodId: 'period_default',
+      createdById: 'user_default'
     };
 
-    // Save to DataContext
+    // Save to DataContext (now with enhanced structure compatibility)
     addJournalEntry(newEntry);
     console.log('📘 Journal entry saved to DataContext:', newEntry);
 
@@ -926,11 +1010,48 @@ const Bookkeeping: React.FC = () => {
         </ActionCard>
       </Grid>
 
+      {/* Featured Transaction Wizard */}
+      <Card style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <SectionTitle style={{ color: 'white', fontSize: '1.5rem', marginBottom: '0.5rem' }}>
+              🧙‍♂️ Smart Transaction Wizard
+            </SectionTitle>
+            <InfoText style={{ color: 'rgba(255,255,255,0.9)', marginBottom: '1rem', fontSize: '1rem' }}>
+              Create journal entries effortlessly with intelligent templates designed for roofing businesses.
+              No more manual debit/credit calculations!
+            </InfoText>
+            <Button
+              onClick={() => setShowTransactionWizard(true)}
+              style={{
+                background: 'white',
+                color: '#667eea',
+                border: 'none',
+                padding: '12px 24px',
+                fontSize: '16px',
+                fontWeight: '600',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}
+            >
+              <Sparkles size={20} />
+              Start Transaction Wizard
+            </Button>
+          </div>
+          <div style={{ fontSize: '4rem', opacity: 0.2 }}>
+            ⚡
+          </div>
+        </div>
+      </Card>
+
       <Card>
-        <SectionTitle>Quick Entry - Common Transactions</SectionTitle>
+        <SectionTitle>Quick Entry - Legacy Templates</SectionTitle>
         <InfoText style={{ marginBottom: '20px' }}>
-          Fast entry for common transactions with automatic double-entry bookkeeping.
-          Select a transaction type below and we'll handle the account selection for you.
+          Fast entry for common transactions with basic double-entry bookkeeping.
+          For advanced features, use the Smart Transaction Wizard above.
         </InfoText>
         <Grid style={{ marginBottom: '0' }}>
           {transactionTemplates.slice(0, 6).map((template) => {
@@ -975,10 +1096,56 @@ const Bookkeeping: React.FC = () => {
 
     return (
       <div>
-        {/* New Journal Entry Form */}
+        {/* Improved Journal Entry Creation Wizard */}
         {showJournalForm && (
           <Card>
-            <SectionTitle>Create New Journal Entry</SectionTitle>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <SectionTitle>Create New Journal Entry</SectionTitle>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <Button
+                  type="button"
+                  variant="primary"
+                  onClick={() => setShowTransactionWizard(true)}
+                  style={{ fontSize: '14px', padding: '8px 12px' }}
+                >
+                  <Sparkles size={16} />
+                  Smart Wizard
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => setShowQuickEntry(true)}
+                  style={{ fontSize: '14px', padding: '8px 12px' }}
+                >
+                  <Zap size={16} />
+                  Quick Entry
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={() => setShowJournalForm(false)}
+                  style={{ fontSize: '14px', padding: '8px 12px' }}
+                >
+                  <X size={16} />
+                  Cancel
+                </Button>
+              </div>
+            </div>
+
+            <div style={{
+              background: '#f8f9ff',
+              border: '1px solid #e1e7ff',
+              borderRadius: '8px',
+              padding: '12px',
+              marginBottom: '1rem',
+              fontSize: '14px',
+              color: '#4a5568'
+            }}>
+              <strong>📚 Journal Entry Guidelines:</strong> Each entry must have equal debits and credits.
+              Use Quick Entry for common transactions, or manually create entries below.
+              All amounts will be validated before saving.
+            </div>
+
             <Form onSubmit={handleSaveJournalEntry}>
               <FormRow>
                 <FormGroup>
@@ -1013,64 +1180,152 @@ const Bookkeeping: React.FC = () => {
 
               <JournalContainer>
                 <JournalHeader>
-                  <SectionTitle>Account Lines</SectionTitle>
+                  <div>
+                    <SectionTitle>Account Lines</SectionTitle>
+                    <div style={{ fontSize: '14px', color: '#666', marginTop: '4px' }}>
+                      Total Debits: ${totalDebits.toLocaleString()} | Total Credits: ${totalCredits.toLocaleString()} |
+                      <span style={{ color: difference === 0 ? '#22c55e' : '#ef4444', fontWeight: 'bold' }}>
+                        {difference === 0 ? ' ✅ Balanced' : ` ❌ Out of Balance: $${Math.abs(difference).toLocaleString()}`}
+                      </span>
+                    </div>
+                  </div>
                   <Button type="button" variant="secondary" onClick={addJournalLine}>
                     <Plus size={16} />
-                    Add Line
+                    Add Entry Pair
                   </Button>
                 </JournalHeader>
 
-                {journalLines.map((line, index) => (
-                  <JournalLineItem key={index}>
-                    <FormGroup>
-                      <Label>Account</Label>
-                      <Select
-                        value={line.account}
-                        onChange={(e) => updateJournalLine(index, 'account', e.target.value)}
-                        required
-                      >
-                        <option value="">Select Account</option>
-                        {availableAccounts.map((account) => (
-                          <option key={account.code} value={account.code}>
-                            {account.code} - {account.name}
-                          </option>
-                        ))}
-                      </Select>
-                    </FormGroup>
-                    <FormGroup>
-                      <Label>Debit</Label>
-                      <Input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        placeholder="0.00"
-                        value={line.debit || ''}
-                        onChange={(e) => updateJournalLine(index, 'debit', parseFloat(e.target.value) || 0)}
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label>Credit</Label>
-                      <Input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        placeholder="0.00"
-                        value={line.credit || ''}
-                        onChange={(e) => updateJournalLine(index, 'credit', parseFloat(e.target.value) || 0)}
-                      />
-                    </FormGroup>
-                    {journalLines.length > 1 && (
-                      <Button
-                        type="button"
-                        variant="danger"
-                        onClick={() => removeJournalLine(index)}
-                        style={{ alignSelf: 'end' }}
-                      >
-                        <Trash2 size={16} />
-                      </Button>
-                    )}
-                  </JournalLineItem>
-                ))}
+                {journalLines.map((line, index) => {
+                  const selectedAccount = availableAccounts.find(acc => acc.code === line.account);
+                  const isDebitLine = index % 2 === 0;
+                  const isValidLine = line.account && (line.debit > 0 || line.credit > 0) && !(line.debit > 0 && line.credit > 0);
+                  const hasError = line.account && line.debit > 0 && line.credit > 0;
+
+                  return (
+                    <div key={index} style={{
+                      border: hasError ? '2px solid #ef4444' : isValidLine ? '2px solid #22c55e' : '1px solid #e2e8f0',
+                      borderRadius: '8px',
+                      padding: '12px',
+                      marginBottom: '12px',
+                      background: hasError ? '#fef2f2' : isValidLine ? '#f0fdf4' : '#ffffff'
+                    }}>
+                      <div style={{ display: 'flex', gap: '12px', alignItems: 'end' }}>
+                        <FormGroup style={{ flex: 2 }}>
+                          <Label>{isDebitLine ? 'Debit Account (Line ' + (Math.floor(index/2) + 1) + ')' : 'Credit Account (Line ' + (Math.floor(index/2) + 1) + ')'}</Label>
+                          <Select
+                            value={line.account}
+                            onChange={(e) => updateJournalLine(index, 'account', e.target.value)}
+                            required
+                          >
+                            <option value="">Select Account</option>
+                            <optgroup label="Assets (normally debit balance)">
+                              {availableAccounts.filter(acc => acc.type === 'ASSET').map((account) => (
+                                <option key={account.code} value={account.code}>
+                                  {account.code} - {account.name}
+                                </option>
+                              ))}
+                            </optgroup>
+                            <optgroup label="Liabilities (normally credit balance)">
+                              {availableAccounts.filter(acc => acc.type === 'LIABILITY').map((account) => (
+                                <option key={account.code} value={account.code}>
+                                  {account.code} - {account.name}
+                                </option>
+                              ))}
+                            </optgroup>
+                            <optgroup label="Equity (normally credit balance)">
+                              {availableAccounts.filter(acc => acc.type === 'EQUITY').map((account) => (
+                                <option key={account.code} value={account.code}>
+                                  {account.code} - {account.name}
+                                </option>
+                              ))}
+                            </optgroup>
+                            <optgroup label="Revenue (normally credit balance)">
+                              {availableAccounts.filter(acc => acc.type === 'REVENUE').map((account) => (
+                                <option key={account.code} value={account.code}>
+                                  {account.code} - {account.name}
+                                </option>
+                              ))}
+                            </optgroup>
+                            <optgroup label="Expenses (normally debit balance)">
+                              {availableAccounts.filter(acc => acc.type === 'EXPENSE').map((account) => (
+                                <option key={account.code} value={account.code}>
+                                  {account.code} - {account.name}
+                                </option>
+                              ))}
+                            </optgroup>
+                          </Select>
+                          {selectedAccount && (
+                            <div style={{ fontSize: '12px', color: '#666', marginTop: '4px' }}>
+                              {selectedAccount.type} • Normal Balance: {selectedAccount.type === 'ASSET' || selectedAccount.type === 'EXPENSE' ? 'Debit' : 'Credit'}
+                            </div>
+                          )}
+                        </FormGroup>
+
+                        {isDebitLine ? (
+                          <FormGroup style={{ flex: 1 }}>
+                            <Label>Debit Amount</Label>
+                            <Input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              placeholder="0.00"
+                              value={line.debit || ''}
+                              onChange={(e) => {
+                                const value = parseFloat(e.target.value) || 0;
+                                updateJournalLine(index, 'debit', value);
+                                updateJournalLine(index, 'credit', 0);
+                              }}
+                              style={{
+                                borderColor: line.debit > 0 ? '#22c55e' : undefined
+                              }}
+                            />
+                          </FormGroup>
+                        ) : (
+                          <FormGroup style={{ flex: 1 }}>
+                            <Label>Credit Amount</Label>
+                            <Input
+                              type="number"
+                              min="0"
+                              step="0.01"
+                              placeholder="0.00"
+                              value={line.credit || ''}
+                              onChange={(e) => {
+                                const value = parseFloat(e.target.value) || 0;
+                                updateJournalLine(index, 'credit', value);
+                                updateJournalLine(index, 'debit', 0);
+                              }}
+                              style={{
+                                borderColor: line.credit > 0 ? '#22c55e' : undefined
+                              }}
+                            />
+                          </FormGroup>
+                        )}
+
+                        {journalLines.length > 2 && (
+                          <Button
+                            type="button"
+                            variant="danger"
+                            onClick={() => removeJournalLine(index)}
+                            style={{ alignSelf: 'end', padding: '8px' }}
+                          >
+                            <Trash2 size={16} />
+                          </Button>
+                        )}
+                      </div>
+
+                      {hasError && (
+                        <div style={{ color: '#ef4444', fontSize: '12px', marginTop: '8px', fontWeight: 'bold' }}>
+                          ⚠️ Error: A line cannot have both debit and credit amounts
+                        </div>
+                      )}
+                      {line.account && !line.debit && !line.credit && (
+                        <div style={{ color: '#f59e0b', fontSize: '12px', marginTop: '8px' }}>
+                          ⚠️ Please enter {isDebitLine ? 'a debit amount' : 'a credit amount'}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
 
                 <Summary>
                   <SummaryItem>
@@ -1099,11 +1354,45 @@ const Bookkeeping: React.FC = () => {
                   <X size={16} />
                   Cancel
                 </Button>
-                <Button type="submit" disabled={difference !== 0}>
-                  <Save size={16} />
-                  Save Entry
+                <Button
+                  type="submit"
+                  disabled={difference !== 0}
+                  style={{
+                    background: difference === 0 ? '#22c55e' : '#e2e8f0',
+                    color: difference === 0 ? 'white' : '#9ca3af',
+                    cursor: difference === 0 ? 'pointer' : 'not-allowed'
+                  }}
+                  title={difference !== 0 ? `Entry is out of balance by $${Math.abs(difference).toFixed(2)}` : 'Save balanced journal entry'}
+                >
+                  {difference === 0 ? (
+                    <>
+                      <Save size={16} />
+                      Save Entry ✓
+                    </>
+                  ) : (
+                    <>
+                      <AlertTriangle size={16} />
+                      Out of Balance
+                    </>
+                  )}
                 </Button>
               </ButtonGroup>
+
+              {difference !== 0 && (
+                <div style={{
+                  background: '#fef3cd',
+                  border: '1px solid #fbbf24',
+                  borderRadius: '8px',
+                  padding: '12px',
+                  marginTop: '1rem',
+                  fontSize: '14px',
+                  color: '#92400e'
+                }}>
+                  <strong>⚠️ Entry Not Balanced:</strong> Your total debits (${totalDebits.toFixed(2)})
+                  don't equal your total credits (${totalCredits.toFixed(2)}).
+                  Please adjust the amounts so they are equal before saving.
+                </div>
+              )}
             </Form>
           </Card>
         )}
@@ -1124,7 +1413,7 @@ const Bookkeeping: React.FC = () => {
               <DataItem key={entry.id} onClick={() => handleJournalEntryClick(entry)} style={{ cursor: 'pointer' }}>
                 <strong>{entry.entry_number}</strong> - {entry.description}
                 <br />
-                <small>Date: {entry.date} | Status: {entry.status} | Lines: {entry.lines.length}</small>
+                <small>Date: {entry.date} | Status: {entry.status} | Lines: {entry.lines?.length || 0}</small>
               </DataItem>
             ))}
             {journalEntries.length === 0 && (
@@ -1201,18 +1490,21 @@ const Bookkeeping: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {selectedJournalEntry.lines.map((line, index) => {
-                      const account = availableAccounts.find(acc => acc.code === line.account_code);
+                    {(selectedJournalEntry.lines || []).map((line, index) => {
+                      const accountCode = line.account_code || (typeof line.account === 'string' ? line.account : line.accountId);
+                      const account = availableAccounts.find(acc => acc.code === accountCode);
+                      const debitAmount = line.debit || line.debit_amount || 0;
+                      const creditAmount = line.credit || line.credit_amount || 0;
                       return (
                         <tr key={index}>
                           <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>
-                            {line.account_code} - {account?.name || 'Unknown Account'}
+                            {accountCode} - {account?.name || line.account_name || 'Unknown Account'}
                           </td>
                           <td style={{ padding: '0.75rem', border: '1px solid #dee2e6', textAlign: 'right' }}>
-                            {line.debit_amount > 0 ? `$${line.debit_amount.toFixed(2)}` : ''}
+                            {debitAmount > 0 ? `$${debitAmount.toFixed(2)}` : ''}
                           </td>
                           <td style={{ padding: '0.75rem', border: '1px solid #dee2e6', textAlign: 'right' }}>
-                            {line.credit_amount > 0 ? `$${line.credit_amount.toFixed(2)}` : ''}
+                            {creditAmount > 0 ? `$${creditAmount.toFixed(2)}` : ''}
                           </td>
                         </tr>
                       );
@@ -1222,10 +1514,10 @@ const Bookkeeping: React.FC = () => {
                     <tr style={{ backgroundColor: '#f8f9fa', fontWeight: 'bold' }}>
                       <td style={{ padding: '0.75rem', border: '1px solid #dee2e6' }}>Totals:</td>
                       <td style={{ padding: '0.75rem', border: '1px solid #dee2e6', textAlign: 'right' }}>
-                        ${selectedJournalEntry.lines.reduce((sum, line) => sum + line.debit_amount, 0).toFixed(2)}
+                        ${(selectedJournalEntry.lines || []).reduce((sum, line) => sum + (line.debit || line.debit_amount || 0), 0).toFixed(2)}
                       </td>
                       <td style={{ padding: '0.75rem', border: '1px solid #dee2e6', textAlign: 'right' }}>
-                        ${selectedJournalEntry.lines.reduce((sum, line) => sum + line.credit_amount, 0).toFixed(2)}
+                        ${(selectedJournalEntry.lines || []).reduce((sum, line) => sum + (line.credit || line.credit_amount || 0), 0).toFixed(2)}
                       </td>
                     </tr>
                   </tfoot>
@@ -1235,8 +1527,8 @@ const Bookkeeping: React.FC = () => {
 
             {/* Balance Verification */}
             {(() => {
-              const totalDebits = selectedJournalEntry.lines.reduce((sum, line) => sum + line.debit_amount, 0);
-              const totalCredits = selectedJournalEntry.lines.reduce((sum, line) => sum + line.credit_amount, 0);
+              const totalDebits = (selectedJournalEntry.lines || []).reduce((sum, line) => sum + (line.debit || line.debit_amount || 0), 0);
+              const totalCredits = (selectedJournalEntry.lines || []).reduce((sum, line) => sum + (line.credit || line.credit_amount || 0), 0);
               const isBalanced = Math.abs(totalDebits - totalCredits) < 0.01;
 
               return (
@@ -1378,10 +1670,10 @@ const Bookkeeping: React.FC = () => {
           <DataList>
             {transactions.slice(0, 10).map((transaction) => (
               <DataItem key={transaction.id}>
-                <strong>${transaction.total_amount}</strong> - {transaction.description}
+                <strong>${transaction.totalAmount}</strong> - {transaction.description}
                 <br />
                 <small>
-                  Date: {transaction.transaction_date} | Type: {transaction.transaction_type}
+                  Date: {transaction.transactionDate} | Type: {transaction.transactionType}
                 </small>
               </DataItem>
             ))}
@@ -1542,6 +1834,334 @@ const Bookkeeping: React.FC = () => {
     );
   };
 
+  const renderFinancialReports = () => {
+
+    // Financial statement data from Reports.tsx
+    const profitLossData = [
+      { category: 'Revenue', account: 'Roofing Services Revenue', amount: 1062000 },
+      { category: 'Revenue', account: 'Emergency Repair Revenue', amount: 148000 },
+      { category: 'Revenue', account: 'Materials Markup', amount: 89000 },
+      { category: 'Cost of Goods Sold', account: 'Materials Expense', amount: -425000 },
+      { category: 'Cost of Goods Sold', account: 'Subcontractor Costs', amount: -187000 },
+      { category: 'Operating Expenses', account: 'Labor Expense', amount: -371250 },
+      { category: 'Operating Expenses', account: 'Equipment Rental', amount: -84800 },
+      { category: 'Operating Expenses', account: 'Insurance Expense', amount: -63600 },
+      { category: 'Operating Expenses', account: 'Vehicle Expenses', amount: -45200 },
+      { category: 'Operating Expenses', account: 'Office Expenses', amount: -28400 },
+    ];
+
+    const balanceSheetData = {
+      assets: [
+        { category: 'Current Assets', account: 'Cash and Cash Equivalents', amount: 125000 },
+        { category: 'Current Assets', account: 'Accounts Receivable', amount: 285000 },
+        { category: 'Current Assets', account: 'Materials Inventory', amount: 95000 },
+        { category: 'Current Assets', account: 'Prepaid Insurance', amount: 18000 },
+        { category: 'Fixed Assets', account: 'Equipment and Tools', amount: 185000 },
+        { category: 'Fixed Assets', account: 'Vehicles', amount: 265000 },
+        { category: 'Fixed Assets', account: 'Office Equipment', amount: 25000 },
+        { category: 'Fixed Assets', account: 'Accumulated Depreciation', amount: -85000 },
+      ],
+      liabilities: [
+        { category: 'Current Liabilities', account: 'Accounts Payable', amount: 125000 },
+        { category: 'Current Liabilities', account: 'Accrued Expenses', amount: 45000 },
+        { category: 'Current Liabilities', account: 'Customer Deposits', amount: 65000 },
+        { category: 'Current Liabilities', account: 'Short-term Debt', amount: 35000 },
+        { category: 'Long-term Liabilities', account: 'Equipment Loans', amount: 145000 },
+        { category: 'Long-term Liabilities', account: 'Vehicle Loans', amount: 185000 },
+      ],
+      equity: [
+        { category: 'Equity', account: "Owner's Capital", amount: 300000 },
+        { category: 'Equity', account: 'Retained Earnings', amount: 93000 },
+      ]
+    };
+
+    const cashFlowData = [
+      { category: 'Operating Activities', account: 'Net Income', amount: 93750 },
+      { category: 'Operating Activities', account: 'Depreciation', amount: 12500 },
+      { category: 'Operating Activities', account: 'Accounts Receivable Change', amount: -35000 },
+      { category: 'Operating Activities', account: 'Inventory Change', amount: -8000 },
+      { category: 'Operating Activities', account: 'Accounts Payable Change', amount: 15000 },
+      { category: 'Operating Activities', account: 'Accrued Expenses Change', amount: 5000 },
+      { category: 'Investing Activities', account: 'Equipment Purchase', amount: -25000 },
+      { category: 'Investing Activities', account: 'Vehicle Purchase', amount: -45000 },
+      { category: 'Financing Activities', account: 'Loan Proceeds', amount: 50000 },
+      { category: 'Financing Activities', account: 'Loan Payments', amount: -35000 },
+      { category: 'Financing Activities', account: 'Owner Draws', amount: -25000 },
+    ];
+
+    const formatCurrency = (amount: number) => {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }).format(amount);
+    };
+
+    return (
+      <div>
+        <Card>
+          <SectionTitle>Financial Reports</SectionTitle>
+
+          {/* Statement Tabs */}
+          <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid #e5e7eb' }}>
+            <Button
+              variant={activeFinancialStatement === 'trial-balance' ? 'primary' : 'secondary'}
+              onClick={() => setActiveFinancialStatement('trial-balance')}
+              style={{ backgroundColor: activeFinancialStatement === 'trial-balance' ? undefined : 'transparent', border: 'none', borderBottom: activeFinancialStatement === 'trial-balance' ? '2px solid' : '2px solid transparent' }}
+            >
+              Trial Balance
+            </Button>
+            <Button
+              variant={activeFinancialStatement === 'profit-loss' ? 'primary' : 'secondary'}
+              onClick={() => setActiveFinancialStatement('profit-loss')}
+              style={{ backgroundColor: activeFinancialStatement === 'profit-loss' ? undefined : 'transparent', border: 'none', borderBottom: activeFinancialStatement === 'profit-loss' ? '2px solid' : '2px solid transparent' }}
+            >
+              P&L Statement
+            </Button>
+            <Button
+              variant={activeFinancialStatement === 'balance-sheet' ? 'primary' : 'secondary'}
+              onClick={() => setActiveFinancialStatement('balance-sheet')}
+              style={{ backgroundColor: activeFinancialStatement === 'balance-sheet' ? undefined : 'transparent', border: 'none', borderBottom: activeFinancialStatement === 'balance-sheet' ? '2px solid' : '2px solid transparent' }}
+            >
+              Balance Sheet
+            </Button>
+            <Button
+              variant={activeFinancialStatement === 'cash-flow' ? 'primary' : 'secondary'}
+              onClick={() => setActiveFinancialStatement('cash-flow')}
+              style={{ backgroundColor: activeFinancialStatement === 'cash-flow' ? undefined : 'transparent', border: 'none', borderBottom: activeFinancialStatement === 'cash-flow' ? '2px solid' : '2px solid transparent' }}
+            >
+              Cash Flow
+            </Button>
+          </div>
+
+          {/* Trial Balance */}
+          {activeFinancialStatement === 'trial-balance' && (
+            <div>
+              {renderTrialBalance()}
+            </div>
+          )}
+
+          {/* Profit & Loss Statement */}
+          {activeFinancialStatement === 'profit-loss' && (
+            <div>
+              <h4 style={{ marginBottom: '1rem' }}>Profit & Loss Statement</h4>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: 'left', padding: '12px', fontWeight: '600', borderBottom: '2px solid #e5e7eb' }}>Account</th>
+                    <th style={{ textAlign: 'right', padding: '12px', fontWeight: '600', borderBottom: '2px solid #e5e7eb' }}>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {profitLossData.map((item, index) => (
+                    <tr key={index}>
+                      <td style={{ padding: '12px', borderBottom: '1px solid #f1f5f9' }}>{item.account}</td>
+                      <td style={{ textAlign: 'right', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>
+                        <span style={{ color: item.amount < 0 ? '#dc2626' : '#059669', fontWeight: '600' }}>
+                          {formatCurrency(Math.abs(item.amount))}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr style={{ borderTop: '2px solid #1e40af', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }}>Net Income</td>
+                    <td style={{ textAlign: 'right', padding: '12px' }}>
+                      <span style={{ color: '#059669', fontWeight: '600' }}>{formatCurrency(93750)}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {/* Balance Sheet */}
+          {activeFinancialStatement === 'balance-sheet' && (
+            <div>
+              <h4 style={{ marginBottom: '1rem' }}>Balance Sheet</h4>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: 'left', padding: '12px', fontWeight: '600', borderBottom: '2px solid #e5e7eb' }}>Account</th>
+                    <th style={{ textAlign: 'right', padding: '12px', fontWeight: '600', borderBottom: '2px solid #e5e7eb' }}>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={{ backgroundColor: '#f8fafc', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }} colSpan={2}>ASSETS</td>
+                  </tr>
+                  {balanceSheetData.assets.map((item, index) => (
+                    <tr key={`asset-${index}`}>
+                      <td style={{ paddingLeft: '2rem', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>{item.account}</td>
+                      <td style={{ textAlign: 'right', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>
+                        <span style={{ color: item.amount < 0 ? '#dc2626' : '#059669', fontWeight: '600' }}>
+                          {formatCurrency(Math.abs(item.amount))}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr style={{ borderTop: '2px solid #e5e7eb', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }}>Total Assets</td>
+                    <td style={{ textAlign: 'right', padding: '12px' }}>
+                      <span style={{ color: '#059669', fontWeight: '600' }}>{formatCurrency(913000)}</span>
+                    </td>
+                  </tr>
+
+                  <tr style={{ backgroundColor: '#f8fafc', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }} colSpan={2}>LIABILITIES</td>
+                  </tr>
+                  {balanceSheetData.liabilities.map((item, index) => (
+                    <tr key={`liability-${index}`}>
+                      <td style={{ paddingLeft: '2rem', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>{item.account}</td>
+                      <td style={{ textAlign: 'right', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>
+                        <span style={{ fontWeight: '600' }}>{formatCurrency(item.amount)}</span>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr style={{ borderTop: '1px solid #e5e7eb', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }}>Total Liabilities</td>
+                    <td style={{ textAlign: 'right', padding: '12px' }}>
+                      <span style={{ fontWeight: '600' }}>{formatCurrency(600000)}</span>
+                    </td>
+                  </tr>
+
+                  <tr style={{ backgroundColor: '#f8fafc', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }} colSpan={2}>EQUITY</td>
+                  </tr>
+                  {balanceSheetData.equity.map((item, index) => (
+                    <tr key={`equity-${index}`}>
+                      <td style={{ paddingLeft: '2rem', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>{item.account}</td>
+                      <td style={{ textAlign: 'right', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>
+                        <span style={{ fontWeight: '600' }}>{formatCurrency(item.amount)}</span>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr style={{ borderTop: '2px solid #e5e7eb', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }}>Total Equity</td>
+                    <td style={{ textAlign: 'right', padding: '12px' }}>
+                      <span style={{ fontWeight: '600' }}>{formatCurrency(393000)}</span>
+                    </td>
+                  </tr>
+
+                  <tr style={{ borderTop: '3px solid #1e40af', fontWeight: 'bold', backgroundColor: '#eff6ff' }}>
+                    <td style={{ padding: '12px' }}>Total Liabilities & Equity</td>
+                    <td style={{ textAlign: 'right', padding: '12px' }}>
+                      <span style={{ fontWeight: '600' }}>{formatCurrency(993000)}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {/* Cash Flow Statement */}
+          {activeFinancialStatement === 'cash-flow' && (
+            <div>
+              <h4 style={{ marginBottom: '1rem' }}>Cash Flow Statement</h4>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: 'left', padding: '12px', fontWeight: '600', borderBottom: '2px solid #e5e7eb' }}>Cash Flow Activity</th>
+                    <th style={{ textAlign: 'right', padding: '12px', fontWeight: '600', borderBottom: '2px solid #e5e7eb' }}>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr style={{ backgroundColor: '#f8fafc', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }} colSpan={2}>OPERATING ACTIVITIES</td>
+                  </tr>
+                  {cashFlowData.filter(item => item.category === 'Operating Activities').map((item, index) => (
+                    <tr key={`operating-${index}`}>
+                      <td style={{ paddingLeft: '2rem', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>{item.account}</td>
+                      <td style={{ textAlign: 'right', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>
+                        <span style={{ color: item.amount < 0 ? '#dc2626' : '#059669', fontWeight: '600' }}>
+                          {formatCurrency(Math.abs(item.amount))}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr style={{ borderTop: '1px solid #e5e7eb', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }}>Net Cash from Operating Activities</td>
+                    <td style={{ textAlign: 'right', padding: '12px' }}>
+                      <span style={{ color: '#059669', fontWeight: '600' }}>{formatCurrency(83250)}</span>
+                    </td>
+                  </tr>
+
+                  <tr style={{ backgroundColor: '#f8fafc', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }} colSpan={2}>INVESTING ACTIVITIES</td>
+                  </tr>
+                  {cashFlowData.filter(item => item.category === 'Investing Activities').map((item, index) => (
+                    <tr key={`investing-${index}`}>
+                      <td style={{ paddingLeft: '2rem', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>{item.account}</td>
+                      <td style={{ textAlign: 'right', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>
+                        <span style={{ color: item.amount < 0 ? '#dc2626' : '#059669', fontWeight: '600' }}>
+                          {formatCurrency(Math.abs(item.amount))}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr style={{ borderTop: '1px solid #e5e7eb', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }}>Net Cash from Investing Activities</td>
+                    <td style={{ textAlign: 'right', padding: '12px' }}>
+                      <span style={{ color: '#dc2626', fontWeight: '600' }}>{formatCurrency(70000)}</span>
+                    </td>
+                  </tr>
+
+                  <tr style={{ backgroundColor: '#f8fafc', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }} colSpan={2}>FINANCING ACTIVITIES</td>
+                  </tr>
+                  {cashFlowData.filter(item => item.category === 'Financing Activities').map((item, index) => (
+                    <tr key={`financing-${index}`}>
+                      <td style={{ paddingLeft: '2rem', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>{item.account}</td>
+                      <td style={{ textAlign: 'right', padding: '12px', borderBottom: '1px solid #f1f5f9' }}>
+                        <span style={{ color: item.amount < 0 ? '#dc2626' : '#059669', fontWeight: '600' }}>
+                          {formatCurrency(Math.abs(item.amount))}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                  <tr style={{ borderTop: '1px solid #e5e7eb', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }}>Net Cash from Financing Activities</td>
+                    <td style={{ textAlign: 'right', padding: '12px' }}>
+                      <span style={{ color: '#dc2626', fontWeight: '600' }}>{formatCurrency(10000)}</span>
+                    </td>
+                  </tr>
+
+                  <tr style={{ borderTop: '3px solid #1e40af', fontWeight: 'bold', backgroundColor: '#eff6ff' }}>
+                    <td style={{ padding: '12px' }}>Net Change in Cash</td>
+                    <td style={{ textAlign: 'right', padding: '12px' }}>
+                      <span style={{ color: '#059669', fontWeight: '600' }}>{formatCurrency(3250)}</span>
+                    </td>
+                  </tr>
+
+                  <tr style={{ fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }}>Cash at Beginning of Period</td>
+                    <td style={{ textAlign: 'right', padding: '12px' }}>
+                      <span style={{ fontWeight: '600' }}>{formatCurrency(121750)}</span>
+                    </td>
+                  </tr>
+
+                  <tr style={{ borderTop: '2px solid #e5e7eb', fontWeight: 'bold' }}>
+                    <td style={{ padding: '12px' }}>Cash at End of Period</td>
+                    <td style={{ textAlign: 'right', padding: '12px' }}>
+                      <span style={{ color: '#059669', fontWeight: '600' }}>{formatCurrency(125000)}</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          )}
+        </Card>
+
+        <InfoBox>
+          <InfoTitle>Financial Reports Information</InfoTitle>
+          <InfoText>
+            These financial statements provide comprehensive views of the company's financial position and performance.
+            The trial balance ensures debits equal credits, the P&L shows profitability, the balance sheet displays
+            financial position, and cash flow tracks money movement through operations, investing, and financing activities.
+          </InfoText>
+        </InfoBox>
+      </div>
+    );
+  };
+
   const renderPlaceholder = (title: string, description: string, icon: any) => {
     const IconComponent = icon;
     return (
@@ -1568,11 +2188,7 @@ const Bookkeeping: React.FC = () => {
           CreditCard
         );
       case 'reports':
-        return renderPlaceholder(
-          'Financial Reports',
-          'Trial balance, income statement, and balance sheet generation capabilities coming soon.',
-          BarChart3
-        );
+        return renderFinancialReports();
       case 'closing':
         return renderPlaceholder(
           'Period Closing',
@@ -1738,6 +2354,38 @@ const Bookkeeping: React.FC = () => {
               );
             })()}
           </Card>
+        </div>
+      )}
+
+      {/* Transaction Wizard Modal */}
+      {showTransactionWizard && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '1rem'
+        }}>
+          <div style={{
+            width: '90%',
+            maxWidth: '900px',
+            maxHeight: '90vh',
+            overflow: 'auto',
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+          }}>
+            <TransactionWizard
+              onSubmit={handleWizardSubmit}
+              onCancel={handleWizardCancel}
+            />
+          </div>
         </div>
       )}
     </Container>

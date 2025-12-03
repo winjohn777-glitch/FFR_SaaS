@@ -21,6 +21,10 @@ const healthRoutes = require('./routes/health');
 const integrationRoutes = require('./routes/integration');
 const sopRoutes = require('./routes/sop');
 
+// Accounting routes
+const customersRoutes = require('./routes/customers');
+const journalRoutes = require('./routes/journal');
+
 // Import middleware
 const { errorHandler } = require('./middleware/errorHandler');
 const { authMiddleware } = require('./middleware/auth');
@@ -90,7 +94,7 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',
     timestamp: new Date().toISOString(),
-    service: 'Florida First Roofing LMS API',
+    service: 'Florida First Roofing Accounting API',
     version: '1.0.0'
   });
 });
@@ -111,6 +115,10 @@ app.use('/api/reports', authMiddleware, reportRoutes);
 app.use('/api/uploads', authMiddleware, uploadRoutes);
 app.use('/api/integration', integrationRoutes);
 app.use('/api/sop', sopRoutes);
+
+// Accounting API Routes
+app.use('/api/customers', customersRoutes);
+app.use('/api/journal', journalRoutes);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
@@ -160,10 +168,10 @@ process.on('SIGINT', () => {
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Florida First Roofing LMS API Server running on port ${PORT}`);
-  console.log(`📚 Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🚀 Florida First Roofing Accounting API Server running on port ${PORT}`);
+  console.log(`💼 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔗 Health check: http://localhost:${PORT}/api/health`);
-  
+
   if (process.env.NODE_ENV !== 'production') {
     console.log(`📖 API Documentation: http://localhost:${PORT}/api/docs`);
   }

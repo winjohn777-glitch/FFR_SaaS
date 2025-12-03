@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { X, TrendingUp, Users, DollarSign, Calendar, Target, ArrowRight, Plus, Edit, Trash2, BarChart3 } from 'lucide-react';
+import { X, TrendingUp, Users, DollarSign, Target, ArrowRight, Plus, Edit, Trash2, BarChart3 } from 'lucide-react';
+import DealModal from './DealModal';
 
 interface SalesPipelineModalProps {
   isOpen: boolean;
@@ -36,11 +37,20 @@ const ModalOverlay = styled.div`
 const ModalContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.surface};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
-  width: 95vw;
-  max-width: 1200px;
-  max-height: 90vh;
+  width: 98vw;
+  max-width: 1400px;
+  max-height: 95vh;
   overflow-y: auto;
   box-shadow: ${({ theme }) => theme.shadows.xl};
+  margin: ${({ theme }) => theme.spacing.sm};
+
+  @media (max-width: 768px) {
+    width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    border-radius: 0;
+    margin: 0;
+  }
 `;
 
 const ModalHeader = styled.div`
@@ -76,7 +86,11 @@ const CloseButton = styled.button`
 `;
 
 const ModalBody = styled.div`
-  padding: ${({ theme }) => theme.spacing.xl};
+  padding: ${({ theme }) => theme.spacing.lg};
+
+  @media (max-width: 768px) {
+    padding: ${({ theme }) => theme.spacing.md};
+  }
 `;
 
 const PipelineStats = styled.div`
@@ -119,78 +133,155 @@ const StatLabel = styled.div`
 `;
 
 const PipelineContainer = styled.div`
-  display: flex;
-  gap: ${({ theme }) => theme.spacing.lg};
-  overflow-x: auto;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: ${({ theme }) => theme.spacing.md};
   margin-bottom: ${({ theme }) => theme.spacing.xl};
-  padding-bottom: ${({ theme }) => theme.spacing.md};
+  min-height: 500px;
+
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+  }
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, 1fr);
+    gap: ${({ theme }) => theme.spacing.sm};
+    min-height: auto;
+  }
 `;
 
 const PipelineStage = styled.div`
-  min-width: 280px;
   background-color: ${({ theme }) => theme.colors.background};
   border-radius: ${({ theme }) => theme.borderRadius.lg};
   border: 1px solid ${({ theme }) => theme.colors.border};
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  @media (max-width: 600px) {
+    min-height: 280px;
+  }
 `;
 
 const StageHeader = styled.div<{ color: string }>`
   background: linear-gradient(135deg, ${({ color }) => color}, ${({ color }) => color}dd);
   color: white;
-  padding: ${({ theme }) => theme.spacing.lg};
+  padding: ${({ theme }) => theme.spacing.md};
   border-radius: ${({ theme }) => theme.borderRadius.lg} ${({ theme }) => theme.borderRadius.lg} 0 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: ${({ theme }) => theme.spacing.xs};
+  }
 `;
 
 const StageTitle = styled.h3`
   font-size: 1rem;
   font-weight: 600;
+  margin: 0;
+
+  @media (max-width: 600px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const StageValue = styled.div`
   font-size: 0.875rem;
   opacity: 0.9;
+  font-weight: 600;
+
+  @media (max-width: 600px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const StageBody = styled.div`
-  padding: ${({ theme }) => theme.spacing.lg};
-  min-height: 400px;
+  padding: ${({ theme }) => theme.spacing.md};
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 600px) {
+    padding: ${({ theme }) => theme.spacing.sm};
+  }
 `;
 
 const DealCard = styled.div`
   background-color: ${({ theme }) => theme.colors.surface};
   border-radius: ${({ theme }) => theme.borderRadius.md};
-  padding: ${({ theme }) => theme.spacing.md};
-  margin-bottom: ${({ theme }) => theme.spacing.md};
+  padding: ${({ theme }) => theme.spacing.sm};
+  margin-bottom: ${({ theme }) => theme.spacing.sm};
   border: 1px solid ${({ theme }) => theme.colors.border};
   cursor: pointer;
   transition: all 0.2s ease;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &:hover {
-    box-shadow: ${({ theme }) => theme.shadows.md};
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     transform: translateY(-1px);
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 600px) {
+    padding: ${({ theme }) => theme.spacing.xs};
+    min-height: 100px;
   }
 `;
 
 const DealHeader = styled.div`
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: flex-start;
   margin-bottom: ${({ theme }) => theme.spacing.sm};
+  gap: ${({ theme }) => theme.spacing.sm};
 `;
 
 const DealName = styled.div`
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text.primary};
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   flex: 1;
+  line-height: 1.2;
+
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+  }
 `;
 
 const DealValue = styled.div`
   font-weight: 700;
   color: ${({ theme }) => theme.colors.secondary};
-  font-size: 0.875rem;
+  font-size: 0.8rem;
+  white-space: nowrap;
+
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+  }
 `;
 
 const DealMeta = styled.div`
@@ -227,20 +318,40 @@ const ProbabilityBar = styled.div<{ probability: number }>`
 
 const ActionButtons = styled.div`
   display: flex;
-  gap: ${({ theme }) => theme.spacing.sm};
+  gap: ${({ theme }) => theme.spacing.xs};
   margin-top: ${({ theme }) => theme.spacing.sm};
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    gap: ${({ theme }) => theme.spacing.xs};
+    margin-top: ${({ theme }) => theme.spacing.xs};
+  }
 `;
 
 const SmallButton = styled.button<{ variant?: 'primary' | 'secondary' | 'danger' }>`
   padding: ${({ theme }) => theme.spacing.xs} ${({ theme }) => theme.spacing.sm};
   border-radius: ${({ theme }) => theme.borderRadius.sm};
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   cursor: pointer;
   transition: all 0.2s ease;
   border: 1px solid;
   display: flex;
   align-items: center;
   gap: ${({ theme }) => theme.spacing.xs};
+  flex: 1;
+  justify-content: center;
+  min-width: 0;
+
+  @media (max-width: 768px) {
+    font-size: 0.6rem;
+    padding: 2px 4px;
+    min-width: 45px;
+
+    /* Hide text on mobile, keep only icons */
+    span {
+      display: none;
+    }
+  }
 
   ${({ variant, theme }) => {
     switch (variant) {
@@ -282,11 +393,22 @@ const AddDealButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: ${({ theme }) => theme.spacing.sm};
+  margin-top: auto;
+  min-height: 50px;
+  font-size: 0.875rem;
+  font-weight: 500;
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.primary};
     color: ${({ theme }) => theme.colors.primary};
     background-color: ${({ theme }) => theme.colors.primary}05;
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 600px) {
+    padding: ${({ theme }) => theme.spacing.sm};
+    font-size: 0.75rem;
+    min-height: 40px;
   }
 `;
 
@@ -336,6 +458,10 @@ const SalesPipelineModal: React.FC<SalesPipelineModalProps> = ({
   onClose,
   onSave
 }) => {
+  const [showDealModal, setShowDealModal] = useState(false);
+  const [dealModalMode, setDealModalMode] = useState<'add' | 'edit'>('add');
+  const [selectedDeal, setSelectedDeal] = useState<Deal | null>(null);
+
   const [deals, setDeals] = useState<Deal[]>([
     {
       id: '1',
@@ -439,6 +565,28 @@ const SalesPipelineModal: React.FC<SalesPipelineModalProps> = ({
     setDeals(prev => prev.filter(deal => deal.id !== dealId));
   };
 
+  const handleAddDeal = (stageId: string) => {
+    setSelectedDeal(null);
+    setDealModalMode('add');
+    setShowDealModal(true);
+  };
+
+  const handleEditDeal = (deal: Deal) => {
+    setSelectedDeal(deal);
+    setDealModalMode('edit');
+    setShowDealModal(true);
+  };
+
+  const handleSaveDeal = (dealData: Deal) => {
+    if (dealModalMode === 'add') {
+      setDeals(prev => [...prev, dealData]);
+    } else {
+      setDeals(prev => prev.map(deal =>
+        deal.id === dealData.id ? dealData : deal
+      ));
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -514,10 +662,11 @@ const SalesPipelineModal: React.FC<SalesPipelineModalProps> = ({
                       <ActionButtons>
                         <SmallButton
                           variant="secondary"
-                          onClick={() => alert(`Editing deal: ${deal.customerName}`)}
+                          onClick={() => handleEditDeal(deal)}
+                          title="Edit Deal"
                         >
-                          <Edit size={12} />
-                          Edit
+                          <Edit size={10} />
+                          <span>Edit</span>
                         </SmallButton>
                         <SmallButton
                           variant="primary"
@@ -527,9 +676,10 @@ const SalesPipelineModal: React.FC<SalesPipelineModalProps> = ({
                               handleMoveDeal(deal.id, stages[nextStageIndex].id);
                             }
                           }}
+                          title="Advance to Next Stage"
                         >
-                          <ArrowRight size={12} />
-                          Advance
+                          <ArrowRight size={10} />
+                          <span>Next</span>
                         </SmallButton>
                         <SmallButton
                           variant="danger"
@@ -539,14 +689,15 @@ const SalesPipelineModal: React.FC<SalesPipelineModalProps> = ({
                               handleDeleteDeal(deal.id);
                             }
                           }}
+                          title="Delete Deal"
                         >
-                          <Trash2 size={12} />
+                          <Trash2 size={10} />
                         </SmallButton>
                       </ActionButtons>
                     </DealCard>
                   ))}
 
-                  <AddDealButton onClick={() => alert('Add new deal modal would open here')}>
+                  <AddDealButton onClick={() => handleAddDeal(stage.id)}>
                     <Plus size={16} />
                     Add Deal
                   </AddDealButton>
@@ -609,6 +760,14 @@ const SalesPipelineModal: React.FC<SalesPipelineModalProps> = ({
           </ButtonGroup>
         </ModalBody>
       </ModalContainer>
+
+      <DealModal
+        isOpen={showDealModal}
+        onClose={() => setShowDealModal(false)}
+        onSave={handleSaveDeal}
+        deal={selectedDeal}
+        mode={dealModalMode}
+      />
     </ModalOverlay>
   );
 };

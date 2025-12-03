@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: ffr_accounting_db
+    restart: always
+    environment:
+      POSTGRES_DB: ffr_accounting
+      POSTGRES_USER: ffr_user
+      POSTGRES_PASSWORD: ffr_secure_2024
+    ports:
+      - "5432:5432"
+    volumes:
+      - ffr_accounting_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ffr_user -d ffr_accounting"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  ffr_accounting_pg_data:

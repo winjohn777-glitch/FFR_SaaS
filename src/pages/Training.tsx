@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
+import { useData } from '../contexts/DataContext';
 import {
   GraduationCap,
   BookOpen,
@@ -575,6 +576,10 @@ const mockCourses: Course[] = [
 ];
 
 const Training: React.FC = () => {
+  // Get training sessions from DataContext
+  const { getUpcomingTrainingSessions } = useData();
+  const upcomingTrainingSessions = getUpcomingTrainingSessions();
+
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -627,6 +632,128 @@ const Training: React.FC = () => {
           </PageSubtitle>
         </HeaderContent>
       </HeaderSection>
+
+      {/* Upcoming Training Sessions */}
+      {upcomingTrainingSessions.length > 0 && (
+        <div style={{
+          backgroundColor: '#f8fafc',
+          border: '1px solid #e2e8f0',
+          borderRadius: '12px',
+          padding: '24px',
+          marginBottom: '32px'
+        }}>
+          <h3 style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            margin: '0 0 20px 0',
+            fontSize: '1.25rem',
+            fontWeight: '600',
+            color: '#1e293b'
+          }}>
+            <Calendar size={20} />
+            Upcoming Training Sessions ({upcomingTrainingSessions.length})
+          </h3>
+          <div style={{
+            display: 'grid',
+            gap: '16px',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))'
+          }}>
+            {upcomingTrainingSessions.slice(0, 6).map((session) => (
+              <div key={session.id} style={{
+                backgroundColor: 'white',
+                padding: '20px',
+                borderRadius: '8px',
+                border: '1px solid #e2e8f0',
+                boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  marginBottom: '12px'
+                }}>
+                  <h4 style={{
+                    margin: '0',
+                    fontSize: '1rem',
+                    fontWeight: '600',
+                    color: '#1e293b'
+                  }}>
+                    {session.type}
+                  </h4>
+                  <span style={{
+                    padding: '4px 8px',
+                    borderRadius: '4px',
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    textTransform: 'uppercase',
+                    backgroundColor: session.priority === 'high' ? '#fef2f2' :
+                                   session.priority === 'medium' ? '#fff7ed' : '#f0f9ff',
+                    color: session.priority === 'high' ? '#dc2626' :
+                           session.priority === 'medium' ? '#ea580c' : '#2563eb'
+                  }}>
+                    {session.priority}
+                  </span>
+                </div>
+
+                <div style={{
+                  display: 'grid',
+                  gap: '8px',
+                  fontSize: '0.875rem',
+                  color: '#64748b',
+                  marginBottom: '12px'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Users size={14} />
+                    {session.employeeName}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Calendar size={14} />
+                    {new Date(session.date).toLocaleDateString('en-US', {
+                      weekday: 'short',
+                      year: 'numeric',
+                      month: 'short',
+                      day: 'numeric'
+                    })}
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Clock size={14} />
+                    {session.time} ({session.duration})
+                  </div>
+                  {session.location && (
+                    <div>📍 {session.location}</div>
+                  )}
+                  {session.instructor && (
+                    <div>👨‍🏫 {session.instructor}</div>
+                  )}
+                </div>
+
+                {session.notes && (
+                  <div style={{
+                    fontSize: '0.875rem',
+                    color: '#475569',
+                    fontStyle: 'italic',
+                    borderTop: '1px solid #e2e8f0',
+                    paddingTop: '8px'
+                  }}>
+                    {session.notes}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          {upcomingTrainingSessions.length > 6 && (
+            <div style={{
+              textAlign: 'center',
+              marginTop: '16px',
+              fontSize: '0.875rem',
+              color: '#64748b'
+            }}>
+              + {upcomingTrainingSessions.length - 6} more upcoming sessions
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Statistics Overview */}
       <StatsGrid>

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@headlessui/react": "^2.2.8",
+    "@prisma/client": "^5.19.1",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
@@ -32,11 +33,14 @@
     "morgan": "^1.10.1",
     "multer": "^2.0.2",
     "playwright": "^1.55.1",
+    "prisma": "^5.19.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-is": "^19.2.0",
     "react-router-dom": "^7.9.1",
     "react-scripts": "5.0.1",
     "recharts": "^3.2.1",
+    "serve": "^14.2.5",
     "sqlite3": "^5.1.7",
     "styled-components": "^6.1.19",
     "typescript": "^4.9.5",
@@ -63,7 +67,14 @@
     "test:e2e": "cd ../agentic-starter-repo && npx playwright test tests/app-module-inspector.spec.ts",
     "test:all": "npm run test:unit && npm run test:e2e",
     "build:analyze": "npm run build && npx webpack-bundle-analyzer build/static/js/*.js",
-    "health-check": "curl -f http://localhost:3000 && curl -f http://localhost:5000/health || exit 1"
+    "health-check": "curl -f http://localhost:3000 && curl -f http://localhost:5000/health || exit 1",
+    "build:production": "NODE_ENV=production npm run build",
+    "start:production": "npm run build:production && npx serve -s build -l 80",
+    "deploy:production": "./deploy-production.sh",
+    "db:migrate:production": "cd backend && NODE_ENV=production npx prisma migrate deploy",
+    "db:seed:production": "cd backend && NODE_ENV=production npx prisma db seed",
+    "backend:production": "cd backend && NODE_ENV=production npm start",
+    "production:full": "npm run build:production && npm run backend:production"
   },
   "eslintConfig": {
     "extends": [

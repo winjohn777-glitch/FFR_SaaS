@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { X, Calendar, Mail, Phone, MessageSquare, Clock, Target, Settings } from 'lucide-react';
+import { X, Calendar, Mail, MessageSquare, Clock, Target } from 'lucide-react';
 
 interface AutoFollowUpModalProps {
   isOpen: boolean;

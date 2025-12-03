@@ -1,17 +1,9 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const Database = require('better-sqlite3');
-const path = require('path');
+const prisma = require('../db');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-jwt-secret-key-change-in-production';
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '24h';
-
-// Initialize database connection
-const dbPath = process.env.DATABASE_URL || path.join(__dirname, '../../database.sqlite');
-const db = new Database(dbPath);
-
-// Enable foreign key constraints
-db.pragma('foreign_keys = ON');
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -26,9 +18,14 @@ const authMiddleware = async (req, res, next) => {
 
     const decoded = jwt.verify(token, JWT_SECRET);
 
-    // Fetch user from database
-    const stmt = db.prepare('SELECT * FROM users WHERE id = ? AND is_active = TRUE');
-    const user = stmt.get(decoded.userId);
+    // Fetch user from database with organization
+    const user = await prisma.user.findUnique({
+      where: {
+        id: decoded.userId,
+        isActive: true
+      },
+      include: { organization: true }
+    });
 
     if (!user) {
       return res.status(401).json({
@@ -38,16 +35,20 @@ const authMiddleware = async (req, res, next) => {
     }
 
     // Update last login time
-    const updateStmt = db.prepare('UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?');
-    updateStmt.run(user.id);
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { lastLogin: new Date() }
+    });
 
     req.user = {
       id: user.id,
       email: user.email,
       role: user.role,
-      name: `${user.first_name} ${user.last_name}`,
-      first_name: user.first_name,
-      last_name: user.last_name
+      name: `${user.firstName} ${user.lastName}`,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      organizationId: user.organizationId,
+      organization: user.organization
     };
 
     next();
@@ -95,20 +96,25 @@ const comparePassword = async (password, hashedPassword) => {
 // User authentication functions
 const authenticateUser = async (email, password) => {
   try {
-    const stmt = db.prepare('SELECT * FROM users WHERE email = ? AND is_active = TRUE');
-    const user = stmt.get(email);
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+        isActive: true
+      },
+      include: { organization: true }
+    });
 
     if (!user) {
       return null;
     }
 
-    const isValidPassword = await bcrypt.compare(password, user.password_hash);
+    const isValidPassword = await bcrypt.compare(password, user.passwordHash);
     if (!isValidPassword) {
       return null;
     }
 
     // Remove password hash from returned user object
-    const { password_hash, ...userWithoutPassword } = user;
+    const { passwordHash, ...userWithoutPassword } = user;
     return userWithoutPassword;
   } catch (error) {
     console.error('Authentication error:', error);
@@ -118,16 +124,22 @@ const authenticateUser = async (email, password) => {
 
 const createUser = async (userData) => {
   try {
-    const { email, password, role, first_name, last_name } = userData;
+    const { email, password, role, firstName, lastName, organizationId } = userData;
     const hashedPassword = await hashPassword(password);
 
-    const stmt = db.prepare(`
-      INSERT INTO users (email, password_hash, role, first_name, last_name)
-      VALUES (?, ?, ?, ?, ?)
-    `);
+    const user = await prisma.user.create({
+      data: {
+        email,
+        passwordHash: hashedPassword,
+        role,
+        firstName,
+        lastName,
+        organizationId
+      },
+      include: { organization: true }
+    });
 
-    const result = stmt.run(email, hashedPassword, role, first_name, last_name);
-    return result.lastInsertRowid;
+    return user;
   } catch (error) {
     console.error('User creation error:', error);
     throw error;
@@ -142,5 +154,5 @@ module.exports = {
   comparePassword,
   authenticateUser,
   createUser,
-  db
+  prisma
 };

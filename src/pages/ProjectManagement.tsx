@@ -10,6 +10,8 @@ import AddMilestoneModal, { MilestoneFormData } from '../components/ProjectManag
 import AddEquipmentModal, { EquipmentFormData } from '../components/ProjectManagement/AddEquipmentModal';
 import AddBudgetItemModal, { BudgetItemFormData } from '../components/ProjectManagement/AddBudgetItemModal';
 import CustomerReviewDashboard from '../components/ProjectManagement/CustomerReviewDashboard';
+import OverdueMilestonesModal from '../components/ProjectManagement/OverdueMilestonesModal';
+import GenerateReportModal from '../components/ProjectManagement/GenerateReportModal';
 import { formatCurrency } from '../utils/currencyFormatter';
 import BrandedModalTitle from '../components/Shared/BrandedModalTitle';
 // import FFRPDFGenerator from '../components/PDF/FFRPDFGenerator'; // TODO: Enable when PDF generator is fixed
@@ -1336,6 +1338,8 @@ const ProjectManagement: React.FC = () => {
   const [selectedMilestone, setSelectedMilestone] = useState<Milestone | null>(null);
   const [selectedTimelineEvent, setSelectedTimelineEvent] = useState<TimelineEvent | null>(null);
   const [showOverdueMilestones, setShowOverdueMilestones] = useState(false);
+  const [showOverdueMilestonesModal, setShowOverdueMilestonesModal] = useState(false);
+  const [showGenerateReportModal, setShowGenerateReportModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [showEventModal, setShowEventModal] = useState(false);
   const [currentQuarter, setCurrentQuarter] = useState(() => {
@@ -1822,29 +1826,30 @@ const ProjectManagement: React.FC = () => {
   };
 
   const handleViewOverdueMilestones = () => {
+    setShowOverdueMilestonesModal(true);
+  };
+
+  const handleGenerateReport = () => {
+    setShowGenerateReportModal(true);
+  };
+
+  const handleDownloadOverdueReport = () => {
     const overdueMilestones = milestones.filter(milestone => {
       const dueDate = new Date(milestone.dueDate);
       const now = new Date();
       return dueDate < now && milestone.status !== 'completed';
     });
-
-    if (overdueMilestones.length === 0) {
-      // Generate PDF report showing no overdue milestones
-      generateOverdueMilestonesPDF(overdueMilestones);
-    } else {
-      setShowOverdueMilestones(!showOverdueMilestones);
-      // Generate PDF report with overdue milestones
-      generateOverdueMilestonesPDF(overdueMilestones);
-    }
+    // Generate PDF report with overdue milestones
+    generateOverdueMilestonesPDF(overdueMilestones);
   };
 
-  const handleGenerateReport = () => {
+  const handleGenerateReportWithOptions = (options: any) => {
     const filteredProjects = getFilteredProjects();
     const relevantMilestones = milestones.filter(milestone =>
       filteredProjects.some(p => p.id === milestone.projectId)
     );
-
-    // Generate comprehensive milestone report PDF
+    // Generate comprehensive milestone report PDF with options
+    console.log('Generating report with options:', options);
     generateMilestoneReportPDF(filteredProjects, relevantMilestones);
   };
 
@@ -3407,6 +3412,24 @@ const ProjectManagement: React.FC = () => {
         isOpen={showAddBudgetModal}
         onClose={() => setShowAddBudgetModal(false)}
         onSave={handleSaveBudgetItem}
+      />
+
+      {/* Overdue Milestones Modal */}
+      <OverdueMilestonesModal
+        isOpen={showOverdueMilestonesModal}
+        onClose={() => setShowOverdueMilestonesModal(false)}
+        milestones={milestones}
+        projects={projects}
+        onDownloadReport={handleDownloadOverdueReport}
+      />
+
+      {/* Generate Report Modal */}
+      <GenerateReportModal
+        isOpen={showGenerateReportModal}
+        onClose={() => setShowGenerateReportModal(false)}
+        projects={projects}
+        milestones={milestones}
+        onGenerateReport={handleGenerateReportWithOptions}
       />
 
       {/* Calendar Event Modal */}

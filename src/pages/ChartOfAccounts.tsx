@@ -563,12 +563,12 @@ const ChartOfAccounts: React.FC = () => {
       const accountData = {
         code: formData.code,
         name: formData.name,
-        type: formData.type as 'Asset' | 'Liability' | 'Equity' | 'Revenue' | 'Expense',
+        type: (formData.type === 'Revenue' ? 'income' : formData.type.toLowerCase()) as 'asset' | 'liability' | 'equity' | 'income' | 'expense',
         category: formData.category,
-        subcategory: formData.subCategory,
+        subCategory: formData.subCategory,
         description: formData.description,
-        parent_account: undefined,
-        is_active: true,
+        parentAccount: undefined,
+        isActive: true,
         balance: 0
       };
 

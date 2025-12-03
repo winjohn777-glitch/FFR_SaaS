@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { X, User, Mail, Phone, MapPin, Calendar, Tag, Building } from 'lucide-react';
+import { X, User, Phone, MapPin, Calendar, Tag, Building } from 'lucide-react';
 import { Customer } from '../../types/crm';
 
 interface CustomerDetailsModalProps {

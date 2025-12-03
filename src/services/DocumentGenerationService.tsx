@@ -145,6 +145,7 @@ class DocumentGenerationService {
               parseFloat(jobData.estimatedValue) || 0,
       dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
       issueDate: new Date().toISOString(),
+      status: 'draft' as 'draft' | 'sent' | 'paid' | 'overdue' | 'pending',
       paymentTerms: 'Net 30 days',
       lineItems: [
         {

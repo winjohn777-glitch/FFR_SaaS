@@ -1201,17 +1201,17 @@ const Inventory: React.FC = () => {
             <div>
               <ActionButtonsGroup>
                 <IconButton
+                  title="View details"
+                  onClick={() => handleViewItem(item)}
+                >
+                  <Eye size={14} />
+                </IconButton>
+                <IconButton
                   className="edit"
                   title="Edit item"
                   onClick={() => handleEditItem(item)}
                 >
                   <Edit size={14} />
-                </IconButton>
-                <IconButton
-                  title="View details"
-                  onClick={() => handleViewItem(item)}
-                >
-                  <Eye size={14} />
                 </IconButton>
                 <IconButton
                   className="delete"

@@ -1,0 +1,434 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id        String          @id @default(cuid())
+  name      String
+  address   String?
+  phone     String?
+  email     String?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  accounts  Account[]
+  bills     Bill[]
+  customers Customer[]
+  employees Employee[]
+  inventory InventoryItem[]
+  invoices  Invoice[]
+  projects  Project[]
+  users     User[]
+
+  @@map("organizations")
+}
+
+model User {
+  id             String         @id @default(cuid())
+  email          String         @unique
+  passwordHash   String
+  firstName      String
+  lastName       String
+  role           UserRole       @default(USER)
+  isActive       Boolean        @default(true)
+  lastLogin      DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  organizationId String
+  bills          Bill[]
+  invoices       Invoice[]
+  journalEntries JournalEntry[]
+  payments       Payment[]
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("users")
+}
+
+model Account {
+  id                String             @id @default(cuid())
+  code              String             @unique
+  name              String
+  type              AccountType
+  category          String
+  description       String?
+  isActive          Boolean            @default(true)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  organizationId    String
+  organization      Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  journalEntryLines JournalEntryLine[]
+
+  @@map("accounts")
+}
+
+model JournalEntry {
+  id          String             @id @default(cuid())
+  number      String             @unique
+  date        DateTime
+  description String
+  reference   String?
+  isPosted    Boolean            @default(false)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  createdById String
+  createdBy   User               @relation(fields: [createdById], references: [id])
+  lines       JournalEntryLine[]
+
+  @@map("journal_entries")
+}
+
+model JournalEntryLine {
+  id             String       @id @default(cuid())
+  debit          Decimal      @default(0) @db.Decimal(10, 2)
+  credit         Decimal      @default(0) @db.Decimal(10, 2)
+  memo           String?
+  journalEntryId String
+  accountId      String
+  account        Account      @relation(fields: [accountId], references: [id])
+  journalEntry   JournalEntry @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+
+  @@map("journal_entry_lines")
+}
+
+model Customer {
+  id             String        @id @default(cuid())
+  name           String
+  email          String?
+  phone          String?
+  address        String?
+  city           String?
+  state          String?
+  zip            String?
+  isActive       Boolean       @default(true)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  organizationId String
+  organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  invoices       Invoice[]
+  leads          Lead[]
+  opportunities  Opportunity[]
+  projects       Project[]
+
+  @@map("customers")
+}
+
+model Lead {
+  id            String        @id @default(cuid())
+  source        String
+  status        LeadStatus    @default(NEW)
+  notes         String?
+  value         Decimal?      @db.Decimal(10, 2)
+  probability   Int?          @default(50)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  customerId    String
+  customer      Customer      @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  opportunities Opportunity[]
+
+  @@map("leads")
+}
+
+model Opportunity {
+  id           String            @id @default(cuid())
+  title        String
+  description  String?
+  status       OpportunityStatus @default(PROSPECTING)
+  value        Decimal           @db.Decimal(10, 2)
+  probability  Int               @default(50)
+  expectedDate DateTime?
+  closedDate   DateTime?
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  customerId   String
+  leadId       String?
+  customer     Customer          @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  lead         Lead?             @relation(fields: [leadId], references: [id])
+  projects     Project[]
+
+  @@map("opportunities")
+}
+
+model Project {
+  id             String        @id @default(cuid())
+  name           String
+  description    String?
+  status         ProjectStatus @default(PLANNING)
+  startDate      DateTime?
+  endDate        DateTime?
+  budget         Decimal?      @db.Decimal(10, 2)
+  actualCost     Decimal       @default(0) @db.Decimal(10, 2)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  organizationId String
+  customerId     String
+  opportunityId  String?
+  invoices       Invoice[]
+  tasks          ProjectTask[]
+  customer       Customer      @relation(fields: [customerId], references: [id])
+  opportunity    Opportunity?  @relation(fields: [opportunityId], references: [id])
+  organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@map("projects")
+}
+
+model ProjectTask {
+  id             String            @id @default(cuid())
+  title          String
+  description    String?
+  status         ProjectTaskStatus @default(TODO)
+  startDate      DateTime?
+  endDate        DateTime?
+  estimatedHours Int?
+  actualHours    Int?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  projectId      String
+  project        Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@map("project_tasks")
+}
+
+model InventoryItem {
+  id             String        @id @default(cuid())
+  name           String
+  description    String?
+  sku            String        @unique
+  category       String?
+  unit           String
+  cost           Decimal       @db.Decimal(10, 2)
+  price          Decimal       @db.Decimal(10, 2)
+  quantity       Int           @default(0)
+  minQuantity    Int           @default(0)
+  isActive       Boolean       @default(true)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  organizationId String
+  billItems      BillItem[]
+  organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  invoiceItems   InvoiceItem[]
+
+  @@map("inventory_items")
+}
+
+model Invoice {
+  id             String        @id @default(cuid())
+  number         String        @unique
+  date           DateTime
+  dueDate        DateTime
+  status         InvoiceStatus @default(DRAFT)
+  subtotal       Decimal       @db.Decimal(10, 2)
+  tax            Decimal       @default(0) @db.Decimal(10, 2)
+  total          Decimal       @db.Decimal(10, 2)
+  notes          String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  organizationId String
+  customerId     String
+  projectId      String?
+  createdById    String
+  items          InvoiceItem[]
+  createdBy      User          @relation(fields: [createdById], references: [id])
+  customer       Customer      @relation(fields: [customerId], references: [id])
+  organization   Organization  @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  project        Project?      @relation(fields: [projectId], references: [id])
+  payments       Payment[]
+
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id              String         @id @default(cuid())
+  description     String
+  quantity        Int
+  unitPrice       Decimal        @db.Decimal(10, 2)
+  total           Decimal        @db.Decimal(10, 2)
+  invoiceId       String
+  inventoryItemId String?
+  inventoryItem   InventoryItem? @relation(fields: [inventoryItemId], references: [id])
+  invoice         Invoice        @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  @@map("invoice_items")
+}
+
+model Bill {
+  id             String       @id @default(cuid())
+  number         String
+  vendorName     String
+  date           DateTime
+  dueDate        DateTime
+  status         BillStatus   @default(PENDING)
+  subtotal       Decimal      @db.Decimal(10, 2)
+  tax            Decimal      @default(0) @db.Decimal(10, 2)
+  total          Decimal      @db.Decimal(10, 2)
+  notes          String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  organizationId String
+  createdById    String
+  items          BillItem[]
+  createdBy      User         @relation(fields: [createdById], references: [id])
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  payments       Payment[]
+
+  @@map("bills")
+}
+
+model BillItem {
+  id              String         @id @default(cuid())
+  description     String
+  quantity        Int
+  unitPrice       Decimal        @db.Decimal(10, 2)
+  total           Decimal        @db.Decimal(10, 2)
+  billId          String
+  inventoryItemId String?
+  bill            Bill           @relation(fields: [billId], references: [id], onDelete: Cascade)
+  inventoryItem   InventoryItem? @relation(fields: [inventoryItemId], references: [id])
+
+  @@map("bill_items")
+}
+
+model Payment {
+  id          String        @id @default(cuid())
+  amount      Decimal       @db.Decimal(10, 2)
+  date        DateTime
+  method      PaymentMethod
+  reference   String?
+  notes       String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  createdById String
+  invoiceId   String?
+  billId      String?
+  bill        Bill?         @relation(fields: [billId], references: [id])
+  createdBy   User          @relation(fields: [createdById], references: [id])
+  invoice     Invoice?      @relation(fields: [invoiceId], references: [id])
+
+  @@map("payments")
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  ACCOUNTANT
+  USER
+}
+
+enum AccountType {
+  ASSET
+  LIABILITY
+  EQUITY
+  REVENUE
+  EXPENSE
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  QUALIFIED
+  CONVERTED
+  LOST
+}
+
+enum OpportunityStatus {
+  PROSPECTING
+  QUALIFICATION
+  PROPOSAL
+  NEGOTIATION
+  WON
+  LOST
+}
+
+enum ProjectStatus {
+  PLANNING
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+}
+
+enum ProjectTaskStatus {
+  TODO
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  SENT
+  VIEWED
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum BillStatus {
+  PENDING
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  CHECK
+  CREDIT_CARD
+  BANK_TRANSFER
+  ACH
+}
+
+enum EmployeeStatus {
+  ACTIVE
+  INACTIVE
+  TERMINATED
+}
+
+enum CertificationStatus {
+  VALID
+  EXPIRING
+  EXPIRED
+}
+
+model Employee {
+  id             String            @id @default(cuid())
+  employeeId     String            @unique
+  firstName      String
+  lastName       String
+  role           String
+  department     String
+  email          String            @unique
+  phone          String?
+  address        String?
+  hireDate       DateTime
+  status         EmployeeStatus    @default(ACTIVE)
+  payRate        Float
+  hoursThisWeek  Float             @default(0)
+  overtime       Float             @default(0)
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+  organizationId String
+  organization   Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  certifications Certification[]
+
+  @@map("employees")
+}
+
+model Certification {
+  id                String              @id @default(cuid())
+  name              String
+  type              String
+  issueDate         DateTime
+  expirationDate    DateTime
+  status            CertificationStatus
+  certificateNumber String?
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  employeeId        String
+  employee          Employee            @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+
+  @@map("certifications")
+}

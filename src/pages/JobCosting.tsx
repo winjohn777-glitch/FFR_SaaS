@@ -498,9 +498,9 @@ const JobCosting: React.FC = () => {
            (jobTypeFilter === 'all' || job.projectType === jobTypeFilter);
   });
 
-  const totalActiveJobs = jobs.filter(job => job.status === 'active').length;
+  const totalActiveJobs = jobs.filter(job => job.status === 'in_progress').length;
   const totalRevenue = jobs.reduce((sum, job) => sum + job.estimatedValue, 0);
-  const totalCosts = jobs.reduce((sum, job) => sum + job.actualCosts, 0);
+  const totalCosts = jobs.reduce((sum, job) => sum + (job.actualCosts || 0), 0);
   const averageMargin = jobs.length > 0 ? jobs.reduce((sum, job) => sum + (job.profitMargin || 0), 0) / jobs.length : 0;
 
   // CSV export helper functions
@@ -544,12 +544,12 @@ const JobCosting: React.FC = () => {
         `"${job.status}"`,
         `"${job.startDate}"`,
         job.estimatedValue.toString(),
-        job.actualCosts.toString(),
+        (job.actualCosts || 0).toString(),
         (job.laborCosts || 0).toString(),
         (job.materialCosts || 0).toString(),
         (job.equipmentCosts || 0).toString(),
-        job.profitMargin.toFixed(1),
-        job.progress.toString(),
+        (job.profitMargin || 0).toFixed(1),
+        (job.progress || 0).toString(),
         `"${job.description || ''}"`
       ].join(','))
     ].join('\n');
@@ -575,7 +575,7 @@ const JobCosting: React.FC = () => {
       ['JOB BREAKDOWN BY TYPE'],
       ...Object.entries(
         filteredJobs.reduce((acc, job) => {
-          acc[job.projectType] = (acc[job.projectType] || 0) + 1;
+          acc[job.projectType || 'Other'] = (acc[job.projectType || 'Other'] || 0) + 1;
           return acc;
         }, {} as Record<string, number>)
       ).map(([type, count]) => [type, count.toString()]),
@@ -604,11 +604,14 @@ const JobCosting: React.FC = () => {
     const newJob = {
       id: `J${String(jobs.length + 1).padStart(3, '0')}`,
       jobCode: `${jobData.projectType.substring(0, 2).toUpperCase()}-2024-${String(jobs.length + 1).padStart(3, '0')}`,
+      title: jobData.name,
       name: jobData.name,
       customer: jobData.customer,
+      customerId: 'temp-customer-id',
       projectType: jobData.projectType,
       type: jobData.projectType,
-      status: 'pending',
+      status: 'pending' as 'pending' | 'in_progress' | 'completed' | 'cancelled',
+      priority: 'medium' as 'low' | 'medium' | 'high',
       startDate: jobData.startDate,
       estimatedValue: parseFloat(jobData.estimatedCost) || 0,
       actualCosts: 0,
@@ -771,10 +774,10 @@ const JobCosting: React.FC = () => {
                   <JobStatus status={job.status}>{job.status}</JobStatus>
                 </TableCell>
                 <TableCell className="cost-breakdown">{formatCurrency(job.estimatedValue)}</TableCell>
-                <TableCell className="cost-breakdown">{formatCurrency(job.actualCosts)}</TableCell>
+                <TableCell className="cost-breakdown">{formatCurrency(job.actualCosts || 0)}</TableCell>
                 <TableCell>
-                  <ProfitMargin margin={job.profitMargin}>
-                    {job.profitMargin.toFixed(1)}%
+                  <ProfitMargin margin={job.profitMargin || 0}>
+                    {(job.profitMargin || 0).toFixed(1)}%
                   </ProfitMargin>
                 </TableCell>
                 <TableCell>{job.progress}%</TableCell>
@@ -798,7 +801,7 @@ const JobCosting: React.FC = () => {
                     <Edit size={16} />
                   </ActionIconButton>
                   <ActionIconButton
-                    onClick={() => alert(`Opening cost calculator for ${job.jobCode}\n\nEstimated Value: ${formatCurrency(job.estimatedValue)}\nActual Costs: ${formatCurrency(job.actualCosts)}\nProfit Margin: ${job.profitMargin.toFixed(1)}%`)}
+                    onClick={() => alert(`Opening cost calculator for ${job.jobCode}\n\nEstimated Value: ${formatCurrency(job.estimatedValue)}\nActual Costs: ${formatCurrency(job.actualCosts || 0)}\nProfit Margin: ${(job.profitMargin || 0).toFixed(1)}%`)}
                     title="Cost calculator"
                   >
                     <Calculator size={16} />

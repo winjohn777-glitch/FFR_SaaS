@@ -1,0 +1,384 @@
+// Enhanced Journal Entries System Schema for Florida First Roofing
+// GAAP-Compliant Double-Entry Bookkeeping with Advanced Workflow Management
+
+// Add these models to the existing schema.prisma file
+
+// Enhanced Organization model (add fiscal period management)
+model FiscalYear {
+  id           String            @id @default(cuid())
+  year         Int               @unique
+  startDate    DateTime
+  endDate      DateTime
+  status       FiscalYearStatus  @default(OPEN)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+
+  periods      FiscalPeriod[]
+  journalEntries JournalEntry[]
+
+  @@map("fiscal_years")
+}
+
+model FiscalPeriod {
+  id           String               @id @default(cuid())
+  periodNumber Int                  // 1-12 for monthly, 1-4 for quarterly
+  name         String               // "January 2024", "Q1 2024"
+  startDate    DateTime
+  endDate      DateTime
+  status       FiscalPeriodStatus   @default(OPEN)
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  closedAt     DateTime?
+  closedBy     User?                @relation("PeriodClosedBy", fields: [closedById], references: [id])
+  closedById   String?
+
+  fiscalYear   FiscalYear @relation(fields: [fiscalYearId], references: [id], onDelete: Cascade)
+  fiscalYearId String
+
+  journalEntries JournalEntry[]
+
+  @@unique([fiscalYearId, periodNumber])
+  @@map("fiscal_periods")
+}
+
+// Enhanced Account model
+model Account {
+  id                String             @id @default(cuid())
+  code              String             @unique
+  name              String
+  type              AccountType
+  subtype           String?            // More granular categorization
+  category          String?            // Parent grouping
+  description       String?
+  normalBalance     NormalBalance      // DEBIT or CREDIT
+  isActive          Boolean            @default(true)
+  isBankAccount     Boolean            @default(false)
+  isSystemAccount   Boolean            @default(false) // Prevents user deletion
+  currency          String             @default("USD")
+  taxRelevant       Boolean            @default(false)
+
+  // Hierarchical structure
+  parentAccount     Account?           @relation("AccountHierarchy", fields: [parentAccountId], references: [id])
+  parentAccountId   String?
+  children          Account[]          @relation("AccountHierarchy")
+
+  // Account balance tracking
+  currentBalance    Decimal            @default(0) @db.Decimal(15, 2)
+  lastReconciled    DateTime?
+
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  organizationId    String
+
+  organization      Organization       @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  journalLines      JournalEntryLine[]
+
+  @@map("accounts")
+}
+
+// Enhanced Journal Entry model with full workflow support
+model JournalEntry {
+  id                String                @id @default(cuid())
+  entryNumber       String                @unique // Auto-generated: JE000001
+  entryDate         DateTime              // Transaction date
+  documentDate      DateTime?             // Source document date
+  description       String
+  reference         String?               // External reference number
+
+  // Workflow status management
+  status            JournalStatus         @default(DRAFT)
+  sourceModule      JournalSourceModule   @default(MANUAL)
+
+  // Template and automation support
+  quickEntryTemplate String?              // For predefined transaction types
+  isRecurring        Boolean              @default(false)
+  recurringPattern   String?              // JSON: {frequency, endDate, etc}
+  recurringParentId  String?              // Link to parent recurring entry
+
+  // Approval workflow
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  submittedAt       DateTime?
+  approvedAt        DateTime?
+  postedAt          DateTime?
+
+  // User tracking for audit trail
+  createdBy         User                  @relation("JournalCreatedBy", fields: [createdById], references: [id])
+  createdById       String
+
+  submittedBy       User?                 @relation("JournalSubmittedBy", fields: [submittedById], references: [id])
+  submittedById     String?
+
+  approvedBy        User?                 @relation("JournalApprovedBy", fields: [approvedById], references: [id])
+  approvedById      String?
+
+  postedBy          User?                 @relation("JournalPostedBy", fields: [postedById], references: [id])
+  postedById        String?
+
+  rejectedBy        User?                 @relation("JournalRejectedBy", fields: [rejectedById], references: [id])
+  rejectedById      String?
+  rejectedAt        DateTime?
+  rejectionReason   String?
+
+  // Fiscal period management
+  fiscalYear        FiscalYear            @relation(fields: [fiscalYearId], references: [id])
+  fiscalYearId      String
+
+  fiscalPeriod      FiscalPeriod          @relation(fields: [fiscalPeriodId], references: [id])
+  fiscalPeriodId    String
+
+  // Reversing entries
+  reversedBy        JournalEntry?         @relation("JournalReversals", fields: [reversedById], references: [id])
+  reversedById      String?               @unique
+  reversingEntry    JournalEntry?         @relation("JournalReversals")
+  isReversing       Boolean               @default(false)
+
+  // Related documents
+  attachments       JournalAttachment[]
+  lines             JournalEntryLine[]
+  auditTrail        JournalAuditLog[]
+
+  @@map("journal_entries")
+}
+
+// Enhanced Journal Entry Lines with additional features
+model JournalEntryLine {
+  id                String              @id @default(cuid())
+  lineNumber        Int                 // Order within journal entry
+  description       String
+  memo              String?             // Additional notes
+
+  // Core double-entry amounts
+  debit             Decimal             @default(0) @db.Decimal(15, 2)
+  credit            Decimal             @default(0) @db.Decimal(15, 2)
+
+  // Reference information
+  reference         String?             // Check number, invoice number, etc.
+
+  // Related entities for detailed tracking
+  contact           Contact?            @relation(fields: [contactId], references: [id])
+  contactId         String?             // Customer, vendor, employee
+
+  project           Project?            @relation(fields: [projectId], references: [id])
+  projectId         String?
+
+  inventoryItem     InventoryItem?      @relation(fields: [inventoryItemId], references: [id])
+  inventoryItemId   String?
+
+  // Tax tracking
+  taxAmount         Decimal             @default(0) @db.Decimal(15, 2)
+  taxCode           String?
+  isTaxable         Boolean             @default(false)
+
+  // Reconciliation
+  isReconciled      Boolean             @default(false)
+  reconciledAt      DateTime?
+
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+
+  journalEntry      JournalEntry        @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+  journalEntryId    String
+
+  account           Account             @relation(fields: [accountId], references: [id])
+  accountId         String
+
+  @@map("journal_entry_lines")
+}
+
+// Contact model for customers, vendors, employees
+model Contact {
+  id               String               @id @default(cuid())
+  name             String
+  type             ContactType          // CUSTOMER, VENDOR, EMPLOYEE, OTHER
+  code             String?              // Internal reference code
+  email            String?
+  phone            String?
+
+  // Address information
+  address          String?
+  city             String?
+  state            String?
+  zip              String?
+  country          String               @default("US")
+
+  // Tax information
+  taxId            String?              // SSN, EIN, etc.
+  taxExempt        Boolean              @default(false)
+
+  // Credit information (for customers/vendors)
+  creditLimit      Decimal?             @db.Decimal(15, 2)
+  paymentTerms     String?              // Net 30, COD, etc.
+
+  isActive         Boolean              @default(true)
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  organizationId   String
+
+  organization     Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  journalLines     JournalEntryLine[]
+
+  @@unique([organizationId, code])
+  @@map("contacts")
+}
+
+// Journal entry templates for common roofing business transactions
+model JournalTemplate {
+  id                String               @id @default(cuid())
+  name              String               // "Roof Installation Invoice", "Material Purchase"
+  description       String?
+  category          String               // "Sales", "Purchases", "Expenses"
+
+  // Template configuration
+  isQuickEntry      Boolean              @default(false)
+  requiresApproval  Boolean              @default(false)
+  defaultMemo       String?
+
+  // Template lines (stored as JSON for flexibility)
+  templateLines     String               // JSON array of template line items
+
+  // Usage tracking
+  usageCount        Int                  @default(0)
+  lastUsed          DateTime?
+
+  isActive          Boolean              @default(true)
+  isSystemTemplate  Boolean              @default(false)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+
+  organizationId    String
+  organization      Organization         @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  createdBy         User                 @relation(fields: [createdById], references: [id])
+  createdById       String
+
+  @@map("journal_templates")
+}
+
+// File attachments for journal entries
+model JournalAttachment {
+  id               String               @id @default(cuid())
+  filename         String
+  originalName     String
+  mimeType         String
+  size             Int
+  url              String               // File storage URL
+
+  uploadedAt       DateTime             @default(now())
+  uploadedBy       User                 @relation(fields: [uploadedById], references: [id])
+  uploadedById     String
+
+  journalEntry     JournalEntry         @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+  journalEntryId   String
+
+  @@map("journal_attachments")
+}
+
+// Comprehensive audit trail
+model JournalAuditLog {
+  id               String               @id @default(cuid())
+  action           AuditAction          // CREATE, UPDATE, DELETE, APPROVE, POST, etc.
+  description      String               // Human-readable description
+
+  // Before/after values for changes
+  oldValues        String?              // JSON of previous values
+  newValues        String?              // JSON of new values
+
+  timestamp        DateTime             @default(now())
+  userAgent        String?
+  ipAddress        String?
+
+  user             User                 @relation(fields: [userId], references: [id])
+  userId           String
+
+  journalEntry     JournalEntry         @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+  journalEntryId   String
+
+  @@map("journal_audit_logs")
+}
+
+// Add these enums to the existing enums section
+enum FiscalYearStatus {
+  OPEN
+  CLOSED
+  LOCKED
+}
+
+enum FiscalPeriodStatus {
+  OPEN
+  CLOSED
+  LOCKED
+}
+
+enum NormalBalance {
+  DEBIT
+  CREDIT
+}
+
+enum ContactType {
+  CUSTOMER
+  VENDOR
+  EMPLOYEE
+  OTHER
+}
+
+enum JournalSourceModule {
+  MANUAL
+  ACCOUNTS_PAYABLE
+  ACCOUNTS_RECEIVABLE
+  PAYROLL
+  INVENTORY
+  BANK_RECONCILIATION
+  QUICK_ENTRY
+  RECURRING
+  MOBILE_APP
+}
+
+enum JournalStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  POSTED
+  REJECTED
+  CANCELLED
+  REVERSED
+}
+
+enum AuditAction {
+  CREATE
+  READ
+  UPDATE
+  DELETE
+  APPROVE
+  REJECT
+  POST
+  REVERSE
+  SUBMIT
+}
+
+// Update User model to add journal-related relations
+// Add these to the existing User model:
+/*
+  journalEntriesCreated    JournalEntry[]   @relation("JournalCreatedBy")
+  journalEntriesSubmitted  JournalEntry[]   @relation("JournalSubmittedBy")
+  journalEntriesApproved   JournalEntry[]   @relation("JournalApprovedBy")
+  journalEntriesPosted     JournalEntry[]   @relation("JournalPostedBy")
+  journalEntriesRejected   JournalEntry[]   @relation("JournalRejectedBy")
+  periodsClosedBy          FiscalPeriod[]   @relation("PeriodClosedBy")
+  templatesCreated         JournalTemplate[]
+  attachmentsUploaded      JournalAttachment[]
+  auditLogs                JournalAuditLog[]
+*/
+
+// Update Organization model to add fiscal management
+// Add these to the existing Organization model:
+/*
+  fiscalYears              FiscalYear[]
+  contacts                 Contact[]
+  journalTemplates         JournalTemplate[]
+  defaultFiscalYearStart   DateTime      @default("2024-01-01T00:00:00.000Z")
+  taxYear                  String        @default("Calendar")
+*/

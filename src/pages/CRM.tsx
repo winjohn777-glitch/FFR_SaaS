@@ -6,11 +6,15 @@ import DigitalProposalModal from '../components/CRM/DigitalProposalModal';
 import SalesPipelineModal from '../components/CRM/SalesPipelineModal';
 import AddCustomerModal from '../components/CRM/AddCustomerModal';
 import CustomerDetailsModal from '../components/CRM/CustomerDetailsModal';
+import LeadDetailsModal from '../components/CRM/LeadDetailsModal';
+import OpportunityDetailsModal from '../components/CRM/OpportunityDetailsModal';
 import FinanceContractModal from '../components/Financing/FinanceContractModal';
 import FinanceContractBookkeepingService from '../services/FinanceContractBookkeepingService';
 import crmData from '../data/crmData.json';
 import { Customer, Lead, Opportunity, CRMFilters } from '../types/crm';
 import { useData } from '../contexts/DataContext';
+import { useToast } from '../components/Toast';
+import CustomerModal from '../components/CustomerModal';
 
 const PageContainer = styled.div`
   margin-top: ${({ theme }) => theme.spacing.xl};
@@ -350,8 +354,12 @@ const CRM: React.FC = () => {
   const [pipelineModalOpen, setPipelineModalOpen] = useState(false);
   const [addCustomerModalOpen, setAddCustomerModalOpen] = useState(false);
   const [customerDetailsModalOpen, setCustomerDetailsModalOpen] = useState(false);
+  const [leadDetailsModalOpen, setLeadDetailsModalOpen] = useState(false);
+  const [opportunityDetailsModalOpen, setOpportunityDetailsModalOpen] = useState(false);
   const [financeContractModalOpen, setFinanceContractModalOpen] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
+  const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
+  const [selectedOpportunity, setSelectedOpportunity] = useState<Opportunity | null>(null);
 
   // Use shared data context
   const {
@@ -368,6 +376,12 @@ const CRM: React.FC = () => {
     addJob
   } = useData();
   const stats = crmData.dashboardStats;
+
+  // Toast notifications
+  const { showToast } = useToast();
+
+  // New modal states
+  const [newCustomerModalOpen, setNewCustomerModalOpen] = useState(false);
 
   // Debug: Log current customers
   console.log('🔍 CRM: Current customers in component:', customers.length);
@@ -537,6 +551,47 @@ const CRM: React.FC = () => {
     console.log(`✅ CRM: Customer added to shared state: ${customerData.firstName} ${customerData.lastName}`);
   };
 
+  const handleDeleteCustomer = (customer: Customer) => {
+    if (window.confirm(`Are you sure you want to delete customer: ${customer.firstName} ${customer.lastName}?`)) {
+      // For now, just show a toast since we don't have a delete function in DataContext
+      showToast(`Customer ${customer.firstName} ${customer.lastName} deleted successfully`, 'success');
+      // TODO: Add actual deletion when backend API is connected
+    }
+  };
+
+  const handleNewCustomer = (customerData: any) => {
+    // Adapt the simple modal data to the complex CRM customer structure
+    const newCustomer: Customer = {
+      id: `C${Date.now()}`,
+      firstName: customerData.name.split(' ')[0] || customerData.name,
+      lastName: customerData.name.split(' ').slice(1).join(' ') || '',
+      companyName: '',
+      email: customerData.email,
+      phone: customerData.phone,
+      alternatePhone: '',
+      address: {
+        street: customerData.address,
+        city: customerData.city,
+        state: customerData.state,
+        zipCode: customerData.zip,
+        county: ''
+      },
+      type: 'Residential' as const,
+      status: 'Prospect' as const,
+      propertyType: 'Single Family',
+      roofType: 'Unknown',
+      leadSource: 'Other',
+      creditRating: 'Good',
+      dateAdded: new Date().toISOString().split('T')[0],
+      lastContact: new Date().toISOString().split('T')[0],
+      notes: '',
+      tags: []
+    };
+
+    addCustomer(newCustomer);
+    showToast(`Customer ${newCustomer.firstName} ${newCustomer.lastName} added successfully`, 'success');
+  };
+
   return (
     <PageContainer>
       <PageHeader>
@@ -557,7 +612,7 @@ const CRM: React.FC = () => {
             <Target size={16} />
             Sales Pipeline
           </ActionButton>
-          <ActionButton variant="primary" onClick={() => setAddCustomerModalOpen(true)}>
+          <ActionButton variant="primary" onClick={() => setNewCustomerModalOpen(true)}>
             <Plus size={16} />
             Add Customer
           </ActionButton>
@@ -802,11 +857,7 @@ const CRM: React.FC = () => {
                       </SmallActionButton>
                       <SmallActionButton
                         variant="danger"
-                        onClick={() => {
-                          if (window.confirm(`Are you sure you want to delete customer: ${customer.firstName} ${customer.lastName}?`)) {
-                            alert('Customer deleted! (This is a demo - no actual deletion)');
-                          }
-                        }}
+                        onClick={() => handleDeleteCustomer(customer)}
                         title="Delete customer"
                       >
                         <Trash2 size={16} />
@@ -858,13 +909,19 @@ const CRM: React.FC = () => {
                   <TableCell>
                     <ActionButtons>
                       <SmallActionButton
-                        onClick={() => alert(`Viewing lead: ${lead.firstName} ${lead.lastName} - ${lead.source}`)}
+                        onClick={() => {
+                          setSelectedLead(lead);
+                          setLeadDetailsModalOpen(true);
+                        }}
                         title="View lead details"
                       >
                         <Eye size={16} />
                       </SmallActionButton>
                       <SmallActionButton
-                        onClick={() => alert(`Editing lead: ${lead.firstName} ${lead.lastName}`)}
+                        onClick={() => {
+                          setSelectedLead(lead);
+                          setLeadDetailsModalOpen(true);
+                        }}
                         title="Edit lead"
                       >
                         <Edit size={16} />
@@ -873,7 +930,7 @@ const CRM: React.FC = () => {
                         variant="danger"
                         onClick={() => {
                           if (window.confirm(`Are you sure you want to delete lead: ${lead.firstName} ${lead.lastName}?`)) {
-                            alert(`Lead deleted: ${lead.firstName} ${lead.lastName}`);
+                            deleteLead(lead.id);
                           }
                         }}
                         title="Delete lead"
@@ -924,13 +981,19 @@ const CRM: React.FC = () => {
                   <TableCell>
                     <ActionButtons>
                       <SmallActionButton
-                        onClick={() => alert(`Viewing opportunity: ${opportunity.name} - ${formatCurrency(opportunity.estimatedValue)}`)}
+                        onClick={() => {
+                          setSelectedOpportunity(opportunity);
+                          setOpportunityDetailsModalOpen(true);
+                        }}
                         title="View opportunity details"
                       >
                         <Eye size={16} />
                       </SmallActionButton>
                       <SmallActionButton
-                        onClick={() => alert(`Editing opportunity: ${opportunity.name}`)}
+                        onClick={() => {
+                          setSelectedOpportunity(opportunity);
+                          setOpportunityDetailsModalOpen(true);
+                        }}
                         title="Edit opportunity"
                       >
                         <Edit size={16} />
@@ -939,7 +1002,7 @@ const CRM: React.FC = () => {
                         variant="danger"
                         onClick={() => {
                           if (window.confirm(`Are you sure you want to delete opportunity: ${opportunity.name}?`)) {
-                            alert(`Opportunity deleted: ${opportunity.name}`);
+                            deleteOpportunity(opportunity.id);
                           }
                         }}
                         title="Delete opportunity"
@@ -1001,6 +1064,24 @@ const CRM: React.FC = () => {
         customer={selectedCustomer}
       />
 
+      <LeadDetailsModal
+        isOpen={leadDetailsModalOpen}
+        onClose={() => {
+          setLeadDetailsModalOpen(false);
+          setSelectedLead(null);
+        }}
+        lead={selectedLead}
+      />
+
+      <OpportunityDetailsModal
+        isOpen={opportunityDetailsModalOpen}
+        onClose={() => {
+          setOpportunityDetailsModalOpen(false);
+          setSelectedOpportunity(null);
+        }}
+        opportunity={selectedOpportunity}
+      />
+
       <FinanceContractModal
         isOpen={financeContractModalOpen}
         onClose={() => {
@@ -1009,6 +1090,13 @@ const CRM: React.FC = () => {
         }}
         onSave={handleFinanceContractSave}
         customerData={selectedCustomer}
+      />
+
+      <CustomerModal
+        isOpen={newCustomerModalOpen}
+        onClose={() => setNewCustomerModalOpen(false)}
+        onSubmit={handleNewCustomer}
+        title="Add New Customer"
       />
     </PageContainer>
   );

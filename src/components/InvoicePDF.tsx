@@ -19,8 +19,16 @@ interface Invoice {
   amount: number;
   dueDate: string;
   issueDate: string;
-  paymentTerms: string;
-  lineItems: InvoiceLineItem[];
+  status: 'draft' | 'sent' | 'paid' | 'overdue' | 'pending';
+  paymentTerms?: string;
+  lineItems?: InvoiceLineItem[];
+  items?: Array<{
+    id: string;
+    description: string;
+    quantity: number;
+    rate: number;
+    amount: number;
+  }>;
   notes?: string;
   customFields?: Record<string, any>;
 }
@@ -99,7 +107,8 @@ export const generateInvoicePDF = async (invoice: Invoice, printable: boolean = 
   pdf.setFont('helvetica', 'normal');
   let tableCurrentY = tableStartY + rowHeight;
 
-  invoice.lineItems.forEach((item, index) => {
+  const invoiceItems = invoice.lineItems || invoice.items || [];
+  invoiceItems.forEach((item, index) => {
     // Alternate row background
     if (index % 2 === 0) {
       pdf.setFillColor(250, 250, 250);
@@ -138,7 +147,7 @@ export const generateInvoicePDF = async (invoice: Invoice, printable: boolean = 
 
   // Totals Section
   const totalsY = tableCurrentY + 20;
-  const subtotal = invoice.lineItems.reduce((sum, item) => sum + item.amount, 0);
+  const subtotal = invoiceItems.reduce((sum, item) => sum + item.amount, 0);
   const taxRate = 0.07; // 7% Florida sales tax
   const taxAmount = subtotal * taxRate;
   const total = subtotal + taxAmount;

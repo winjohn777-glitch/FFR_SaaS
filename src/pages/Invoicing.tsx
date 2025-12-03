@@ -528,10 +528,10 @@ interface Invoice {
   jobName: string;
   amount: number;
   dueDate: string;
-  status: 'draft' | 'sent' | 'paid' | 'overdue';
+  status: 'draft' | 'sent' | 'paid' | 'overdue' | 'pending';
   issueDate: string;
-  paymentTerms: string;
-  lineItems: InvoiceLineItem[];
+  paymentTerms?: string;
+  lineItems?: InvoiceLineItem[];
   notes?: string;
 }
 
@@ -719,7 +719,7 @@ const Invoicing: React.FC = () => {
   const handleExportInvoices = () => {
     try {
       const csvContent = generateInvoicesCSV(filteredInvoices);
-      downloadCSV(csvContent, `invoices-export-${new Date().toISOString().split('T')[0]}.csv`);
+      downloadCSV(csvContent, `FFR_Invoice_Export_${new Date().toISOString().split('T')[0]}.csv`);
       console.log('Invoices exported successfully');
     } catch (error) {
       console.error('Error exporting invoices:', error);
@@ -781,9 +781,16 @@ const Invoicing: React.FC = () => {
 
   // Utility functions for export and report generation
   const generateInvoicesCSV = (invoices: Invoice[]) => {
-    const headers = ['Invoice Number', 'Customer', 'Job Name', 'Amount', 'Status', 'Issue Date', 'Due Date', 'Payment Terms'];
-    const csvRows = [headers.join(',')];
+    const csvRows = [];
 
+    // Compact header with essential branding information
+    csvRows.push(`${FFR_UNIFIED_BRAND.company.name} - Invoice Export Report | Generated: ${new Date().toLocaleDateString('en-US').replace(/,/g, '')} | ${FFR_UNIFIED_BRAND.contact.address.city} ${FFR_UNIFIED_BRAND.contact.address.state}`);
+
+    // Data headers - invoice details start at row 2
+    const headers = ['Invoice Number', 'Customer', 'Job Name', 'Amount', 'Status', 'Issue Date', 'Due Date', 'Payment Terms'];
+    csvRows.push(headers.join(','));
+
+    // Invoice data
     invoices.forEach(invoice => {
       const row = [
         `"${invoice.invoiceNumber}"`,
