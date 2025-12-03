@@ -106,7 +106,7 @@ class ApiClient {
 
 // Create and export API client instance
 const apiClient = new ApiClient({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5002',
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5001',
   timeout: 10000, // 10 seconds
 });
 
