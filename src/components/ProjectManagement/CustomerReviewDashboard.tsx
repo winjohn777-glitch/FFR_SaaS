@@ -229,11 +229,11 @@ const CustomerReviewDashboard: React.FC = () => {
     loadReviewData();
   }, []);
 
-  const loadReviewData = () => {
+  const loadReviewData = async () => {
     try {
       setLoading(true);
-      const requests = reviewService.getReviewRequests();
-      const stats = reviewService.getReviewStats();
+      const requests = await reviewService.getReviewRequests();
+      const stats = await reviewService.getReviewStats();
 
       setReviewRequests(requests);
       setReviewStats(stats);

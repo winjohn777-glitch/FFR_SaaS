@@ -95,11 +95,11 @@ export const useCentralStore = create<CentralState>()((set, get) => ({
           const response = await apiClient.post('/api/customers', customer);
           if (response.data) {
             set((state) => ({
-              customers: [...state.customers, response.data],
+              customers: [...state.customers, response.data as UnifiedCustomer],
             }));
 
             // Emit event for cross-module synchronization
-            eventBus.emit('customer:created', response.data);
+            eventBus.emit('customer:created', response.data as UnifiedCustomer);
           }
         } catch (error) {
           console.error('Error adding customer to database:', error);
@@ -459,7 +459,7 @@ export const useCentralStore = create<CentralState>()((set, get) => ({
           const customersResponse = await apiClient.get('/api/customers');
           if (customersResponse.data) {
             set((state) => ({
-              customers: customersResponse.data,
+              customers: customersResponse.data as UnifiedCustomer[],
             }));
           }
 
@@ -467,7 +467,7 @@ export const useCentralStore = create<CentralState>()((set, get) => ({
           const employeesResponse = await apiClient.get('/api/employees');
           if (employeesResponse.data) {
             set((state) => ({
-              employees: employeesResponse.data,
+              employees: employeesResponse.data as UnifiedEmployee[],
             }));
           }
 
@@ -475,7 +475,7 @@ export const useCentralStore = create<CentralState>()((set, get) => ({
           const jobsResponse = await apiClient.get('/api/jobs');
           if (jobsResponse.data) {
             set((state) => ({
-              projects: jobsResponse.data,
+              projects: jobsResponse.data as UnifiedProject[],
             }));
           }
 

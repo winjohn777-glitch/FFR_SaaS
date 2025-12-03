@@ -458,8 +458,14 @@ class FinanceContractBookkeepingService {
   }> {
     try {
       const result = await apiClient.get('/api/finance/aging-report');
-      if (result.data) {
-        return result.data;
+      if (result.data && typeof result.data === 'object') {
+        return result.data as {
+          current: PaymentScheduleEntry[];
+          days30: PaymentScheduleEntry[];
+          days60: PaymentScheduleEntry[];
+          days90: PaymentScheduleEntry[];
+          days90Plus: PaymentScheduleEntry[];
+        };
       } else {
         console.error('Failed to fetch aging report from database:', result.error);
         // Fallback to localStorage calculation

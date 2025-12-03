@@ -71,23 +71,29 @@ class ModalStructureService {
       'add-customer': {
         id: 'add-customer',
         title: 'Add Customer',
+        description: 'Add a new customer to the system',
         fields: [
           { id: 'firstName', label: 'First Name', type: 'text', required: true, order: 1 },
           { id: 'lastName', label: 'Last Name', type: 'text', required: true, order: 2 },
           { id: 'email', label: 'Email', type: 'email', required: false, order: 3 },
           { id: 'phone', label: 'Phone', type: 'phone', required: false, order: 4 },
           { id: 'address', label: 'Address', type: 'text', required: false, order: 5 }
-        ]
+        ],
+        category: 'customer',
+        lastModified: new Date()
       },
       'add-project': {
         id: 'add-project',
         title: 'Add Project',
+        description: 'Add a new project to the system',
         fields: [
           { id: 'name', label: 'Project Name', type: 'text', required: true, order: 1 },
           { id: 'client', label: 'Client', type: 'text', required: true, order: 2 },
           { id: 'budget', label: 'Budget', type: 'currency', required: false, order: 3 },
           { id: 'startDate', label: 'Start Date', type: 'date', required: false, order: 4 }
-        ]
+        ],
+        category: 'project',
+        lastModified: new Date()
       }
     };
   }
