@@ -569,3 +569,509 @@ enum ContactType {
   EMPLOYEE
   OTHER
 }
+
+// ============================================
+// SOP SYSTEM MODELS
+// ============================================
+
+model SopCategory {
+  id          String         @id @default(cuid())
+  code        String         @unique // e.g., "0000", "1000", "2000"
+  name        String
+  description String?
+  parentId    String?
+  isActive    Boolean        @default(true)
+  sortOrder   Int            @default(0)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  parent      SopCategory?   @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children    SopCategory[]  @relation("CategoryHierarchy")
+  procedures  SopProcedure[]
+
+  @@index([code])
+  @@index([parentId])
+  @@map("sop_categories")
+}
+
+model SopProcedure {
+  id                  String                    @id @default(cuid())
+  sopNumber           String                    @unique // e.g., "1000-A-001"
+  title               String
+  description         String?
+  version             String                    @default("1.0")
+  status              SopStatus                 @default(DRAFT)
+  priority            SopPriority               @default(MEDIUM)
+  categoryId          String
+  contentFilePath     String?
+  effectiveDate       DateTime?
+  reviewDate          DateTime?
+  approvedById        String?
+  isActive            Boolean                   @default(true)
+  createdAt           DateTime                  @default(now())
+  updatedAt           DateTime                  @updatedAt
+  category            SopCategory               @relation(fields: [categoryId], references: [id])
+  forms               SopForm[]
+  assignments         SopAssignment[]
+  compliance          SopCompliance[]
+  workflows           SopWorkflow[]
+  trainingRequirements SopTrainingRequirement[]
+  performanceMetrics  SopPerformanceMetric[]
+
+  @@index([categoryId])
+  @@index([status])
+  @@index([sopNumber])
+  @@map("sop_procedures")
+}
+
+model SopForm {
+  id          String       @id @default(cuid())
+  formNumber  String       @unique
+  title       String
+  description String?
+  formType    String       // checklist, inspection, report
+  template    String?      // JSON template structure
+  procedureId String
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  procedure   SopProcedure @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+
+  @@index([procedureId])
+  @@map("sop_forms")
+}
+
+model SopManual {
+  id          String   @id @default(cuid())
+  manualCode  String   @unique
+  title       String
+  description String?
+  version     String   @default("1.0")
+  filePath    String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("sop_manuals")
+}
+
+model SopAssignment {
+  id           String       @id @default(cuid())
+  procedureId  String
+  employeeId   String?
+  projectId    String?
+  dueDate      DateTime?
+  status       String       @default("pending") // pending, in_progress, completed
+  assignedById String?
+  completedAt  DateTime?
+  notes        String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  procedure    SopProcedure @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+
+  @@index([procedureId])
+  @@index([employeeId])
+  @@index([projectId])
+  @@map("sop_assignments")
+}
+
+model SopCompliance {
+  id              String       @id @default(cuid())
+  procedureId     String
+  employeeId      String?
+  projectId       String?
+  complianceDate  DateTime
+  status          String       @default("compliant") // compliant, non_compliant, pending
+  verifiedById    String?
+  notes           String?
+  evidence        String?      // JSON: file references
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  procedure       SopProcedure @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+
+  @@index([procedureId])
+  @@index([status])
+  @@map("sop_compliance")
+}
+
+model SopWorkflow {
+  id           String                 @id @default(cuid())
+  workflowId   String                 @unique
+  procedureId  String
+  leadId       String?
+  customerId   String?
+  projectId    String?
+  triggerType  String                 // lead_integration, manual, scheduled
+  status       WorkflowStatus         @default(ACTIVE)
+  urgency      String                 @default("medium")
+  serviceType  String?
+  assignedTo   String?
+  startedAt    DateTime?
+  completedAt  DateTime?
+  metadata     String?                // JSON
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+  procedure    SopProcedure           @relation(fields: [procedureId], references: [id])
+  tasks        SopWorkflowTask[]
+  executions   SopWorkflowExecution[]
+
+  @@index([procedureId])
+  @@index([status])
+  @@index([workflowId])
+  @@map("sop_workflows")
+}
+
+model SopWorkflowTask {
+  id              String      @id @default(cuid())
+  workflowId      String
+  title           String
+  description     String?
+  sequenceNumber  Int
+  status          String      @default("pending") // pending, in_progress, completed, skipped, failed
+  priority        String      @default("medium")
+  assignedTo      String?
+  dueDate         DateTime?
+  startedAt       DateTime?
+  completedAt     DateTime?
+  completionNotes String?
+  metadata        String?     // JSON
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  workflow        SopWorkflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+
+  @@index([workflowId])
+  @@index([status])
+  @@map("sop_workflow_tasks")
+}
+
+model SopWorkflowExecution {
+  id              String      @id @default(cuid())
+  workflowId      String
+  executionNumber Int
+  status          String      @default("running") // running, completed, failed, cancelled
+  startedAt       DateTime    @default(now())
+  completedAt     DateTime?
+  result          String?     // JSON: execution results
+  errorMessage    String?
+  createdAt       DateTime    @default(now())
+  workflow        SopWorkflow @relation(fields: [workflowId], references: [id], onDelete: Cascade)
+
+  @@index([workflowId])
+  @@map("sop_workflow_executions")
+}
+
+model SopTrainingRequirement {
+  id                  String       @id @default(cuid())
+  procedureId         String
+  roleRequired        String?      // Role that requires this training
+  departmentRequired  String?
+  frequencyDays       Int?         // How often retraining needed
+  isMandatory         Boolean      @default(false)
+  description         String?
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+  procedure           SopProcedure @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+
+  @@index([procedureId])
+  @@map("sop_training_requirements")
+}
+
+model SopPerformanceMetric {
+  id              String       @id @default(cuid())
+  procedureId     String
+  metricDate      DateTime
+  executionCount  Int          @default(0)
+  completionRate  Float?
+  avgCompletionTime Int?       // in minutes
+  complianceRate  Float?
+  createdAt       DateTime     @default(now())
+  procedure       SopProcedure @relation(fields: [procedureId], references: [id], onDelete: Cascade)
+
+  @@index([procedureId])
+  @@index([metricDate])
+  @@map("sop_performance_metrics")
+}
+
+model SopMobileSync {
+  id            String   @id @default(cuid())
+  deviceId      String
+  userId        String
+  lastSyncAt    DateTime
+  syncStatus    String   @default("completed") // completed, pending, failed
+  syncedItems   String?  // JSON: list of synced procedure IDs
+  pendingChanges String? // JSON: offline changes to sync
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@unique([deviceId, userId])
+  @@index([userId])
+  @@map("sop_mobile_sync")
+}
+
+// ============================================
+// FLORIDA COMPLIANCE MODELS
+// ============================================
+
+model HurricaneProcedure {
+  id                String   @id @default(cuid())
+  procedureCode     String   @unique
+  title             String
+  category          String   // pre_storm, during_storm, post_storm, recovery
+  priority          Int      @default(0)
+  description       String?
+  steps             String?  // JSON: procedure steps
+  requiredEquipment String?  // JSON: equipment list
+  safetyNotes       String?
+  isActive          Boolean  @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([category])
+  @@map("hurricane_procedures")
+}
+
+model HvhzComplianceProcedure {
+  id                  String   @id @default(cuid())
+  procedureCode       String   @unique
+  title               String
+  windZone            String   // HVHZ, wind_borne_debris, etc.
+  countyApplicable    String?  // JSON: list of counties
+  description         String?
+  requirements        String?  // JSON: specific requirements
+  inspectionCriteria  String?  // JSON: inspection points
+  documentationNeeded String?  // JSON: required docs
+  isActive            Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([windZone])
+  @@map("hvhz_compliance_procedures")
+}
+
+model CountyRequirement {
+  id                  String   @id @default(cuid())
+  county              String   @unique
+  permitRequired      Boolean  @default(true)
+  permitOfficeName    String?
+  permitOfficePhone   String?
+  permitOfficeAddress String?
+  permitFeesRange     String?  // e.g., "$150-$500"
+  inspectionProcess   String?  // JSON: inspection steps
+  hvhzZone            Boolean  @default(false)
+  specialRequirements String?  // JSON: county-specific rules
+  notes               String?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("county_requirements")
+}
+
+// ============================================
+// CRM/MARKETING MODELS
+// ============================================
+
+model LeadAssignment {
+  id                  String   @id @default(cuid())
+  leadId              String
+  customerId          String?
+  projectId           String?
+  salesRep            String?
+  projectManager      String?
+  estimator           String?
+  assignmentDate      DateTime
+  assignmentRules     String?  // JSON: rules used for assignment
+  reassignmentHistory String?  // JSON: history of reassignments
+  status              String   @default("active") // active, completed, reassigned
+  createdAt           DateTime @default(now())
+
+  @@index([leadId])
+  @@index([customerId])
+  @@map("lead_assignments")
+}
+
+model LeadAnalytics {
+  id                    String    @id @default(cuid())
+  leadId                String
+  customerId            String?
+  projectId             String?
+  leadSource            String
+  serviceType           String
+  county                String
+  urgency               String
+  estimatedValue        Decimal?  @db.Decimal(10, 2)
+  actualValue           Decimal?  @db.Decimal(10, 2)
+  leadScore             Int       @default(0)
+  conversionStatus      String    @default("new") // new, contacted, qualified, proposal, won, lost
+  conversionDate        DateTime?
+  conversionValue       Decimal?  @db.Decimal(10, 2)
+  timeToContactMinutes  Int?
+  timeToConversionHours Int?
+  touchpoints           Int       @default(0)
+  marketingCampaign     String?
+  referrerUrl           String?
+  deviceType            String?   // desktop, mobile, tablet
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([leadId])
+  @@index([conversionStatus])
+  @@map("lead_analytics")
+}
+
+model LeadCampaignAttribution {
+  id              String   @id @default(cuid())
+  leadId          String
+  campaignId      String
+  attributionType String   @default("direct") // direct, assisted, last_touch, first_touch
+  clickData       String?  // JSON: utm parameters, referrer data
+  createdAt       DateTime @default(now())
+
+  @@index([leadId])
+  @@index([campaignId])
+  @@map("lead_campaign_attribution")
+}
+
+model CustomerCommunication {
+  id                String    @id @default(cuid())
+  customerId        String
+  leadId            String?
+  projectId         String?
+  communicationType String    // email, phone, text, meeting, site_visit
+  direction         String    // inbound, outbound
+  subject           String?
+  content           String?
+  channel           String?   // gmail, phone_system, sms_gateway, in_person
+  fromContact       String?
+  toContact         String?
+  durationMinutes   Int?
+  outcome           String?   // scheduled, info_gathered, proposal_sent
+  followUpRequired  Boolean   @default(false)
+  followUpDate      DateTime?
+  attachments       String?   // JSON: file references
+  metadata          String?   // JSON
+  createdAt         DateTime  @default(now())
+
+  @@index([customerId])
+  @@index([projectId])
+  @@map("customer_communications")
+}
+
+model MarketingCampaign {
+  id               String    @id @default(cuid())
+  campaignId       String    @unique
+  name             String
+  type             String    // google_ads, facebook, email, referral, direct_mail
+  status           String    @default("active") // active, paused, completed, cancelled
+  budget           Decimal?  @db.Decimal(10, 2)
+  costPerLead      Decimal?  @db.Decimal(10, 2)
+  targetCounties   String?   // JSON: array of target counties
+  targetServices   String?   // JSON: array of target services
+  startDate        DateTime?
+  endDate          DateTime?
+  leadsGenerated   Int       @default(0)
+  conversions      Int       @default(0)
+  revenueGenerated Decimal?  @db.Decimal(10, 2)
+  roiPercentage    Decimal?  @db.Decimal(5, 2)
+  metadata         String?   // JSON
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([status])
+  @@index([type])
+  @@map("marketing_campaigns")
+}
+
+model Notification {
+  id             String    @id @default(cuid())
+  notificationId String    @unique
+  type           String    // lead_received, sop_due, project_update
+  title          String
+  message        String
+  urgency        String    @default("medium") // low, medium, high, critical
+  recipientType  String    // internal_team, customer, vendor
+  recipientId    String?   // email, user_id, team_id
+  channels       String?   // JSON: email, sms, push, webhook
+  leadId         String?
+  customerId     String?
+  projectId      String?
+  workflowId     String?
+  metadata       String?   // JSON
+  sentAt         DateTime?
+  readAt         DateTime?
+  acknowledgedAt DateTime?
+  createdAt      DateTime  @default(now())
+
+  @@index([type])
+  @@index([recipientId])
+  @@index([customerId])
+  @@map("notifications")
+}
+
+// ============================================
+// INFRASTRUCTURE MODELS
+// ============================================
+
+model IntegrationLog {
+  id               String   @id @default(cuid())
+  eventType        String   // customer_created, sop_triggered, team_assigned
+  eventData        String   // JSON: complete event payload
+  leadId           String?
+  customerId       String?
+  projectId        String?
+  workflowId       String?
+  success          Boolean  @default(true)
+  errorMessage     String?
+  processingTimeMs Int?
+  timestamp        DateTime @default(now())
+
+  @@index([eventType])
+  @@index([timestamp])
+  @@index([success])
+  @@map("integration_logs")
+}
+
+model WorkflowTrigger {
+  id            String   @id @default(cuid())
+  triggerCode   String   @unique
+  name          String
+  description   String?
+  triggerType   String   // lead_received, schedule, manual, event
+  conditions    String?  // JSON: trigger conditions
+  actions       String?  // JSON: actions to execute
+  sopProcedures String?  // JSON: SOPs to initiate
+  isActive      Boolean  @default(true)
+  priority      Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([triggerType])
+  @@index([isActive])
+  @@map("workflow_triggers")
+}
+
+// ============================================
+// NEW ENUMS FOR ADDED MODELS
+// ============================================
+
+enum SopStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  ACTIVE
+  ARCHIVED
+  DEPRECATED
+}
+
+enum SopPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum WorkflowStatus {
+  ACTIVE
+  COMPLETED
+  PAUSED
+  CANCELLED
+  FAILED
+}

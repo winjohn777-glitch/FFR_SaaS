@@ -428,6 +428,360 @@ exports.Prisma.ContactScalarFieldEnum = {
   organizationId: 'organizationId'
 };
 
+exports.Prisma.SopCategoryScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  name: 'name',
+  description: 'description',
+  parentId: 'parentId',
+  isActive: 'isActive',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SopProcedureScalarFieldEnum = {
+  id: 'id',
+  sopNumber: 'sopNumber',
+  title: 'title',
+  description: 'description',
+  version: 'version',
+  status: 'status',
+  priority: 'priority',
+  categoryId: 'categoryId',
+  contentFilePath: 'contentFilePath',
+  effectiveDate: 'effectiveDate',
+  reviewDate: 'reviewDate',
+  approvedById: 'approvedById',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SopFormScalarFieldEnum = {
+  id: 'id',
+  formNumber: 'formNumber',
+  title: 'title',
+  description: 'description',
+  formType: 'formType',
+  template: 'template',
+  procedureId: 'procedureId',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SopManualScalarFieldEnum = {
+  id: 'id',
+  manualCode: 'manualCode',
+  title: 'title',
+  description: 'description',
+  version: 'version',
+  filePath: 'filePath',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SopAssignmentScalarFieldEnum = {
+  id: 'id',
+  procedureId: 'procedureId',
+  employeeId: 'employeeId',
+  projectId: 'projectId',
+  dueDate: 'dueDate',
+  status: 'status',
+  assignedById: 'assignedById',
+  completedAt: 'completedAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SopComplianceScalarFieldEnum = {
+  id: 'id',
+  procedureId: 'procedureId',
+  employeeId: 'employeeId',
+  projectId: 'projectId',
+  complianceDate: 'complianceDate',
+  status: 'status',
+  verifiedById: 'verifiedById',
+  notes: 'notes',
+  evidence: 'evidence',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SopWorkflowScalarFieldEnum = {
+  id: 'id',
+  workflowId: 'workflowId',
+  procedureId: 'procedureId',
+  leadId: 'leadId',
+  customerId: 'customerId',
+  projectId: 'projectId',
+  triggerType: 'triggerType',
+  status: 'status',
+  urgency: 'urgency',
+  serviceType: 'serviceType',
+  assignedTo: 'assignedTo',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SopWorkflowTaskScalarFieldEnum = {
+  id: 'id',
+  workflowId: 'workflowId',
+  title: 'title',
+  description: 'description',
+  sequenceNumber: 'sequenceNumber',
+  status: 'status',
+  priority: 'priority',
+  assignedTo: 'assignedTo',
+  dueDate: 'dueDate',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  completionNotes: 'completionNotes',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SopWorkflowExecutionScalarFieldEnum = {
+  id: 'id',
+  workflowId: 'workflowId',
+  executionNumber: 'executionNumber',
+  status: 'status',
+  startedAt: 'startedAt',
+  completedAt: 'completedAt',
+  result: 'result',
+  errorMessage: 'errorMessage',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SopTrainingRequirementScalarFieldEnum = {
+  id: 'id',
+  procedureId: 'procedureId',
+  roleRequired: 'roleRequired',
+  departmentRequired: 'departmentRequired',
+  frequencyDays: 'frequencyDays',
+  isMandatory: 'isMandatory',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.SopPerformanceMetricScalarFieldEnum = {
+  id: 'id',
+  procedureId: 'procedureId',
+  metricDate: 'metricDate',
+  executionCount: 'executionCount',
+  completionRate: 'completionRate',
+  avgCompletionTime: 'avgCompletionTime',
+  complianceRate: 'complianceRate',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SopMobileSyncScalarFieldEnum = {
+  id: 'id',
+  deviceId: 'deviceId',
+  userId: 'userId',
+  lastSyncAt: 'lastSyncAt',
+  syncStatus: 'syncStatus',
+  syncedItems: 'syncedItems',
+  pendingChanges: 'pendingChanges',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.HurricaneProcedureScalarFieldEnum = {
+  id: 'id',
+  procedureCode: 'procedureCode',
+  title: 'title',
+  category: 'category',
+  priority: 'priority',
+  description: 'description',
+  steps: 'steps',
+  requiredEquipment: 'requiredEquipment',
+  safetyNotes: 'safetyNotes',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.HvhzComplianceProcedureScalarFieldEnum = {
+  id: 'id',
+  procedureCode: 'procedureCode',
+  title: 'title',
+  windZone: 'windZone',
+  countyApplicable: 'countyApplicable',
+  description: 'description',
+  requirements: 'requirements',
+  inspectionCriteria: 'inspectionCriteria',
+  documentationNeeded: 'documentationNeeded',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CountyRequirementScalarFieldEnum = {
+  id: 'id',
+  county: 'county',
+  permitRequired: 'permitRequired',
+  permitOfficeName: 'permitOfficeName',
+  permitOfficePhone: 'permitOfficePhone',
+  permitOfficeAddress: 'permitOfficeAddress',
+  permitFeesRange: 'permitFeesRange',
+  inspectionProcess: 'inspectionProcess',
+  hvhzZone: 'hvhzZone',
+  specialRequirements: 'specialRequirements',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LeadAssignmentScalarFieldEnum = {
+  id: 'id',
+  leadId: 'leadId',
+  customerId: 'customerId',
+  projectId: 'projectId',
+  salesRep: 'salesRep',
+  projectManager: 'projectManager',
+  estimator: 'estimator',
+  assignmentDate: 'assignmentDate',
+  assignmentRules: 'assignmentRules',
+  reassignmentHistory: 'reassignmentHistory',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LeadAnalyticsScalarFieldEnum = {
+  id: 'id',
+  leadId: 'leadId',
+  customerId: 'customerId',
+  projectId: 'projectId',
+  leadSource: 'leadSource',
+  serviceType: 'serviceType',
+  county: 'county',
+  urgency: 'urgency',
+  estimatedValue: 'estimatedValue',
+  actualValue: 'actualValue',
+  leadScore: 'leadScore',
+  conversionStatus: 'conversionStatus',
+  conversionDate: 'conversionDate',
+  conversionValue: 'conversionValue',
+  timeToContactMinutes: 'timeToContactMinutes',
+  timeToConversionHours: 'timeToConversionHours',
+  touchpoints: 'touchpoints',
+  marketingCampaign: 'marketingCampaign',
+  referrerUrl: 'referrerUrl',
+  deviceType: 'deviceType',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.LeadCampaignAttributionScalarFieldEnum = {
+  id: 'id',
+  leadId: 'leadId',
+  campaignId: 'campaignId',
+  attributionType: 'attributionType',
+  clickData: 'clickData',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CustomerCommunicationScalarFieldEnum = {
+  id: 'id',
+  customerId: 'customerId',
+  leadId: 'leadId',
+  projectId: 'projectId',
+  communicationType: 'communicationType',
+  direction: 'direction',
+  subject: 'subject',
+  content: 'content',
+  channel: 'channel',
+  fromContact: 'fromContact',
+  toContact: 'toContact',
+  durationMinutes: 'durationMinutes',
+  outcome: 'outcome',
+  followUpRequired: 'followUpRequired',
+  followUpDate: 'followUpDate',
+  attachments: 'attachments',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MarketingCampaignScalarFieldEnum = {
+  id: 'id',
+  campaignId: 'campaignId',
+  name: 'name',
+  type: 'type',
+  status: 'status',
+  budget: 'budget',
+  costPerLead: 'costPerLead',
+  targetCounties: 'targetCounties',
+  targetServices: 'targetServices',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  leadsGenerated: 'leadsGenerated',
+  conversions: 'conversions',
+  revenueGenerated: 'revenueGenerated',
+  roiPercentage: 'roiPercentage',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  notificationId: 'notificationId',
+  type: 'type',
+  title: 'title',
+  message: 'message',
+  urgency: 'urgency',
+  recipientType: 'recipientType',
+  recipientId: 'recipientId',
+  channels: 'channels',
+  leadId: 'leadId',
+  customerId: 'customerId',
+  projectId: 'projectId',
+  workflowId: 'workflowId',
+  metadata: 'metadata',
+  sentAt: 'sentAt',
+  readAt: 'readAt',
+  acknowledgedAt: 'acknowledgedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.IntegrationLogScalarFieldEnum = {
+  id: 'id',
+  eventType: 'eventType',
+  eventData: 'eventData',
+  leadId: 'leadId',
+  customerId: 'customerId',
+  projectId: 'projectId',
+  workflowId: 'workflowId',
+  success: 'success',
+  errorMessage: 'errorMessage',
+  processingTimeMs: 'processingTimeMs',
+  timestamp: 'timestamp'
+};
+
+exports.Prisma.WorkflowTriggerScalarFieldEnum = {
+  id: 'id',
+  triggerCode: 'triggerCode',
+  name: 'name',
+  description: 'description',
+  triggerType: 'triggerType',
+  conditions: 'conditions',
+  actions: 'actions',
+  sopProcedures: 'sopProcedures',
+  isActive: 'isActive',
+  priority: 'priority',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -569,6 +923,30 @@ exports.ContactType = exports.$Enums.ContactType = {
   OTHER: 'OTHER'
 };
 
+exports.SopStatus = exports.$Enums.SopStatus = {
+  DRAFT: 'DRAFT',
+  PENDING_REVIEW: 'PENDING_REVIEW',
+  APPROVED: 'APPROVED',
+  ACTIVE: 'ACTIVE',
+  ARCHIVED: 'ARCHIVED',
+  DEPRECATED: 'DEPRECATED'
+};
+
+exports.SopPriority = exports.$Enums.SopPriority = {
+  LOW: 'LOW',
+  MEDIUM: 'MEDIUM',
+  HIGH: 'HIGH',
+  CRITICAL: 'CRITICAL'
+};
+
+exports.WorkflowStatus = exports.$Enums.WorkflowStatus = {
+  ACTIVE: 'ACTIVE',
+  COMPLETED: 'COMPLETED',
+  PAUSED: 'PAUSED',
+  CANCELLED: 'CANCELLED',
+  FAILED: 'FAILED'
+};
+
 exports.Prisma.ModelName = {
   Organization: 'Organization',
   User: 'User',
@@ -589,7 +967,30 @@ exports.Prisma.ModelName = {
   Employee: 'Employee',
   Certification: 'Certification',
   FiscalPeriod: 'FiscalPeriod',
-  Contact: 'Contact'
+  Contact: 'Contact',
+  SopCategory: 'SopCategory',
+  SopProcedure: 'SopProcedure',
+  SopForm: 'SopForm',
+  SopManual: 'SopManual',
+  SopAssignment: 'SopAssignment',
+  SopCompliance: 'SopCompliance',
+  SopWorkflow: 'SopWorkflow',
+  SopWorkflowTask: 'SopWorkflowTask',
+  SopWorkflowExecution: 'SopWorkflowExecution',
+  SopTrainingRequirement: 'SopTrainingRequirement',
+  SopPerformanceMetric: 'SopPerformanceMetric',
+  SopMobileSync: 'SopMobileSync',
+  HurricaneProcedure: 'HurricaneProcedure',
+  HvhzComplianceProcedure: 'HvhzComplianceProcedure',
+  CountyRequirement: 'CountyRequirement',
+  LeadAssignment: 'LeadAssignment',
+  LeadAnalytics: 'LeadAnalytics',
+  LeadCampaignAttribution: 'LeadCampaignAttribution',
+  CustomerCommunication: 'CustomerCommunication',
+  MarketingCampaign: 'MarketingCampaign',
+  Notification: 'Notification',
+  IntegrationLog: 'IntegrationLog',
+  WorkflowTrigger: 'WorkflowTrigger'
 };
 
 /**
