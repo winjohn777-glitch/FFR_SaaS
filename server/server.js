@@ -24,10 +24,10 @@ const sopRoutes = require('./routes/sop');
 // Accounting routes
 const customersRoutes = require('./routes/customers');
 const journalRoutes = require('./routes/journal');
+const metricsRoutes = require('./routes/metrics');
 
 // Import middleware
 const { errorHandler } = require('./middleware/errorHandler');
-const { authMiddleware } = require('./middleware/auth');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -104,21 +104,22 @@ app.use('/', healthRoutes);
 
 // API Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/users', authMiddleware, userRoutes);
-app.use('/api/courses', authMiddleware, courseRoutes);
-app.use('/api/enrollments', authMiddleware, enrollmentRoutes);
-app.use('/api/progress', authMiddleware, progressRoutes);
-app.use('/api/quizzes', authMiddleware, quizRoutes);
-app.use('/api/certifications', authMiddleware, certificationRoutes);
-app.use('/api/osha', authMiddleware, oshaRoutes);
-app.use('/api/reports', authMiddleware, reportRoutes);
-app.use('/api/uploads', authMiddleware, uploadRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/enrollments', enrollmentRoutes);
+app.use('/api/progress', progressRoutes);
+app.use('/api/quizzes', quizRoutes);
+app.use('/api/certifications', certificationRoutes);
+app.use('/api/osha', oshaRoutes);
+app.use('/api/reports', reportRoutes);
+app.use('/api/uploads', uploadRoutes);
 app.use('/api/integration', integrationRoutes);
 app.use('/api/sop', sopRoutes);
 
 // Accounting API Routes
 app.use('/api/customers', customersRoutes);
 app.use('/api/journal', journalRoutes);
+app.use('/api/metrics', metricsRoutes);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
