@@ -26,6 +26,9 @@ import inventoryRoutes from './routes/inventory';
 import documentRoutes from './routes/documents';
 import transactionRoutes from './routes/transactions';
 import fiscalPeriodRoutes from './routes/fiscalPeriods';
+import metricsRoutes from './routes/metrics';
+import sopRoutes from './routes/sop';
+import integrationRoutes from './routes/integration';
 
 // Load environment variables
 dotenv.config();
@@ -88,6 +91,9 @@ app.use('/api/inventory', inventoryRoutes);
 app.use('/api/documents', documentRoutes);
 app.use('/api/transactions', transactionRoutes);
 app.use('/api/fiscal-periods', fiscalPeriodRoutes);
+app.use('/api/metrics', metricsRoutes);
+app.use('/api/sop', sopRoutes);
+app.use('/api/integration', integrationRoutes);
 
 // Error handling middleware
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
