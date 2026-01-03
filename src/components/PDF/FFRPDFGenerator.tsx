@@ -66,7 +66,11 @@ class FFRPDFGenerator {
   }
 
   public addWatermark(): void {
-    this.doc.setGState(this.doc.GState({ opacity: 0.1 }));
+    // Use type assertion for extended jsPDF methods
+    const doc = this.doc as jsPDF & { setGState: (state: unknown) => void; GState: (opts: { opacity: number }) => unknown };
+    if (typeof doc.setGState === 'function' && typeof doc.GState === 'function') {
+      doc.setGState(doc.GState({ opacity: 0.1 }));
+    }
     this.doc.setTextColor(30, 64, 175);
     this.doc.setFontSize(60);
     this.doc.setFont('helvetica', 'bold');
@@ -81,7 +85,9 @@ class FFRPDFGenerator {
     });
 
     // Reset opacity
-    this.doc.setGState(this.doc.GState({ opacity: 1 }));
+    if (typeof doc.setGState === 'function' && typeof doc.GState === 'function') {
+      doc.setGState(doc.GState({ opacity: 1 }));
+    }
   }
 
   public async generateFromElement(elementId: string, options: LocalPDFOptions): Promise<void> {
@@ -101,11 +107,10 @@ class FFRPDFGenerator {
 
       // Convert HTML element to canvas
       const canvas = await html2canvas(element, {
-        scale: 2,
         useCORS: true,
         allowTaint: true,
         backgroundColor: '#ffffff'
-      });
+      } as Parameters<typeof html2canvas>[1]);
 
       // Calculate dimensions
       const imgWidth = this.pageWidth - this.margins.left - this.margins.right;

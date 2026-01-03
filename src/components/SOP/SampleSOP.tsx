@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { SOPDocument } from '../Templates/PrintableDocument';
 import { FFR_UNIFIED_BRAND } from '../Shared/UnifiedFFRBranding';
-// import { PDFDownloadButton } from '../PDF/FFRPDFGenerator'; // TODO: Enable when PDF generator is fixed
+import { PDFDownloadButton } from '../PDF/FFRPDFGenerator';
 
 const SOPContainer = styled.div`
   max-width: 8.5in;

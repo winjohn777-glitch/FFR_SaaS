@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line, PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 import { Download, FileText, Mail, X } from 'lucide-react';
 import BrandedModalTitle from '../components/Shared/BrandedModalTitle';
-// import { createReportPDF } from '../utils/UnifiedPDFGenerator'; // TODO: Create this utility
+import { createReportPDF } from '../utils/UnifiedPDFGenerator';
 
 const PageContainer = styled.div`
   margin-top: ${({ theme }) => theme.spacing.xl};
@@ -646,11 +646,7 @@ const Reports: React.FC = () => {
   };
 
   const handleDownloadReport = () => {
-    // TODO: Re-enable when createReportPDF is fixed
-    console.warn('PDF generation is currently disabled');
-    alert('PDF generation is temporarily unavailable. Please use browser print or export to CSV instead.');
-    return;
-    /* const reportTitle = `${reportType.charAt(0).toUpperCase() + reportType.slice(1).replace('-', ' ')} Report - ${selectedPeriod}`;
+    const reportTitle = `${reportType.charAt(0).toUpperCase() + reportType.slice(1).replace('-', ' ')} Report - ${selectedPeriod}`;
     const pdfGenerator = createReportPDF(reportTitle);
     const pdf = pdfGenerator.getPDF();
     const contentArea = pdfGenerator.getContentArea();
@@ -775,7 +771,6 @@ const Reports: React.FC = () => {
     // Save the PDF
     pdfGenerator.save(`FFR-${reportType}-Report-${selectedPeriod}-${new Date().toISOString().split('T')[0]}.pdf`);
     setShowReportModal(false);
-    */
   };
 
   const handleEmailReport = () => {

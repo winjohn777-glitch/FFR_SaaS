@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense, lazy } from 'react';
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -6,20 +6,23 @@ import { motion, AnimatePresence } from 'framer-motion';
 // Components
 import Sidebar from './components/Layout/Sidebar';
 import Header from './components/Layout/Header';
-import Dashboard from './pages/Dashboard';
-import ChartOfAccounts from './pages/ChartOfAccounts';
-import JobCosting from './pages/JobCosting';
-import Invoicing from './pages/Invoicing';
-import Bookkeeping from './pages/Bookkeeping';
-import Reports from './pages/Reports';
-import Inventory from './pages/Inventory';
-import CRM from './pages/CRM';
-import Training from './pages/Training';
-import HumanResources from './pages/HumanResources';
-import ProjectManagement from './pages/ProjectManagement';
-import Documents from './pages/Documents';
-import SOPManagement from './pages/SOPManagement';
-import PricingAdmin from './pages/PricingAdmin';
+import ErrorBoundary from './components/ErrorBoundary';
+
+// Lazy-loaded pages for better performance
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const ChartOfAccounts = lazy(() => import('./pages/ChartOfAccounts'));
+const JobCosting = lazy(() => import('./pages/JobCosting'));
+const Invoicing = lazy(() => import('./pages/Invoicing'));
+const Bookkeeping = lazy(() => import('./pages/Bookkeeping'));
+const Reports = lazy(() => import('./pages/Reports'));
+const Inventory = lazy(() => import('./pages/Inventory'));
+const CRM = lazy(() => import('./pages/CRM'));
+const Training = lazy(() => import('./pages/Training'));
+const HumanResources = lazy(() => import('./pages/HumanResources'));
+const ProjectManagement = lazy(() => import('./pages/ProjectManagement'));
+const Documents = lazy(() => import('./pages/Documents'));
+const SOPManagement = lazy(() => import('./pages/SOPManagement'));
+const PricingAdmin = lazy(() => import('./pages/PricingAdmin'));
 
 // Data Context
 import { DataProvider } from './contexts/DataContext';
@@ -177,6 +180,42 @@ const CompanyInfo = styled.div`
   }
 `;
 
+const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 16px;
+`;
+
+const LoadingSpinner = styled.div`
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #2E5AAC;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`;
+
+const LoadingText = styled.p`
+  color: #64748b;
+  font-size: 14px;
+`;
+
+const PageLoader = () => (
+  <LoadingContainer>
+    <LoadingSpinner />
+    <LoadingText>Loading...</LoadingText>
+  </LoadingContainer>
+);
+
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -207,150 +246,154 @@ function App() {
                 </CompanyContent>
               </CompanyHeader>
 
-              <AnimatePresence mode="wait">
-                <Routes>
-                  <Route path="/" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Dashboard />
-                    </motion.div>
-                  } />
-                  <Route path="/chart-of-accounts" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <ChartOfAccounts />
-                    </motion.div>
-                  } />
-                  <Route path="/job-costing" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <JobCosting />
-                    </motion.div>
-                  } />
-                  <Route path="/invoicing" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Invoicing />
-                    </motion.div>
-                  } />
-                  <Route path="/bookkeeping" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Bookkeeping />
-                    </motion.div>
-                  } />
-                  <Route path="/inventory" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Inventory />
-                    </motion.div>
-                  } />
-                  <Route path="/reports" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Reports />
-                    </motion.div>
-                  } />
-                  <Route path="/crm" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <CRM />
-                    </motion.div>
-                  } />
-                  <Route path="/documents" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Documents />
-                    </motion.div>
-                  } />
-                  <Route path="/training" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Training />
-                    </motion.div>
-                  } />
-                  <Route path="/hr" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <HumanResources />
-                    </motion.div>
-                  } />
-                  <Route path="/project-management" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <ProjectManagement />
-                    </motion.div>
-                  } />
-                  <Route path="/sop-management" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <SOPManagement />
-                    </motion.div>
-                  } />
-                  <Route path="/pricing-admin" element={
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <PricingAdmin />
-                    </motion.div>
-                  } />
-                </Routes>
-              </AnimatePresence>
+              <ErrorBoundary>
+                <Suspense fallback={<PageLoader />}>
+                  <AnimatePresence mode="wait">
+                    <Routes>
+                      <Route path="/" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <Dashboard />
+                        </motion.div>
+                      } />
+                      <Route path="/chart-of-accounts" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <ChartOfAccounts />
+                        </motion.div>
+                      } />
+                      <Route path="/job-costing" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <JobCosting />
+                        </motion.div>
+                      } />
+                      <Route path="/invoicing" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <Invoicing />
+                        </motion.div>
+                      } />
+                      <Route path="/bookkeeping" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <Bookkeeping />
+                        </motion.div>
+                      } />
+                      <Route path="/inventory" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <Inventory />
+                        </motion.div>
+                      } />
+                      <Route path="/reports" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <Reports />
+                        </motion.div>
+                      } />
+                      <Route path="/crm" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <CRM />
+                        </motion.div>
+                      } />
+                      <Route path="/documents" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <Documents />
+                        </motion.div>
+                      } />
+                      <Route path="/training" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <Training />
+                        </motion.div>
+                      } />
+                      <Route path="/hr" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <HumanResources />
+                        </motion.div>
+                      } />
+                      <Route path="/project-management" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <ProjectManagement />
+                        </motion.div>
+                      } />
+                      <Route path="/sop-management" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <SOPManagement />
+                        </motion.div>
+                      } />
+                      <Route path="/pricing-admin" element={
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.3 }}
+                        >
+                          <PricingAdmin />
+                        </motion.div>
+                      } />
+                    </Routes>
+                  </AnimatePresence>
+                </Suspense>
+              </ErrorBoundary>
             </ContentArea>
           </MainContent>
         </AppContainer>

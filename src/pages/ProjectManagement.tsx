@@ -14,7 +14,7 @@ import OverdueMilestonesModal from '../components/ProjectManagement/OverdueMiles
 import GenerateReportModal from '../components/ProjectManagement/GenerateReportModal';
 import { formatCurrency } from '../utils/currencyFormatter';
 import BrandedModalTitle from '../components/Shared/BrandedModalTitle';
-// import FFRPDFGenerator from '../components/PDF/FFRPDFGenerator'; // TODO: Enable when PDF generator is fixed
+import FFRPDFGenerator from '../components/PDF/FFRPDFGenerator';
 import {
   Calendar,
   Users,
@@ -3531,12 +3531,8 @@ const ProjectManagement: React.FC = () => {
 };
 
 // PDF Generation Functions
-// TODO: Re-enable when FFRPDFGenerator is fixed
 const generateOverdueMilestonesPDF = async (overdueMilestones: Milestone[]) => {
-  console.warn('PDF generation is currently disabled');
-  alert('PDF generation is temporarily unavailable. Please use browser print instead.');
-  return;
-  /* try {
+  try {
     const pdfGenerator = new FFRPDFGenerator('portrait');
 
     // Add business letterhead
@@ -3593,14 +3589,10 @@ const generateOverdueMilestonesPDF = async (overdueMilestones: Milestone[]) => {
     console.error('Error generating overdue milestones PDF:', error);
     alert('Error generating PDF report. Please try again.');
   }
-  */
 };
 
 const generateMilestoneReportPDF = async (projects: Project[], milestones: Milestone[]) => {
-  console.warn('PDF generation is currently disabled');
-  alert('PDF generation is temporarily unavailable. Please use browser print instead.');
-  return;
-  /* try {
+  try {
     const pdfGenerator = new FFRPDFGenerator('landscape');
 
     // Add business letterhead
@@ -3696,7 +3688,6 @@ const generateMilestoneReportPDF = async (projects: Project[], milestones: Miles
     console.error('Error generating milestone report PDF:', error);
     alert('Error generating PDF report. Please try again.');
   }
-  */
 };
 
 export default ProjectManagement;
